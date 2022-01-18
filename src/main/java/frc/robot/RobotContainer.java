@@ -49,13 +49,17 @@ final Joystick driver = new Joystick(0);
    */
   private void configureButtonBindings() {
     new JoystickButton(driver, X)
-    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return -1;}, () -> { return -1;}));   
+    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return -1;}, () -> { return -1;}))
+    .whenReleased(new DriveCommand(m_driveSubsystem, () -> {return 0;}, () -> {return 0;}));   
 new JoystickButton(driver, Y)
-    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return -1;}, () -> { return 1;}));   
+    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return -1;}, () -> { return 1;}))
+    .whenReleased(new DriveCommand(m_driveSubsystem, () -> {return 0;}, () -> {return 0;}));   
 new JoystickButton(driver, B)
-    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return 1;}, () -> { return 1;}));   
+    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return 1;}, () -> { return 1;}))
+    .whenReleased(new DriveCommand(m_driveSubsystem, () -> {return 0;}, () -> {return 0;}));   
 new JoystickButton(driver, A)
-    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return 1;}, () -> { return -1;}));   
+    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return 1;}, () -> { return -1;}))
+    .whenReleased(new DriveCommand(m_driveSubsystem, () -> {return 0;}, () -> {return 0;}));   
 
   }
 
