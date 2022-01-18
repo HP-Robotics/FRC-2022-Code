@@ -8,12 +8,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveCommand;
-
+import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.robot.subsystems.ShooterSubsystem;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
 private int X = 1;
 private int A = 2;
 private int B = 3;
@@ -34,9 +35,13 @@ final Joystick driver = new Joystick(0);
   () -> { return (Math.pow(driver.getRawAxis(1), 3)); },
   () -> { return (Math.pow(-driver.getRawAxis(3), 3)); });
 
+final Joystick shootingJoystick = new Joystick(1);
+  private final ShooterCommand m_shootcommand = new ShooterCommand(m_shooterSubsystem, 
+  () -> { return (Math.pow(shootingJoystick.getRawAxis(3),  1)); } );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(m_autoCommand);
+    m_shooterSubsystem.setDefaultCommand(m_shootcommand);
     // Configure the button bindings
     configureButtonBindings();
   }
