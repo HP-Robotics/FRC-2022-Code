@@ -8,7 +8,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveCommand;
-
+import frc.robot.commands.SpeedCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,6 +33,7 @@ final Joystick driver = new Joystick(0);
   private final DriveCommand m_autoCommand = new DriveCommand(m_driveSubsystem, 
   () -> { return (Math.pow(driver.getRawAxis(1), 3)); },
   () -> { return (Math.pow(-driver.getRawAxis(3), 3)); });
+  private final SpeedCommand m_speed = new SpeedCommand(m_driveSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -48,18 +49,9 @@ final Joystick driver = new Joystick(0);
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(driver, X)
-    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return -1;}, () -> { return -1;}))
-    .whenReleased(new DriveCommand(m_driveSubsystem, () -> {return 0;}, () -> {return 0;}));   
-new JoystickButton(driver, Y)
-    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return -1;}, () -> { return 1;}))
-    .whenReleased(new DriveCommand(m_driveSubsystem, () -> {return 0;}, () -> {return 0;}));   
-new JoystickButton(driver, B)
-    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return 1;}, () -> { return 1;}))
-    .whenReleased(new DriveCommand(m_driveSubsystem, () -> {return 0;}, () -> {return 0;}));   
+   
 new JoystickButton(driver, A)
-    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return 1;}, () -> { return -1;}))
-    .whenReleased(new DriveCommand(m_driveSubsystem, () -> {return 0;}, () -> {return 0;}));   
+    .whenPressed(m_speed);   
 
   }
 
