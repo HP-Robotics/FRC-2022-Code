@@ -37,7 +37,7 @@ final Joystick driver = new Joystick(0);
 
 final Joystick shootingJoystick = new Joystick(1);
   private final ShooterCommand m_shootcommand = new ShooterCommand(m_shooterSubsystem, 
-  () -> { return (Math.pow(shootingJoystick.getRawAxis(3),  1)); } );
+  () -> { return (shootingJoystick.getRawAxis(3)); } );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(m_autoCommand);
