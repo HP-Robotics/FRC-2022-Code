@@ -8,6 +8,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.PIDCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
@@ -24,24 +25,18 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-private int X = 1;
-private int A = 2;
-private int B = 3;
-private int Y = 4;
+
 
 
 final Joystick driver = new Joystick(0);
   private final DriveCommand m_autoCommand = new DriveCommand(m_driveSubsystem, 
   () -> { return (Math.pow(driver.getRawAxis(1), 3)); },
-  () -> { return (Math.pow(-driver.getRawAxis(3), 3)); });
+  () -> { return (Math.pow(driver.getRawAxis(3), 3)); });
 
 final Joystick shootingJoystick = new Joystick(1);
-  private final ShooterCommand m_shootcommand = new ShooterCommand(m_shooterSubsystem, 
-  () -> { return (shootingJoystick.getRawAxis(3)); } );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(m_autoCommand);
-    m_shooterSubsystem.setDefaultCommand(m_shootcommand);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -53,14 +48,16 @@ final Joystick shootingJoystick = new Joystick(1);
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(driver, X)
-    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return -1;}, () -> { return -1;}));   
-new JoystickButton(driver, Y)
-    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return -1;}, () -> { return 1;}));   
-new JoystickButton(driver, B)
-    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return 1;}, () -> { return 1;}));   
-new JoystickButton(driver, A)
-    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return 1;}, () -> { return -1;}));   
+    new JoystickButton(driver, Constants.X)
+    .whenPressed(new ShooterCommand(m_shooterSubsystem, true))
+    .whenReleased(new ShooterCommand(m_shooterSubsystem, false));  
+new JoystickButton(driver, Constants.Y)
+    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return -1;}, () -> { return 1;}))
+    .whenReleased(new DriveCommand(m_driveSubsystem, ()-> {return 0;}, () -> {return 0;}));   
+new JoystickButton(driver, Constants.B)
+    .whenPressed(new PIDCommand(m_driveSubsystem, -48));   
+new JoystickButton(driver, Constants.A)
+    .whenPressed(new PIDCommand(m_driveSubsystem, 48)); 
 
   }
 
