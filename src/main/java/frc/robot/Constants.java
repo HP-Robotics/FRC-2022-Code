@@ -29,4 +29,7 @@ public final class Constants {
     public static int Y = 4;
 
     public static boolean programmerMode = true;
+
+    public static double MagazineSpeed = 1.0;
+    public static double IntakeSpeed = 1.0;
 }
