@@ -3,6 +3,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
@@ -25,12 +26,12 @@ public class ShooterCommand extends CommandBase{
 
     @Override
 public void execute() {
-    shootsubsytem.shoot(shootSupplier.getAsDouble());
+    shootsubsytem.shoot(true);
     }
     
     @Override
     public void end (boolean interrupted) {
-      shootsubsytem.shoot(0);
+      shootsubsytem.shoot(false);
     }
 
 
