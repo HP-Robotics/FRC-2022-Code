@@ -7,9 +7,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.PIDCommand;
-import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.DriveManualCommand;
+import frc.robot.commands.DriveSetDistanceCommand;
+import frc.robot.commands.ShooterShootCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -29,7 +29,7 @@ public class RobotContainer {
 
 
 final Joystick driver = new Joystick(0);
-  private final DriveCommand m_autoCommand = new DriveCommand(m_driveSubsystem, 
+  private final DriveManualCommand m_autoCommand = new DriveManualCommand(m_driveSubsystem, 
   () -> { return (Math.pow(driver.getRawAxis(1), 3)); },
   () -> { return (Math.pow(driver.getRawAxis(3), 3)); });
 
@@ -49,15 +49,15 @@ final Joystick shootingJoystick = new Joystick(1);
    */
   private void configureButtonBindings() {
     new JoystickButton(driver, Constants.X)
-    .whenPressed(new ShooterCommand(m_shooterSubsystem, true))
-    .whenReleased(new ShooterCommand(m_shooterSubsystem, false));  
+    .whenPressed(new ShooterShootCommand(m_shooterSubsystem, true))
+    .whenReleased(new ShooterShootCommand(m_shooterSubsystem, false));  
 new JoystickButton(driver, Constants.Y)
-    .whenPressed(new DriveCommand(m_driveSubsystem, () -> { return -1;}, () -> { return 1;}))
-    .whenReleased(new DriveCommand(m_driveSubsystem, ()-> {return 0;}, () -> {return 0;}));   
+    .whenPressed(new DriveManualCommand(m_driveSubsystem, () -> { return -1;}, () -> { return 1;}))
+    .whenReleased(new DriveManualCommand(m_driveSubsystem, ()-> {return 0;}, () -> {return 0;}));   
 new JoystickButton(driver, Constants.B)
-    .whenPressed(new PIDCommand(m_driveSubsystem, -48));   
+    .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));   
 new JoystickButton(driver, Constants.A)
-    .whenPressed(new PIDCommand(m_driveSubsystem, 48)); 
+    .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48)); 
 
   }
 

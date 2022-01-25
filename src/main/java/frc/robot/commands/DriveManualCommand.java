@@ -6,12 +6,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DriveCommand extends CommandBase {
+public class DriveManualCommand extends CommandBase {
     private final DriveSubsystem m_subsystem;
     private DoubleSupplier m_leftSupplier;
     private DoubleSupplier m_rightSupplier;
 
-    public DriveCommand(DriveSubsystem subsytem, DoubleSupplier left, DoubleSupplier right){
+    public DriveManualCommand(DriveSubsystem subsytem, DoubleSupplier left, DoubleSupplier right){
         m_subsystem = subsytem;
         m_leftSupplier=left;
         m_rightSupplier=right;
