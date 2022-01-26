@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class PIDCommand extends CommandBase {
+public class DriveSetDistanceCommand extends CommandBase {
     private final DriveSubsystem m_subsystem;
     private double m_distance;
 
-    public PIDCommand(DriveSubsystem subsytem, double distance){
+    public DriveSetDistanceCommand(DriveSubsystem subsytem, double distance){
         m_subsystem = subsytem;
         addRequirements(m_subsystem);
         m_distance = inchesToTicks(distance);

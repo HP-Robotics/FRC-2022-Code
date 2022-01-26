@@ -9,13 +9,13 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 
 
-public class ShooterCommand extends CommandBase{
+public class ShooterShootCommand extends CommandBase{
     private final ShooterSubsystem shootsubsytem;
     private DoubleSupplier shootSupplier;
 
 
 
-    public ShooterCommand(ShooterSubsystem subsytem, DoubleSupplier shoot){
+    public ShooterShootCommand(ShooterSubsystem subsytem, DoubleSupplier shoot){
         shootsubsytem = subsytem;
         shootSupplier = shoot;
 
