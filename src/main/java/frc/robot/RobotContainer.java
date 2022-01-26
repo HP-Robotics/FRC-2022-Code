@@ -10,10 +10,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveManualCommand;
 import frc.robot.commands.DriveSetDistanceCommand;
 import frc.robot.commands.ShooterShootCommand;
+import frc.robot.commands.ShooterWheelCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -55,8 +54,7 @@ final Joystick shootingJoystick = new Joystick(1);
     .whenPressed(new ShooterShootCommand(m_shooterSubsystem, true))
     .whenReleased(new ShooterShootCommand(m_shooterSubsystem, false));  
 new JoystickButton(driver, Constants.Y)
-    .whenPressed(new DriveManualCommand(m_driveSubsystem, () -> { return -1;}, () -> { return 1;}))
-    .whenReleased(new DriveManualCommand(m_driveSubsystem, ()-> {return 0;}, () -> {return 0;}));   
+    .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
 new JoystickButton(driver, Constants.B)
     .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));   
 new JoystickButton(driver, Constants.A)
