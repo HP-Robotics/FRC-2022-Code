@@ -1,23 +1,23 @@
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
 
 
-public class ShooterCommand extends CommandBase{
+public class ShooterShootCommand extends CommandBase{
     private final ShooterSubsystem shootsubsytem;
-    private DoubleSupplier shootSupplier;
+    private Boolean fire;
 
 
 
-    public ShooterCommand(ShooterSubsystem subsytem, DoubleSupplier shoot){
+    public ShooterShootCommand(ShooterSubsystem subsytem, Boolean fire){
         shootsubsytem = subsytem;
-        shootSupplier = shoot;
-
+        this.fire = fire;
 
 
         addRequirements(shootsubsytem);
@@ -25,12 +25,17 @@ public class ShooterCommand extends CommandBase{
 
     @Override
 public void execute() {
-    shootsubsytem.shoot(shootSupplier.getAsDouble());
+        if (fire){
+            shootsubsytem.shoot(Constants.preshooterSpeed);
+        }
+        else {
+            shootsubsytem.shoot(0);
+        }
     }
     
     @Override
     public void end (boolean interrupted) {
-      shootsubsytem.shoot(0);
+        shootsubsytem.shoot(0);
     }
 
 

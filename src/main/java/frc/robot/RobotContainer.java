@@ -7,13 +7,25 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.SpeedCommand;
-import frc.robot.commands.ShooterCommand;
+<<<<<<< HEAD
+<<<<<<< HEAD
+import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+=======
+=======
+>>>>>>> c01ce1fefe61c6348615ca22dab932731fa510ad
+import frc.robot.commands.DriveManualCommand;
+import frc.robot.commands.DriveSetDistanceCommand;
+import frc.robot.commands.ShooterShootCommand;
+import frc.robot.commands.ShooterWheelCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.subsystems.IntakeSubsystem;
+<<<<<<< HEAD
+>>>>>>> cb9fa7c8168273d69c94052e90129e0eb30b1e56
+=======
+>>>>>>> c01ce1fefe61c6348615ca22dab932731fa510ad
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -27,25 +39,18 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-private int X = 1;
-private int A = 2;
-private int B = 3;
-private int Y = 4;
+
 
 
 final Joystick driver = new Joystick(0);
-  private final DriveCommand m_autoCommand = new DriveCommand(m_driveSubsystem, 
+  private final DriveManualCommand m_autoCommand = new DriveManualCommand(m_driveSubsystem, 
   () -> { return (Math.pow(driver.getRawAxis(1), 3)); },
-  () -> { return (Math.pow(-driver.getRawAxis(3), 3)); });
-  private final SpeedCommand m_speed = new SpeedCommand(m_driveSubsystem);
+  () -> { return (Math.pow(driver.getRawAxis(3), 3)); });
 
 final Joystick shootingJoystick = new Joystick(1);
-  private final ShooterCommand m_shootcommand = new ShooterCommand(m_shooterSubsystem, 
-  () -> { return (shootingJoystick.getRawAxis(3)); } );
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(m_autoCommand);
-    m_shooterSubsystem.setDefaultCommand(m_shootcommand);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -58,13 +63,26 @@ final Joystick shootingJoystick = new Joystick(1);
    */
   private void configureButtonBindings() {
 <<<<<<< HEAD
-   
-new JoystickButton(driver, A)
-    .whenPressed(m_speed);   
-
-=======
+<<<<<<< HEAD
     
->>>>>>> origin/Bill
+=======
+=======
+
+>>>>>>> c01ce1fefe61c6348615ca22dab932731fa510ad
+    new JoystickButton(driver, Constants.X)
+    .whenPressed(new ShooterShootCommand(m_shooterSubsystem, true))
+    .whenReleased(new ShooterShootCommand(m_shooterSubsystem, false));  
+new JoystickButton(driver, Constants.Y)
+    .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
+new JoystickButton(driver, Constants.B)
+    .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));   
+new JoystickButton(driver, Constants.A)
+    .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48)); 
+
+<<<<<<< HEAD
+>>>>>>> cb9fa7c8168273d69c94052e90129e0eb30b1e56
+=======
+>>>>>>> c01ce1fefe61c6348615ca22dab932731fa510ad
   }
 
   /**
