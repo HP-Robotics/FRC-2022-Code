@@ -4,14 +4,24 @@
 
 package frc.robot;
 
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+<<<<<<< HEAD
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+=======
+import frc.robot.commands.DriveManualCommand;
+import frc.robot.commands.DriveSetDistanceCommand;
+import frc.robot.commands.ShooterShootCommand;
+import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj.Joystick;
+>>>>>>> cb9fa7c8168273d69c94052e90129e0eb30b1e56
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.ShooterSubsystem;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -20,12 +30,20 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
+
+final Joystick driver = new Joystick(0);
+  private final DriveManualCommand m_autoCommand = new DriveManualCommand(m_driveSubsystem, 
+  () -> { return (Math.pow(driver.getRawAxis(1), 3)); },
+  () -> { return (Math.pow(driver.getRawAxis(3), 3)); });
+
+final Joystick shootingJoystick = new Joystick(1);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    m_driveSubsystem.setDefaultCommand(m_autoCommand);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -37,7 +55,21 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+<<<<<<< HEAD
     
+=======
+    new JoystickButton(driver, Constants.X)
+    .whenPressed(new ShooterShootCommand(m_shooterSubsystem, true))
+    .whenReleased(new ShooterShootCommand(m_shooterSubsystem, false));  
+new JoystickButton(driver, Constants.Y)
+    .whenPressed(new DriveManualCommand(m_driveSubsystem, () -> { return -1;}, () -> { return 1;}))
+    .whenReleased(new DriveManualCommand(m_driveSubsystem, ()-> {return 0;}, () -> {return 0;}));   
+new JoystickButton(driver, Constants.B)
+    .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));   
+new JoystickButton(driver, Constants.A)
+    .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48)); 
+
+>>>>>>> cb9fa7c8168273d69c94052e90129e0eb30b1e56
   }
 
   /**
