@@ -39,10 +39,10 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void drive(double left, double right) {
-        m_left1.set(ControlMode.PercentOutput, left);
+        /*m_left1.set(ControlMode.PercentOutput, left);
         m_right1.set(ControlMode.PercentOutput, right);
         m_left2.set(ControlMode.PercentOutput, left);
-        m_right2.set(ControlMode.PercentOutput, right);
+        m_right2.set(ControlMode.PercentOutput, right);*/
 
     }
     public void setuppid (double kP, double kI, double kD, double kF, int timeout){
@@ -91,7 +91,7 @@ public class DriveSubsystem extends SubsystemBase {
         m_right2.follow(m_right1);
         m_right1.follow(m_left1);
 
-        m_left1.set(ControlMode.MotionMagic,distance);
+        //m_left1.set(ControlMode.MotionMagic,distance);
 
     }
 

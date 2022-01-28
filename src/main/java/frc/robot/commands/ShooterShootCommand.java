@@ -1,37 +1,51 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class ShooterShootCommand extends CommandBase {
-    private final ShooterSubsystem shootSubsystem;
-    private boolean active;
 
-    public ShooterShootCommand(ShooterSubsystem subsytem, boolean active) {
-        shootSubsystem = subsytem;
-        this.active = active;
 
-        addRequirements(shootSubsystem);
+
+public class ShooterShootCommand extends CommandBase{
+    private final ShooterSubsystem shootsubsytem;
+    private Boolean fire;
+
+
+
+    public ShooterShootCommand(ShooterSubsystem subsytem, Boolean fire){
+        shootsubsytem = subsytem;
+        this.fire = fire;
+
+
+        addRequirements(shootsubsytem);
     }
 
     @Override
-    public void execute() {
-        if (active) {
-            shootSubsystem.speed = -15500;
-        } else {
-            shootSubsystem.speed = 0;
+public void execute() {
+        if (fire){
+            shootsubsytem.shoot(Constants.preshooterSpeed);
+        }
+        else {
+            shootsubsytem.shoot(0);
         }
     }
-
+    
     @Override
-    public void end(boolean interrupted) {
-        shootSubsystem.shoot(0);
+    public void end (boolean interrupted) {
+        shootsubsytem.shoot(0);
     }
+
 
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
+    
+ 
 
-    }
 }
+}
+
+
