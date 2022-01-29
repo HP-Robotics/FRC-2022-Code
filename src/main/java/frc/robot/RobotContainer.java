@@ -7,15 +7,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-<<<<<<< HEAD
-<<<<<<< HEAD
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-=======
-=======
->>>>>>> c01ce1fefe61c6348615ca22dab932731fa510ad
 import frc.robot.commands.DriveManualCommand;
 import frc.robot.commands.DriveSetDistanceCommand;
 import frc.robot.commands.ShooterShootCommand;
@@ -23,10 +17,6 @@ import frc.robot.commands.ShooterWheelCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
-<<<<<<< HEAD
->>>>>>> cb9fa7c8168273d69c94052e90129e0eb30b1e56
-=======
->>>>>>> c01ce1fefe61c6348615ca22dab932731fa510ad
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -63,13 +53,6 @@ final Joystick shootingJoystick = new Joystick(1);
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    
-=======
-=======
-
->>>>>>> c01ce1fefe61c6348615ca22dab932731fa510ad
     new JoystickButton(driver, Constants.X)
     .whenPressed(new ShooterShootCommand(m_shooterSubsystem, true))
     .whenReleased(new ShooterShootCommand(m_shooterSubsystem, false));  
@@ -80,10 +63,6 @@ new JoystickButton(driver, Constants.B)
 new JoystickButton(driver, Constants.A)
     .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48)); 
 
-<<<<<<< HEAD
->>>>>>> cb9fa7c8168273d69c94052e90129e0eb30b1e56
-=======
->>>>>>> c01ce1fefe61c6348615ca22dab932731fa510ad
   }
 
   /**
