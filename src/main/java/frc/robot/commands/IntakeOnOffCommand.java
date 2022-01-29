@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class IntakeOnOffCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IntakeSubsystem m_subsystem;
 
   /**
@@ -25,11 +24,19 @@ public class IntakeOnOffCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if (m_subsystem.isOn == true){
+      m_subsystem.isOn = false;
+    }
+    else {
+      m_subsystem.isOn = true;
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -38,6 +45,6 @@ public class IntakeOnOffCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

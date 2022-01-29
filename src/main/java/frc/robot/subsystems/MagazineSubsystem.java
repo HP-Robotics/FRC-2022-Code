@@ -4,15 +4,28 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class MagazineSubsystem extends SubsystemBase {
+  public TalonFX MagazineMotor;
+public boolean toggled = false;
   /** Creates a new ExampleSubsystem. */
-  public MagazineSubsystem() {}
+  public MagazineSubsystem() {
+    MagazineMotor = new TalonFX(12);
+  }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    if (toggled == false) {
+      MagazineMotor.set(ControlMode.PercentOutput, 0);
+    }
+    else {
+      MagazineMotor.set(ControlMode.PercentOutput, Constants.MagazineSpeed);
+    }
   }
 
   @Override
