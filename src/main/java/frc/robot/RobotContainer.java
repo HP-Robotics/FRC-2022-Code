@@ -11,6 +11,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.DriveManualCommand;
+import frc.robot.commands.DriveBothCommand;
 import frc.robot.commands.DriveSetDistanceCommand;
 import frc.robot.commands.ShooterShootCommand;
 import frc.robot.commands.ShooterWheelCommand;
@@ -34,11 +35,12 @@ public class RobotContainer {
 
 
 final Joystick driver = new Joystick(0);
-  private final DriveManualCommand m_autoCommand = new DriveManualCommand(m_driveSubsystem, 
-  () -> { return (Math.pow(driver.getRawAxis(1), 3)); },
-  () -> { return (Math.pow(driver.getRawAxis(3), 3)); });
 
 final Joystick shootingJoystick = new Joystick(1);
+
+private final DriveManualCommand m_autoCommand = new DriveManualCommand(m_driveSubsystem, 
+() -> { return (Math.pow(driver.getRawAxis(1), 3)); },
+() -> { return (Math.pow(shootingJoystick.getRawAxis(1), 3)); });
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(m_autoCommand);
@@ -56,13 +58,14 @@ final Joystick shootingJoystick = new Joystick(1);
     new JoystickButton(driver, Constants.X)
     .whenPressed(new ShooterShootCommand(m_shooterSubsystem, true))
     .whenReleased(new ShooterShootCommand(m_shooterSubsystem, false));  
-new JoystickButton(driver, Constants.Y)
+    new JoystickButton(driver, Constants.Y)
     .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
-new JoystickButton(driver, Constants.B)
+    new JoystickButton(driver, Constants.B)
     .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));   
-new JoystickButton(driver, Constants.A)
+    new JoystickButton(driver, Constants.A)
     .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48)); 
-
+    new JoystickButton(driver,8)
+    .whileHeld(new DriveBothCommand(m_driveSubsystem));
   }
 
   /**
