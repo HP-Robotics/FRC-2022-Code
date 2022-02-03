@@ -39,55 +39,55 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void driveStraight(double left) {
-      m_left1.set(ControlMode.PercentOutput, left);
-      m_right1.set(ControlMode.PercentOutput, left);
-      m_left2.set(ControlMode.PercentOutput, left);
-      m_right2.set(ControlMode.PercentOutput, left);
+    m_left1.set(ControlMode.PercentOutput, left);
+    m_right1.set(ControlMode.PercentOutput, left);
+    m_left2.set(ControlMode.PercentOutput, left);
+    m_right2.set(ControlMode.PercentOutput, left);
   }
- 
-  public void drive(double left, double right) {
-      System.out.println(left + " " + right);
-      m_left1.set(ControlMode.PercentOutput, left);
-      m_right1.set(ControlMode.PercentOutput, right);
-      m_left2.set(ControlMode.PercentOutput, left);
-      m_right2.set(ControlMode.PercentOutput, right);
-    }
 
-    /*
-     * double leftSpeed=0.0;
-     * double rightSpeed=0.0;
-     * 
-     * double maxInput = Math.copySign(Math.max(Math.abs(left), Math.abs(right)),
-     * left);
-     * 
-     * if (left >= 0.0) {
-     * // First quadrant, else second quadrant
-     * if (right >= 0.0) {
-     * leftSpeed = maxInput;
-     * rightSpeed = left - right;
-     * } else {
-     * leftSpeed = left + right;
-     * rightSpeed = maxInput;
-     * }
-     * } else {
-     * // Third quadrant, else fourth quadrant
-     * if (right >= 0.0) {
-     * leftSpeed = left + right;
-     * rightSpeed = maxInput;
-     * } else {
-     * leftSpeed = maxInput;
-     * rightSpeed = left - right;
-     * }
-     * }
-     * System.out.println(leftSpeed);
-     * 
-     * m_left1.set(ControlMode.PercentOutput, leftSpeed);
-     * m_right1.set(ControlMode.PercentOutput, rightSpeed);
-     * m_left2.set(ControlMode.PercentOutput, leftSpeed);
-     * m_right2.set(ControlMode.PercentOutput, rightSpeed);
-     */
-    // }
-  
+  public void drive(double left, double right) {
+    System.out.println(left + " " + right);
+    m_left1.set(ControlMode.PercentOutput, left);
+    m_right1.set(ControlMode.PercentOutput, right);
+    m_left2.set(ControlMode.PercentOutput, left);
+    m_right2.set(ControlMode.PercentOutput, right);
+  }
+
+  public void arcadeDrive(double left, double right) {
+
+    double leftSpeed = 0.0;
+    double rightSpeed = 0.0;
+
+    double maxInput = Math.copySign(Math.max(Math.abs(left), Math.abs(right)),
+        left);
+
+    if (left >= 0.0) {
+      // First quadrant, else second quadrant
+      if (right >= 0.0) {
+        leftSpeed = maxInput;
+        rightSpeed = left - right;
+      } else {
+        leftSpeed = left + right;
+        rightSpeed = maxInput;
+      }
+    } else {
+      // Third quadrant, else fourth quadrant
+      if (right >= 0.0) {
+        leftSpeed = left + right;
+        rightSpeed = maxInput;
+      } else {
+        leftSpeed = maxInput;
+        rightSpeed = left - right;
+      }
+    }
+    System.out.println(leftSpeed);
+
+    m_left1.set(ControlMode.PercentOutput, leftSpeed);
+    m_right1.set(ControlMode.PercentOutput, rightSpeed);
+    m_left2.set(ControlMode.PercentOutput, leftSpeed);
+    m_right2.set(ControlMode.PercentOutput, rightSpeed);
+
+  }
 
   public void setuppid(double kP, double kI, double kD, double kF, int timeout) {
 
@@ -134,8 +134,6 @@ public class DriveSubsystem extends SubsystemBase {
     m_left1.set(ControlMode.MotionMagic, distance);
 
   }
-
-  
 
   public void disablepid() {
     m_left1.set(ControlMode.PercentOutput, 0);

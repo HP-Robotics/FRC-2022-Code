@@ -46,9 +46,16 @@ public class RobotContainer {
       () -> {
         return (Math.pow(driver.getRawAxis(1) * -1, 3));
       },
+      // tank drive
       () -> {
         return (Math.pow(shootingJoystick.getRawAxis(1) * -1, 3));
       });
+  // arcade drive
+  /*
+   * () -> {
+   * return (Math.pow(driver.getRawAxis(0), 3));
+   * });
+   */
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
