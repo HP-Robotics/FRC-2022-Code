@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.DriveManualCommand;
 import frc.robot.commands.ClimberToggleRotationCommand;
-import frc.robot.commands.DriveBothCommand;
+import frc.robot.commands.DriveStraightCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.commands.DriveSetDistanceCommand;
 import frc.robot.commands.ShooterShootCommand;
@@ -78,7 +78,10 @@ public class RobotContainer {
     new JoystickButton(driver, Constants.A)
         .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48));
     new JoystickButton(driver, 8)
-        .whileHeld(new DriveBothCommand(m_driveSubsystem));
+        .whileHeld(new DriveStraightCommand(m_driveSubsystem,
+            () -> {
+              return (Math.pow(driver.getRawAxis(1) * -1, 3));
+            }));
     // new JoystickButton(driver,7)
     // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
     // m_pneumaticSubsystem));

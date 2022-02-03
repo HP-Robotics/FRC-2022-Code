@@ -13,7 +13,6 @@ public class DriveSubsystem extends SubsystemBase {
   public TalonFX m_right1;
   public TalonFX m_left2;
   public TalonFX m_right2;
-  public Boolean m_both = false;
 
   public DriveSubsystem() {
     m_left1 = new TalonFX(1);
@@ -39,19 +38,21 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("RightBack", m_right2.getSelectedSensorVelocity());
   }
 
-  public void drive(double left, double right) {
-    if (m_both) {
+  public void driveStraight(double left) {
       m_left1.set(ControlMode.PercentOutput, left);
       m_right1.set(ControlMode.PercentOutput, left);
       m_left2.set(ControlMode.PercentOutput, left);
       m_right2.set(ControlMode.PercentOutput, left);
-    } else {
+  }
+ 
+  public void drive(double left, double right) {
       System.out.println(left + " " + right);
       m_left1.set(ControlMode.PercentOutput, left);
       m_right1.set(ControlMode.PercentOutput, right);
       m_left2.set(ControlMode.PercentOutput, left);
       m_right2.set(ControlMode.PercentOutput, right);
     }
+
     /*
      * double leftSpeed=0.0;
      * double rightSpeed=0.0;
@@ -86,7 +87,7 @@ public class DriveSubsystem extends SubsystemBase {
      * m_right2.set(ControlMode.PercentOutput, rightSpeed);
      */
     // }
-  }
+  
 
   public void setuppid(double kP, double kI, double kD, double kF, int timeout) {
 
@@ -134,9 +135,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
-  public void setBoth(Boolean both) {
-    m_both = both;
-  }
+  
 
   public void disablepid() {
     m_left1.set(ControlMode.PercentOutput, 0);
