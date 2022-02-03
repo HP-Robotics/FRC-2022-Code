@@ -12,7 +12,8 @@ import frc.robot.Constants;
 
 public class MagazineSubsystem extends SubsystemBase {
   public TalonFX MagazineMotor;
-public boolean toggled = false;
+  public boolean toggled = false;
+
   /** Creates a new ExampleSubsystem. */
   public MagazineSubsystem() {
     MagazineMotor = new TalonFX(12);
@@ -22,8 +23,7 @@ public boolean toggled = false;
   public void periodic() {
     if (toggled == false) {
       MagazineMotor.set(ControlMode.PercentOutput, 0);
-    }
-    else {
+    } else {
       MagazineMotor.set(ControlMode.PercentOutput, Constants.MagazineSpeed);
     }
   }

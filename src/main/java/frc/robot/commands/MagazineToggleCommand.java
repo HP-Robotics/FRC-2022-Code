@@ -14,20 +14,20 @@ public class MagazineToggleCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        if (m_subsystem.toggled == true){
+        if (m_subsystem.toggled == true) {
             m_subsystem.toggled = false;
-        }
-        else {
+        } else {
             m_subsystem.toggled = true;
         }
     }
+
     public void execute() {
 
     }
 
     @Override
     public void end(boolean interrupted) {
-    
+
     }
 
     @Override

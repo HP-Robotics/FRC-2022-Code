@@ -1,21 +1,21 @@
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
+
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+
 import frc.robot.subsystems.DriveSubsystem;
 
 public class DriveBothCommand extends CommandBase {
     private final DriveSubsystem m_subsystem;
 
-    public DriveBothCommand(DriveSubsystem subsytem){
-        m_subsystem =subsytem;
+    public DriveBothCommand(DriveSubsystem subsytem) {
+        m_subsystem = subsytem;
         addRequirements(m_subsystem);
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         m_subsystem.setBoth(true);
     }
 

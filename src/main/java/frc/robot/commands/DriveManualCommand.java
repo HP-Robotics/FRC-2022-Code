@@ -11,10 +11,10 @@ public class DriveManualCommand extends CommandBase {
     private DoubleSupplier m_leftSupplier;
     private DoubleSupplier m_rightSupplier;
 
-    public DriveManualCommand(DriveSubsystem subsytem, DoubleSupplier left, DoubleSupplier right){
+    public DriveManualCommand(DriveSubsystem subsytem, DoubleSupplier left, DoubleSupplier right) {
         m_subsystem = subsytem;
-        m_leftSupplier=left;
-        m_rightSupplier=right;
+        m_leftSupplier = left;
+        m_rightSupplier = right;
         addRequirements(m_subsystem);
     }
 
