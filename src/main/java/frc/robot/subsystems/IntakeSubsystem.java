@@ -8,21 +8,27 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-public TalonFX IntakeMotor; 
-public boolean isOn = false;
-public IntakeSubsystem() {
+  public TalonFX IntakeMotor;
+  public boolean isOn = false;
+  public boolean isUp = true;
+
+  public IntakeSubsystem() {
     IntakeMotor = new TalonFX(11);
-}
+  }
 
   @Override
   public void periodic() {
 
-
     if (isOn == false) {
-        IntakeMotor.set(ControlMode.PercentOutput, 0);
+      IntakeMotor.set(ControlMode.PercentOutput, 0);
+    } else {
+      IntakeMotor.set(ControlMode.PercentOutput, Constants.IntakeSpeed);
     }
-    else {
-        IntakeMotor.set(ControlMode.PercentOutput, Constants.IntakeSpeed);
+
+    if (isUp == false) {
+
+    } else {
+
     }
     // This method will be called once per scheduler run
   }
@@ -32,4 +38,3 @@ public IntakeSubsystem() {
     // This method will be called once per scheduler run during simulation
   }
 }
-
