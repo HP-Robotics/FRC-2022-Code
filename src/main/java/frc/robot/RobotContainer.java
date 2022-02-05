@@ -10,6 +10,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.DriveManualCommand;
 import frc.robot.commands.ClimberToggleRotationCommand;
 import frc.robot.commands.DriveStraightCommand;
+import frc.robot.commands.IntakeOnOffCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.commands.DriveSetDistanceCommand;
 import frc.robot.commands.ShooterShootCommand;
@@ -37,7 +38,7 @@ public class RobotContainer {
   // private final PneumaticSubsystem m_pneumaticSubsystem = new
   // PneumaticSubsystem();
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
-
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   final Joystick driver = new Joystick(0);
 
   final Joystick shootingJoystick = new Joystick(1);
@@ -76,21 +77,21 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(driver, Constants.X)
-          .whileHeld(new ShooterShootCommand(m_shooterSubsystem, m_driveSubsystem, 
-          () -> {
-            return (Math.pow(driver.getRawAxis(1) * -1, 3));
-          },
-          // tank drive
-          () -> {
-            return (Math.pow(shootingJoystick.getRawAxis(1) * -1, 3));
-          })
-          // arcade drive
-          /*
-           * () -> {
-           * return (Math.pow(driver.getRawAxis(0), 3));
-          * });
-          */
-          );
+        .whileHeld(new ShooterShootCommand(m_shooterSubsystem, m_driveSubsystem,
+            () -> {
+              return (Math.pow(driver.getRawAxis(1) * -1, 3));
+            },
+            // tank drive
+            () -> {
+              return (Math.pow(shootingJoystick.getRawAxis(1) * -1, 3));
+            })
+        // arcade drive
+        /*
+         * () -> {
+         * return (Math.pow(driver.getRawAxis(0), 3));
+         * });
+         */
+        );
     new JoystickButton(driver, Constants.Y)
         .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
     new JoystickButton(driver, Constants.B)
@@ -105,6 +106,8 @@ public class RobotContainer {
     // new JoystickButton(driver,7)
     // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
     // m_pneumaticSubsystem));
+    new JoystickButton(driver, 6)
+        .whenPressed(new IntakeOnOffCommand(m_intakeSubsystem));
   }
 
   /**
