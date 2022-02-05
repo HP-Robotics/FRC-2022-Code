@@ -19,7 +19,16 @@ public class PneumaticSubsystem {
 
         c = new Compressor(50, PneumaticsModuleType.REVPH); 
         //c.enableAnalog(0,10);
+    
+    
     }
- 
+
+
+
+
+
+    public void extendIntake (){
+        
+    }
 }
 
