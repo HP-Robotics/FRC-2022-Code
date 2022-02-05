@@ -22,6 +22,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private ShuffleboardTab tab = Shuffleboard.getTab("Shooter Configuration");
     private NetworkTableEntry InputSpeed = tab.add("Input Speed", Constants.shooterSpeed)
             .getEntry();
+    
     public TalonFX m_shooter;
     public TalonFX PreShooter;
 
@@ -44,6 +45,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void periodic() {
         // m_shooter.set(ControlMode.Velocity,WheelSetPoint);
+        
     }
 
     public void shoot(double speed) {
