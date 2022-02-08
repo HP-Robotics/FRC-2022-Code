@@ -10,16 +10,11 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShooterShootCommand extends CommandBase {
     private final ShooterSubsystem shootsubsytem;
-    private final DriveSubsystem m_subsystem;
-    private DoubleSupplier m_leftSupplier;
-    private DoubleSupplier m_rightSupplier;
 
 
-    public ShooterShootCommand(ShooterSubsystem subsytem, DriveSubsystem driveSubsystem,DoubleSupplier left, DoubleSupplier right ) {
+    public ShooterShootCommand(ShooterSubsystem subsytem) {
         shootsubsytem = subsytem;
-        m_subsystem = driveSubsystem;
-        m_leftSupplier = left;
-        m_rightSupplier = right;
+        
 
         addRequirements(shootsubsytem);
     }
@@ -32,9 +27,7 @@ public class ShooterShootCommand extends CommandBase {
             shootsubsytem.shoot(0);
         }
 
-        //m_subsystem.drive(m_leftSupplier.getAsDouble(), m_rightSupplier.getAsDouble());
-        // m_subsystem.arcadeDrive(m_leftSupplier.getAsDouble(),
-        // m_rightSupplier.getAsDouble());
+
     }
 
     @Override

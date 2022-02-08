@@ -13,16 +13,16 @@ public class IntakeSubsystem extends SubsystemBase {
   public boolean isUp = true;
 
   public IntakeSubsystem() {
-    IntakeMotor = new TalonFX(11);
+   //IntakeMotor = new TalonFX(11);
   }
 
   @Override
   public void periodic() {
 
     if (isOn == false) {
-      IntakeMotor.set(ControlMode.PercentOutput, 0);
+    //  IntakeMotor.set(ControlMode.PercentOutput, 0);
     } else {
-      IntakeMotor.set(ControlMode.PercentOutput, Constants.IntakeSpeed);
+    //  IntakeMotor.set(ControlMode.PercentOutput, Constants.IntakeSpeed);
     }
 
     if (isUp == false) {

@@ -77,21 +77,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(driver, Constants.X)
-        .whileHeld(new ShooterShootCommand(m_shooterSubsystem, m_driveSubsystem,
-            () -> {
-              return (Math.pow(driver.getRawAxis(1) * -1, 3));
-            },
-            // tank drive
-            () -> {
-              return (Math.pow(shootingJoystick.getRawAxis(1) * -1, 3));
-            })
-        // arcade drive
-        /*
-         * () -> {
-         * return (Math.pow(driver.getRawAxis(0), 3));
-         * });
-         */
-        );
+        .whileHeld(new ShooterShootCommand(m_shooterSubsystem));
     new JoystickButton(driver, Constants.Y)
         .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
     new JoystickButton(driver, Constants.B)
@@ -104,8 +90,7 @@ public class RobotContainer {
               return (Math.pow(driver.getRawAxis(1) * -1, 3));
             }));
     // new JoystickButton(driver,7)
-    // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
-    // m_pneumaticSubsystem));
+    // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem, m_pneumaticSubsystem));
     new JoystickButton(driver, 6)
         .whenPressed(new IntakeOnOffCommand(m_intakeSubsystem));
   }
