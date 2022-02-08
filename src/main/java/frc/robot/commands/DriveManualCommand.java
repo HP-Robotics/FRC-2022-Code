@@ -2,25 +2,26 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.JoystickSubsystem;
 
 public class DriveManualCommand extends CommandBase {
     private final DriveSubsystem m_subsystem;
-    private DoubleSupplier m_leftSupplier;
-    private DoubleSupplier m_rightSupplier;
+    private final JoystickSubsystem m_joystickSubsystem;
 
-    public DriveManualCommand(DriveSubsystem subsytem, DoubleSupplier left, DoubleSupplier right) {
+    public DriveManualCommand(DriveSubsystem subsytem, JoystickSubsystem joysticks) {
         m_subsystem = subsytem;
-        m_leftSupplier = left;
-        m_rightSupplier = right;
+        m_joystickSubsystem = joysticks;
         addRequirements(m_subsystem);
+        addRequirements(m_joystickSubsystem);
     }
 
     @Override
     public void execute() {
-        m_subsystem.drive(m_leftSupplier.getAsDouble(), m_rightSupplier.getAsDouble());
+        m_subsystem.drive(m_joystickSubsystem.m_driverL.getRawAxis(1), m_joystickSubsystem.m_driverR.getRawAxis(1));
         // m_subsystem.arcadeDrive(m_leftSupplier.getAsDouble(),
         // m_rightSupplier.getAsDouble());
     }

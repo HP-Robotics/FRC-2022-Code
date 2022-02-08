@@ -5,15 +5,17 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.JoystickSubsystem;
 
 public class DriveStraightCommand extends CommandBase {
     private final DriveSubsystem m_subsystem;
-    private DoubleSupplier m_leftSupplier;
+    private final JoystickSubsystem m_joystickSubsystem;
+    
 
 
-    public DriveStraightCommand(DriveSubsystem subsytem, DoubleSupplier left) {
+    public DriveStraightCommand(DriveSubsystem subsytem, JoystickSubsystem joysticks) {
         m_subsystem = subsytem;
-        m_leftSupplier = left;
+        m_joystickSubsystem = joysticks;
         addRequirements(m_subsystem);
     }
 
@@ -24,7 +26,7 @@ public class DriveStraightCommand extends CommandBase {
 
     @Override
     public void execute() {
-        m_subsystem.driveStraight(m_leftSupplier.getAsDouble());
+        m_subsystem.driveStraight(m_joystickSubsystem.m_driverL.getRawAxis(1));
     }
 
     @Override

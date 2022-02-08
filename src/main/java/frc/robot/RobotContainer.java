@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.JoystickSubsystem;
 import frc.robot.commands.DriveManualCommand;
 import frc.robot.commands.ClimberToggleRotationCommand;
 import frc.robot.commands.DriveStraightCommand;
@@ -39,18 +40,10 @@ public class RobotContainer {
   // PneumaticSubsystem();
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  final Joystick driver = new Joystick(0);
+  private final JoystickSubsystem m_joystickSubsystem = new JoystickSubsystem();
 
-  final Joystick shootingJoystick = new Joystick(1);
+  private final DriveManualCommand m_autoCommand = new DriveManualCommand(m_driveSubsystem, m_joystickSubsystem);
 
-  private final DriveManualCommand m_autoCommand = new DriveManualCommand(m_driveSubsystem,
-      () -> {
-        return (Math.pow(driver.getRawAxis(1) * -1, 3));
-      },
-      // tank drive
-      () -> {
-        return (Math.pow(shootingJoystick.getRawAxis(1) * -1, 3));
-      });
   // arcade drive
   /*
    * () -> {
@@ -76,22 +69,21 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(driver, Constants.X)
+
+    new JoystickButton(m_joystickSubsystem.m_operator, Constants.X)
         .whileHeld(new ShooterShootCommand(m_shooterSubsystem));
-    new JoystickButton(driver, Constants.Y)
+    new JoystickButton(m_joystickSubsystem.m_operator, Constants.Y)
         .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
-    new JoystickButton(driver, Constants.B)
+    new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
         .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));
-    new JoystickButton(driver, Constants.A)
+    new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
         .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48));
-    new JoystickButton(driver, 8)
-        .whileHeld(new DriveStraightCommand(m_driveSubsystem,
-            () -> {
-              return (Math.pow(driver.getRawAxis(1) * -1, 3));
-            }));
+    new JoystickButton(m_joystickSubsystem.m_driverL, 1)
+        .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem));
     // new JoystickButton(driver,7)
-    // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem, m_pneumaticSubsystem));
-    new JoystickButton(driver, 6)
+    // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
+    // m_pneumaticSubsystem));
+    new JoystickButton(m_joystickSubsystem.m_driverR, 1)
         .whenPressed(new IntakeOnOffCommand(m_intakeSubsystem));
   }
 
