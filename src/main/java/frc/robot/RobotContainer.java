@@ -33,14 +33,14 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  public final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   // private final PneumaticSubsystem m_pneumaticSubsystem = new
   // PneumaticSubsystem();
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
 
   final Joystick driver = new Joystick(0);
 
-  final Joystick shootingJoystick = new Joystick(1);
+  final Joystick shootingJoystick = new Joystick(2);
 
   private final DriveManualCommand m_autoCommand = new DriveManualCommand(m_driveSubsystem,
       () -> {
@@ -75,10 +75,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(driver, Constants.X)
+    
+    new JoystickButton(shootingJoystick, Constants.X)
         .whenPressed(new ShooterShootCommand(m_shooterSubsystem, true))
         .whenReleased(new ShooterShootCommand(m_shooterSubsystem, false));
-    new JoystickButton(driver, Constants.Y)
+    new JoystickButton(shootingJoystick, Constants.Y)
         .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
     new JoystickButton(driver, Constants.B)
         .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));
