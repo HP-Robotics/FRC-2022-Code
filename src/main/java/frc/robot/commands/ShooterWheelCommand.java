@@ -13,10 +13,10 @@ public class ShooterWheelCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        if (shootSubsystem.WheelSetPoint == 0) {
-            shootSubsystem.Enable(true);
+        if (shootSubsystem.m_wheelSetPoint == 0) {
+            shootSubsystem.enable(true);
         } else {
-            shootSubsystem.Enable(false);
+            shootSubsystem.enable(false);
         }
     }
 

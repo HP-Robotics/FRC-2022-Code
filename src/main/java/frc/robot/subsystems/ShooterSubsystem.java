@@ -1,14 +1,10 @@
 package frc.robot.subsystems;
 
-import java.util.function.DoubleSupplier;
-
-import javax.xml.namespace.QName;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
+
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,13 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-    public double WheelSetPoint;
-    private ShuffleboardTab tab = Shuffleboard.getTab("Shooter Configuration");
-    private NetworkTableEntry InputSpeed = tab.add("Input Speed", Constants.shooterSpeed)
+    public double m_wheelSetPoint;
+    private ShuffleboardTab m_tab = Shuffleboard.getTab("Shooter Configuration");
+    private NetworkTableEntry m_inputSpeed = m_tab.add("Input Speed", Constants.shooterSpeed)
             .getEntry();
 
     public TalonFX m_shooter;
-    public TalonFX PreShooter;
+    public TalonFX m_preShooter;
 
     public ShooterSubsystem() {
 
@@ -34,7 +30,7 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter.config_kI(0, Constants.shooterkI);
         m_shooter.config_kD(0, Constants.shooterkD);
         m_shooter.config_kF(0, Constants.shooterkF);
-        PreShooter = new TalonFX(22);
+        m_preShooter = new TalonFX(22);
 
         SmartDashboard.putNumber("shooterkP", Constants.shooterkP);
         SmartDashboard.putNumber("shooterkI", Constants.shooterkI);
@@ -44,19 +40,19 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        m_shooter.set(ControlMode.Velocity,WheelSetPoint);
+        m_shooter.set(ControlMode.Velocity, m_wheelSetPoint);
 
     }
 
     public void shoot(double speed) {
-        PreShooter.set(ControlMode.PercentOutput,speed);
+        m_preShooter.set(ControlMode.PercentOutput, speed);
     }
 
-    public void Enable(boolean WheelOn) {
-        if (WheelOn) {
-            WheelSetPoint = InputSpeed.getDouble(Constants.shooterSpeed);
+    public void enable(boolean wheelOn) {
+        if (wheelOn) {
+            m_wheelSetPoint = m_inputSpeed.getDouble(Constants.shooterSpeed);
         } else {
-            WheelSetPoint = 0;
+            m_wheelSetPoint = 0;
         }
 
     }
