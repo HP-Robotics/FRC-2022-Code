@@ -19,8 +19,18 @@ public class JoystickSubsystem extends SubsystemBase {
 
     }
 
-    public double GetAxisDeadzone(double axis) {
-        return -axis*-axis*-axis;
+    public double driverLeft() {
+        return applyAxisDeadzone(m_driverL.getRawAxis(1));
+    }
+    public double driverRight() {
+        return applyAxisDeadzone(m_driverR.getRawAxis(1));
+    }
+
+    public double applyAxisDeadzone(double input) {
+        if (Math.abs(input) <= Constants.deadzone) {
+            return 0;
+        }
+        return -input * -input * -input;
     }
 
     @Override

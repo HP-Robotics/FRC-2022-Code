@@ -38,4 +38,5 @@ public final class Constants {
 
     public static double MagazineSpeed = 1.0;
     public static double IntakeSpeed = 1.0;
+    public static double deadzone = 0.1;
 }
