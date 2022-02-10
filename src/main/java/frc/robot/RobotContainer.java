@@ -33,9 +33,10 @@ import frc.robot.subsystems.ShooterSubsystem;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private Boolean m_useShooter = false;
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  private ShooterSubsystem m_shooterSubsystem;
   // private final PneumaticSubsystem m_pneumaticSubsystem = new
   // PneumaticSubsystem();
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
@@ -55,6 +56,9 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    if (m_useShooter) {
+      m_shooterSubsystem = new ShooterSubsystem();
+    }
     m_driveSubsystem.setDefaultCommand(m_autoCommand);
     // Configure the button bindings
     configureButtonBindings();
@@ -69,11 +73,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
-    new JoystickButton(m_joystickSubsystem.m_operator, Constants.X)
-        .whileHeld(new ShooterShootCommand(m_shooterSubsystem));
-    new JoystickButton(m_joystickSubsystem.m_operator, Constants.Y)
-        .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
+    if (m_useShooter) {
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.X)
+          .whileHeld(new ShooterShootCommand(m_shooterSubsystem));
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.Y)
+          .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
+    }
     new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
         .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));
     new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
