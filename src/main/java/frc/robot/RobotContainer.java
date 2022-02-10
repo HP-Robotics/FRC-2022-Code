@@ -43,7 +43,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final JoystickSubsystem m_joystickSubsystem = new JoystickSubsystem();
 
-  private final DriveManualCommand m_autoCommand = new DriveManualCommand(m_driveSubsystem, m_joystickSubsystem);
+  private final DriveManualCommand m_defaultCommand = new DriveManualCommand(m_driveSubsystem, m_joystickSubsystem);
 
   // arcade drive
   /*
@@ -59,7 +59,7 @@ public class RobotContainer {
     if (m_useShooter) {
       m_shooterSubsystem = new ShooterSubsystem();
     }
-    m_driveSubsystem.setDefaultCommand(m_autoCommand);
+    m_driveSubsystem.setDefaultCommand(m_defaultCommand);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -99,6 +99,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return m_defaultCommand;
   }
 }
