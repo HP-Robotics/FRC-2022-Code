@@ -26,10 +26,10 @@ public class IntakeUpDownCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_subsystem.isUp == true) {
-      m_subsystem.isUp = false;
+    if (m_subsystem.m_isUp == true) {
+      m_subsystem.m_isUp = false;
     } else {
-      m_subsystem.isUp = true;
+      m_subsystem.m_isUp = true;
     }
   }
 

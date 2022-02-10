@@ -11,7 +11,7 @@ import frc.robot.subsystems.JoystickSubsystem;
 import frc.robot.commands.DriveManualCommand;
 import frc.robot.commands.ClimberToggleRotationCommand;
 import frc.robot.commands.DriveStraightCommand;
-import frc.robot.commands.IntakeOnOffCommand;
+import frc.robot.commands.IntakeRunMotorCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.commands.DriveSetDistanceCommand;
 import frc.robot.commands.ShooterShootCommand;
@@ -89,7 +89,7 @@ public class RobotContainer {
     // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
     // m_pneumaticSubsystem));
     new JoystickButton(m_joystickSubsystem.m_driverR, 1)
-        .whenPressed(new IntakeOnOffCommand(m_intakeSubsystem));
+        .whileHeld(new IntakeRunMotorCommand(m_intakeSubsystem));
   }
 
   /**

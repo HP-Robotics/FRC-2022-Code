@@ -8,7 +8,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class IntakeOnOffCommand extends CommandBase {
+public class IntakeRunMotorCommand extends CommandBase {
   private final IntakeSubsystem m_subsystem;
 
   /**
@@ -16,7 +16,7 @@ public class IntakeOnOffCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public IntakeOnOffCommand(IntakeSubsystem subsystem) {
+  public IntakeRunMotorCommand(IntakeSubsystem subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -25,11 +25,7 @@ public class IntakeOnOffCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_subsystem.isOn == true) {
-      m_subsystem.isOn = false;
-    } else {
-      m_subsystem.isOn = true;
-    }
+    m_subsystem.on();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,11 +36,12 @@ public class IntakeOnOffCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_subsystem.off();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }
