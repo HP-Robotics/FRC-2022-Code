@@ -59,7 +59,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void drive(double left, double right) {
     double m_rSlowdown = m_rightHandSlowdown.getDouble(Constants.rightHandSlowdown);
     double m_lSlowdown = m_leftHandSlowdown.getDouble(Constants.leftHandSlowdown);
-    System.out.println(left + " " + right);
+    //System.out.println(left + " " + right);
     m_left1.set(ControlMode.PercentOutput, left * m_lSlowdown);
     m_right1.set(ControlMode.PercentOutput, right * m_rSlowdown);
     m_left2.set(ControlMode.PercentOutput, left * m_lSlowdown);
@@ -93,7 +93,7 @@ public class DriveSubsystem extends SubsystemBase {
         rightSpeed = left - right;
       }
     }
-    System.out.println(leftSpeed);
+    //System.out.println(leftSpeed);
 
     m_left1.set(ControlMode.PercentOutput, leftSpeed);
     m_right1.set(ControlMode.PercentOutput, rightSpeed);

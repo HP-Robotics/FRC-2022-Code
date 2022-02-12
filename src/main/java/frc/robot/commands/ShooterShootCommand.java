@@ -9,22 +9,22 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShooterShootCommand extends CommandBase {
-    private final ShooterSubsystem shootsubsytem;
+    private final ShooterSubsystem m_shootsubsystem;
 
 
     public ShooterShootCommand(ShooterSubsystem subsytem) {
-        shootsubsytem = subsytem;
+        m_shootsubsystem = subsytem;
         
 
-        addRequirements(shootsubsytem);
+        addRequirements(m_shootsubsystem);
     }
 
     @Override
     public void execute() {
-        if (Math.abs(shootsubsytem.m_shooter.getSelectedSensorVelocity()-Constants.shooterSpeed)<100) {
-            shootsubsytem.shoot(Constants.preshooterSpeed);
+        if (Math.abs(m_shootsubsystem.m_shooter.getSelectedSensorVelocity()-Constants.shooterSpeed)<Constants.shooterSpeedThreshold) {
+            m_shootsubsystem.shoot(Constants.preshooterSpeed);
         } else {
-            shootsubsytem.shoot(0);
+            m_shootsubsystem.shoot(0);
         }
 
 
@@ -32,7 +32,7 @@ public class ShooterShootCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        shootsubsytem.shoot(0);
+        m_shootsubsystem.shoot(0);
     }
 
     @Override
