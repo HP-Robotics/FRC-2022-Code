@@ -33,9 +33,9 @@ public final class Constants {
     public static double drivekD = 0;
     public static double drivekF = 0;
 
-    public static int X = 1;
-    public static int A = 2;
-    public static int B = 3;
+    public static int X = 3;
+    public static int A = 1;
+    public static int B = 2;
     public static int Y = 4;
 
     public static boolean programmerMode = true;

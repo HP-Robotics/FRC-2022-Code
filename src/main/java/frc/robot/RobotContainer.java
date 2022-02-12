@@ -79,12 +79,12 @@ public class RobotContainer {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.Y)
           .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
     }
-    new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
+    /*new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
         .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));
     new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
         .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48));
     new JoystickButton(m_joystickSubsystem.m_driverL, 1)
-        .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem));
+        .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem)); */
     // new JoystickButton(driver,7)
     // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
     // m_pneumaticSubsystem));
