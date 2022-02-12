@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.util.sendable.Sendable;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -17,6 +19,8 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public static double rightHandSlowdown = 1.0;
+    public static double leftHandSlowdown = 1.0;
     public static double preshooterSpeed = 1.0;
     public static double shooterSpeed = -15000;
     public static double shooterkD = 0.5;

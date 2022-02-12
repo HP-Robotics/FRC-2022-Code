@@ -3,11 +3,20 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase {
+
+  private ShuffleboardTab m_tab = Shuffleboard.getTab("Drive Train Configuration");
+  private NetworkTableEntry m_rightHandSlowdown = m_tab.add("Right Hand Slowdown", Constants.rightHandSlowdown)
+            .getEntry();
+            private NetworkTableEntry m_leftHandSlowdown = m_tab.add("Left Hand Slowdown", Constants.leftHandSlowdown)
+            .getEntry();
 
   public TalonFX m_left1;
   public TalonFX m_right1;
@@ -39,18 +48,22 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void driveStraight(double left) {
-    m_left1.set(ControlMode.PercentOutput, left);
-    m_right1.set(ControlMode.PercentOutput, left);
-    m_left2.set(ControlMode.PercentOutput, left);
-    m_right2.set(ControlMode.PercentOutput, left);
+    double m_rSlowdown = m_rightHandSlowdown.getDouble(Constants.rightHandSlowdown);
+    double m_lSlowdown = m_leftHandSlowdown.getDouble(Constants.leftHandSlowdown);
+    m_left1.set(ControlMode.PercentOutput, left * m_lSlowdown);
+    m_right1.set(ControlMode.PercentOutput, left * m_rSlowdown);
+    m_left2.set(ControlMode.PercentOutput, left * m_lSlowdown);
+    m_right2.set(ControlMode.PercentOutput, left * m_rSlowdown);
   }
 
   public void drive(double left, double right) {
+    double m_rSlowdown = m_rightHandSlowdown.getDouble(Constants.rightHandSlowdown);
+    double m_lSlowdown = m_leftHandSlowdown.getDouble(Constants.leftHandSlowdown);
     System.out.println(left + " " + right);
-    m_left1.set(ControlMode.PercentOutput, left);
-    m_right1.set(ControlMode.PercentOutput, right);
-    m_left2.set(ControlMode.PercentOutput, left);
-    m_right2.set(ControlMode.PercentOutput, right);
+    m_left1.set(ControlMode.PercentOutput, left * m_lSlowdown);
+    m_right1.set(ControlMode.PercentOutput, right * m_rSlowdown);
+    m_left2.set(ControlMode.PercentOutput, left * m_lSlowdown);
+    m_right2.set(ControlMode.PercentOutput, right * m_rSlowdown);
   }
 
   public void arcadeDrive(double left, double right) {
