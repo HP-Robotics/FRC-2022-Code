@@ -39,12 +39,12 @@ public class RobotContainer {
   private Boolean m_useDrive = false;
   // The robot's subsystems and commands are defined here...
   private  DriveSubsystem m_driveSubsystem;
-  private ShooterSubsystem m_shooterSubsystem;
+  public ShooterSubsystem m_shooterSubsystem;
   // private final PneumaticSubsystem m_pneumaticSubsystem = new
   // PneumaticSubsystem();
   private  ClimberSubsystem m_climberSubsystem;
   private  IntakeSubsystem m_intakeSubsystem;
-  private final JoystickSubsystem m_joystickSubsystem = new JoystickSubsystem();
+  public final JoystickSubsystem m_joystickSubsystem = new JoystickSubsystem();
 
   private DriveManualCommand m_defaultCommand;
 

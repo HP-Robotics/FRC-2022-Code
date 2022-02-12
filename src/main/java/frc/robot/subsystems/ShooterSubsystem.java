@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -21,6 +21,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public TalonFX m_shooter;
     public TalonFX m_preShooter;
+    public double lRumble = 0;
+    public double rRumble = 0;
 
     public ShooterSubsystem() {
 
@@ -41,11 +43,32 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void periodic() {
         m_shooter.set(ControlMode.Velocity, m_wheelSetPoint);
+        if (m_wheelSetPoint == 0){
+            m_shooter.set(ControlMode.PercentOutput,0);
+        }
+         else{
+            m_shooter.set(ControlMode.Velocity,m_wheelSetPoint);
+        }
+        m_shooter.getSelectedSensorVelocity();
+        
+        if (m_wheelSetPoint ==  0){
+            lRumble = 0;
+            rRumble = 0;
 
+        }
+        else if  (Math.abs(m_wheelSetPoint - m_shooter.getSelectedSensorVelocity()) <100){
+            rRumble = 0;
+            lRumble = 0.8;
+        }
+        else {
+            lRumble = 0; 
+            rRumble = 0.8;
+        }
     }
 
     public void shoot(double speed) {
         m_preShooter.set(ControlMode.PercentOutput, speed);
+       
     }
 
     public void enable(boolean wheelOn) {
