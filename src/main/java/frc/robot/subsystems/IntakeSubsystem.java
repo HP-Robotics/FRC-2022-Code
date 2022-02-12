@@ -3,11 +3,16 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
-
+  private ShuffleboardTab m_tab = Shuffleboard.getTab("Intake Configuration");
+  private NetworkTableEntry m_intakeSpeed = m_tab.add("Intake Speed", Constants.IntakeSpeed)
+  .getEntry();
   public TalonFX m_intakeMotor;
   public boolean m_isUp = true;
 
@@ -16,7 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void on() {
-    m_intakeMotor.set(ControlMode.PercentOutput, Constants.IntakeSpeed);
+    m_intakeMotor.set(ControlMode.PercentOutput, m_intakeSpeed.getDouble(Constants.IntakeSpeed));
   }
 
   public void off() {
