@@ -38,12 +38,12 @@ public class RobotContainer {
   private Boolean m_useIntake = false;
   private Boolean m_useDrive = false;
   // The robot's subsystems and commands are defined here...
-  private  DriveSubsystem m_driveSubsystem;
+  private DriveSubsystem m_driveSubsystem;
   public ShooterSubsystem m_shooterSubsystem;
   // private final PneumaticSubsystem m_pneumaticSubsystem = new
   // PneumaticSubsystem();
-  private  ClimberSubsystem m_climberSubsystem;
-  private  IntakeSubsystem m_intakeSubsystem;
+  private ClimberSubsystem m_climberSubsystem;
+  private IntakeSubsystem m_intakeSubsystem;
   public final JoystickSubsystem m_joystickSubsystem = new JoystickSubsystem();
 
   private DriveManualCommand m_defaultCommand;
@@ -70,8 +70,8 @@ public class RobotContainer {
     }
     if (m_useDrive) {
       m_driveSubsystem = new DriveSubsystem();
-      m_defaultCommand= new DriveManualCommand(m_driveSubsystem, m_joystickSubsystem);  
-    m_driveSubsystem.setDefaultCommand(m_defaultCommand);
+      m_defaultCommand = new DriveManualCommand(m_driveSubsystem, m_joystickSubsystem);
+      m_driveSubsystem.setDefaultCommand(m_defaultCommand);
     }
     // Configure the button bindings
     configureButtonBindings();
@@ -92,12 +92,14 @@ public class RobotContainer {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.Y)
           .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
     }
-    /*new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
-        .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));
-    new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
-        .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48));
-    new JoystickButton(m_joystickSubsystem.m_driverL, 1)
-        .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem)); */
+    /*
+     * new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
+     * .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));
+     * new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
+     * .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48));
+     * new JoystickButton(m_joystickSubsystem.m_driverL, 1)
+     * .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem));
+     */
     // new JoystickButton(driver,7)
     // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
     // m_pneumaticSubsystem));
