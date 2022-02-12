@@ -41,7 +41,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
     }
 
+    public double getInputSpeed () {
+        return m_inputSpeed.getDouble(Constants.shooterSpeed);
+    }
+
+
     public void periodic() {
+        System.out.println("Velocity " + m_shooter.getSelectedSensorVelocity());
         m_shooter.set(ControlMode.Velocity, m_wheelSetPoint);
         if (m_wheelSetPoint == 0) {
             m_shooter.set(ControlMode.PercentOutput, 0);
@@ -70,7 +76,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void enable(boolean wheelOn) {
         if (wheelOn) {
-            m_wheelSetPoint = m_inputSpeed.getDouble(Constants.shooterSpeed);
+            m_wheelSetPoint = getInputSpeed();
         } else {
             m_wheelSetPoint = 0;
         }
