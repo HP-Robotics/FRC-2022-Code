@@ -18,6 +18,9 @@ public class ShooterSubsystem extends SubsystemBase {
     private ShuffleboardTab m_tab = Shuffleboard.getTab("Shooter Configuration");
     private NetworkTableEntry m_inputSpeed = m_tab.add("Input Speed", Constants.shooterSpeed)
             .getEntry();
+    private NetworkTableEntry m_speedThreshold = m_tab.add("Speed Threshold", Constants.shooterSpeedThreshold)
+            .getEntry();
+
 
     public TalonFX m_shooter;
     public TalonFX m_preShooter;
@@ -44,10 +47,11 @@ public class ShooterSubsystem extends SubsystemBase {
     public double getInputSpeed () {
         return m_inputSpeed.getDouble(Constants.shooterSpeed);
     }
-
+    public double getSpeedthreshold () {
+        return m_speedThreshold.getDouble(Constants.shooterSpeedThreshold);
+    }
 
     public void periodic() {
-        System.out.println("Velocity " + m_shooter.getSelectedSensorVelocity());
         m_shooter.set(ControlMode.Velocity, m_wheelSetPoint);
         if (m_wheelSetPoint == 0) {
             m_shooter.set(ControlMode.PercentOutput, 0);
