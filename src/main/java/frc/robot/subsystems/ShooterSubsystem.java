@@ -47,7 +47,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public double getInputSpeed () {
         return m_inputSpeed.getDouble(Constants.shooterSpeed);
     }
-    public double getSpeedthreshold () {
+    public double getSpeedThreshold () {
         return m_speedThreshold.getDouble(Constants.shooterSpeedThreshold);
     }
 
