@@ -37,7 +37,8 @@ public final class Constants {
     public static int B = 2;
     public static int Y = 4;
     public static int driveStraight = 2;
-    
+    public static int RightBumper = 6;
+    public static int LeftBumper = 5;
 
 
     public static boolean programmerMode = true;

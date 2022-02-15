@@ -70,7 +70,7 @@ public class RobotContainer {
     if (m_useShooter) {
       m_shooterSubsystem = new ShooterSubsystem();
       m_justShoot = new SequentialCommandGroup(
-        new ShooterWheelCommand(m_shooterSubsystem),
+        new ShooterWheelCommand(m_shooterSubsystem, true),
         new ShooterShootCommand(m_shooterSubsystem)
       )
       ;
@@ -114,8 +114,10 @@ public class RobotContainer {
     if (m_useShooter) {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.X)
           .whileHeld(new ShooterShootCommand(m_shooterSubsystem));
-      new JoystickButton(m_joystickSubsystem.m_operator, Constants.Y)
-          .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.LeftBumper)
+          .whenPressed(new ShooterWheelCommand(m_shooterSubsystem, false));
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.RightBumper)
+          .whenPressed(new ShooterWheelCommand(m_shooterSubsystem, true));
     }
     
      /*new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)

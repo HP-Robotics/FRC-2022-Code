@@ -5,15 +5,16 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShooterWheelCommand extends CommandBase {
     private final ShooterSubsystem shootSubsystem;
+    private Boolean WheelOn;
 
-    public ShooterWheelCommand(ShooterSubsystem subsytem) {
+    public ShooterWheelCommand(ShooterSubsystem subsytem, Boolean WheelOn) {
         shootSubsystem = subsytem;
         addRequirements(shootSubsystem);
     }
 
     @Override
     public void initialize() {
-        if (shootSubsystem.m_wheelSetPoint == 0) {
+        if (WheelOn) {
             shootSubsystem.enable(true);
         } else {
             shootSubsystem.enable(false);
