@@ -8,10 +8,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.JoystickSubsystem;
+import frc.robot.subsystems.MagazineSubsystem;
 import frc.robot.commands.DriveManualCommand;
 import frc.robot.commands.ClimberToggleRotationCommand;
 import frc.robot.commands.DriveStraightCommand;
 import frc.robot.commands.IntakeRunMotorCommand;
+import frc.robot.commands.MagazineAndIntakeReverseCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.commands.DriveSetDistanceCommand;
 import frc.robot.commands.ShooterShootCommand;
@@ -37,6 +39,7 @@ public class RobotContainer {
   private Boolean m_useClimber = false;
   private Boolean m_useIntake = false;
   private Boolean m_useDrive = false;
+  private Boolean m_useMagazine = false;
   // The robot's subsystems and commands are defined here...
   private  DriveSubsystem m_driveSubsystem;
   public ShooterSubsystem m_shooterSubsystem;
@@ -44,6 +47,7 @@ public class RobotContainer {
   // PneumaticSubsystem();
   private  ClimberSubsystem m_climberSubsystem;
   private  IntakeSubsystem m_intakeSubsystem;
+  private  MagazineSubsystem m_magazineSubsystem;
   public final JoystickSubsystem m_joystickSubsystem = new JoystickSubsystem();
 
   private DriveManualCommand m_defaultCommand;
@@ -67,6 +71,9 @@ public class RobotContainer {
     }
     if (m_useIntake) {
       m_intakeSubsystem = new IntakeSubsystem();
+    }
+    if (m_useMagazine) {
+      m_magazineSubsystem = new MagazineSubsystem();
     }
     if (m_useDrive) {
       m_driveSubsystem = new DriveSubsystem();
@@ -101,8 +108,14 @@ public class RobotContainer {
     // new JoystickButton(driver,7)
     // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
     // m_pneumaticSubsystem));
-    new JoystickButton(m_joystickSubsystem.m_driverR, 1)
-        .whileHeld(new IntakeRunMotorCommand(m_intakeSubsystem));
+    if (m_useIntake) {
+      new JoystickButton(m_joystickSubsystem.m_driverR, 1)
+          .whileHeld(new IntakeRunMotorCommand(m_intakeSubsystem));
+    }
+    if (m_useIntake && m_useMagazine){
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
+        .whileHeld(new MagazineAndIntakeReverseCommand(m_intakeSubsystem, m_magazineSubsystem));
+    }
   }
 
   /**
