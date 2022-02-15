@@ -36,6 +36,7 @@ public final class Constants {
     public static int A = 1;
     public static int B = 2;
     public static int Y = 4;
+    public static int driveStraight = 2;
     
 
 
@@ -43,5 +44,5 @@ public final class Constants {
 
     public static double MagazineSpeed = 1.0;
     public static double IntakeSpeed = 1.0;
-    public static double deadzone = 0.1;
+    public static double deadzone = 0;
 }

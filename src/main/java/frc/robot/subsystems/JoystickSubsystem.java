@@ -26,6 +26,14 @@ public class JoystickSubsystem extends SubsystemBase {
         return applyAxisDeadzone(m_driverR.getRawAxis(1));
     }
 
+    public double driverSpin() {
+        double spin = m_driverR.getRawAxis(0);
+        if (spin < 0) {
+           return spin * spin * -1;
+        }
+        return spin * spin;
+    }
+
     public double applyAxisDeadzone(double input) {
         if (Math.abs(input) <= Constants.deadzone) {
             return 0;
