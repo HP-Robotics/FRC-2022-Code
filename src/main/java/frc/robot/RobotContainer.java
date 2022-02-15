@@ -6,6 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.JoystickSubsystem;
 import frc.robot.subsystems.MagazineSubsystem;
@@ -22,6 +24,9 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -41,7 +46,7 @@ public class RobotContainer {
   private Boolean m_useDrive = false;
   private Boolean m_useMagazine = false;
   // The robot's subsystems and commands are defined here...
-  private  DriveSubsystem m_driveSubsystem;
+  private DriveSubsystem m_driveSubsystem;
   public ShooterSubsystem m_shooterSubsystem;
   // private final PneumaticSubsystem m_pneumaticSubsystem = new
   // PneumaticSubsystem();
@@ -51,7 +56,10 @@ public class RobotContainer {
   public final JoystickSubsystem m_joystickSubsystem = new JoystickSubsystem();
 
   private DriveManualCommand m_defaultCommand;
+  private final SendableChooser<Command> m_autonomousChooser;
 
+  private Command m_justShoot;
+  
   // arcade drive
   /*
    * () -> {
@@ -65,6 +73,12 @@ public class RobotContainer {
   public RobotContainer() {
     if (m_useShooter) {
       m_shooterSubsystem = new ShooterSubsystem();
+      m_justShoot = new SequentialCommandGroup(
+        new ShooterWheelCommand(m_shooterSubsystem),
+        new ShooterShootCommand(m_shooterSubsystem)
+      )
+      ;
+    
     }
     if (m_useClimber) {
       m_climberSubsystem = new ClimberSubsystem();
@@ -77,9 +91,20 @@ public class RobotContainer {
     }
     if (m_useDrive) {
       m_driveSubsystem = new DriveSubsystem();
-      m_defaultCommand= new DriveManualCommand(m_driveSubsystem, m_joystickSubsystem);  
-    m_driveSubsystem.setDefaultCommand(m_defaultCommand);
+      m_defaultCommand = new DriveManualCommand(m_driveSubsystem, m_joystickSubsystem);
+      m_driveSubsystem.setDefaultCommand(m_defaultCommand);
     }
+    
+    m_autonomousChooser = new SendableChooser<Command>();
+    m_autonomousChooser.addOption("Do Nothing", new InstantCommand());
+
+    if (m_useShooter) {
+      m_autonomousChooser.addOption("Just Shoot", m_justShoot);
+      m_autonomousChooser.setDefaultOption("Just Shoot",m_justShoot);
+    }
+
+
+      SmartDashboard.putData("Autonomous Mode", m_autonomousChooser);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -99,12 +124,14 @@ public class RobotContainer {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.Y)
           .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
     }
-    /*new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
-        .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));
-    new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
-        .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48));
-    new JoystickButton(m_joystickSubsystem.m_driverL, 1)
-        .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem)); */
+    
+     /*new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
+     .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));
+     new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
+     .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48));*/
+     new JoystickButton(m_joystickSubsystem.m_driverR, Constants.driveStraight)
+     .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem));
+     
     // new JoystickButton(driver,7)
     // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
     // m_pneumaticSubsystem));
@@ -125,6 +152,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_defaultCommand;
+    if(m_autonomousChooser.getSelected() == null) {
+      return new InstantCommand();
+    } else {
+      return m_autonomousChooser.getSelected();
+    }
   }
 }
