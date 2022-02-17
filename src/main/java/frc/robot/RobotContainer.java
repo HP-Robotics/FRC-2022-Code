@@ -10,10 +10,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.JoystickSubsystem;
+import frc.robot.subsystems.MagazineSubsystem;
 import frc.robot.commands.DriveManualCommand;
 import frc.robot.commands.ClimberToggleRotationCommand;
 import frc.robot.commands.DriveStraightCommand;
 import frc.robot.commands.IntakeRunMotorCommand;
+import frc.robot.commands.IntakeUpDownCommand;
+import frc.robot.commands.MagazineToggleCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.commands.DriveSetDistanceCommand;
 import frc.robot.commands.ShooterShootCommand;
@@ -42,6 +45,7 @@ public class RobotContainer {
   private Boolean m_useClimber = false;
   private Boolean m_useIntake = false;
   private Boolean m_useDrive = false;
+  private Boolean m_useMagazine = false;
   // The robot's subsystems and commands are defined here...
   private DriveSubsystem m_driveSubsystem;
   public ShooterSubsystem m_shooterSubsystem;
@@ -50,12 +54,13 @@ public class RobotContainer {
   private ClimberSubsystem m_climberSubsystem;
   private IntakeSubsystem m_intakeSubsystem;
   public final JoystickSubsystem m_joystickSubsystem = new JoystickSubsystem();
+  private MagazineSubsystem m_magazineSubsystem;
 
   private DriveManualCommand m_defaultCommand;
   private final SendableChooser<Command> m_autonomousChooser;
 
   private Command m_justShoot;
-  
+  private Command m_twoBallAuto;
   // arcade drive
   /*
    * () -> {
@@ -67,6 +72,25 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    if (m_useShooter && m_useDrive && m_useIntake && m_useMagazine) {
+      new SequentialCommandGroup(
+        new ShooterWheelCommand(m_shooterSubsystem),
+        new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
+        new IntakeUpDownCommand(m_intakeSubsystem),
+          new MagazineToggleCommand(m_magazineSubsystem),
+          new IntakeRunMotorCommand(m_intakeSubsystem),
+          new DriveSetDistanceCommand(m_driveSubsystem, -120),
+          new IntakeRunMotorCommand(m_intakeSubsystem),
+          new IntakeUpDownCommand(m_intakeSubsystem),
+          new DriveSetDistanceCommand(m_driveSubsystem, 120),
+          new ShooterShootCommand(m_shooterSubsystem).withTimeout(3)
+        )
+      ;
+    };
+    if (m_useMagazine) {
+      m_magazineSubsystem = new MagazineSubsystem();
+      
+    }
     if (m_useShooter) {
       m_shooterSubsystem = new ShooterSubsystem();
       m_justShoot = new SequentialCommandGroup(
@@ -96,7 +120,9 @@ public class RobotContainer {
       m_autonomousChooser.setDefaultOption("Just Shoot",m_justShoot);
     }
 
-
+    if (m_useShooter && m_useDrive && m_useIntake && m_useMagazine) {
+      m_autonomousChooser.addOption("Two Ball Auto", m_twoBallAuto);
+    }
       SmartDashboard.putData("Autonomous Mode", m_autonomousChooser);
     // Configure the button bindings
     configureButtonBindings();
