@@ -74,31 +74,28 @@ public class RobotContainer {
   public RobotContainer() {
     if (m_useShooter && m_useDrive && m_useIntake && m_useMagazine) {
       new SequentialCommandGroup(
-        new ShooterWheelCommand(m_shooterSubsystem),
-        new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
-        new IntakeUpDownCommand(m_intakeSubsystem),
+          new ShooterWheelCommand(m_shooterSubsystem),
+          new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
+          new IntakeUpDownCommand(m_intakeSubsystem),
           new MagazineToggleCommand(m_magazineSubsystem),
           new IntakeRunMotorCommand(m_intakeSubsystem),
-          new DriveSetDistanceCommand(m_driveSubsystem, -120),
+          new DriveSetDistanceCommand(m_driveSubsystem, 120),
           new IntakeRunMotorCommand(m_intakeSubsystem),
           new IntakeUpDownCommand(m_intakeSubsystem),
-          new DriveSetDistanceCommand(m_driveSubsystem, 120),
-          new ShooterShootCommand(m_shooterSubsystem).withTimeout(3)
-        )
-      ;
-    };
+          new DriveSetDistanceCommand(m_driveSubsystem, -120),
+          new ShooterShootCommand(m_shooterSubsystem).withTimeout(3));
+    }
+    ;
     if (m_useMagazine) {
       m_magazineSubsystem = new MagazineSubsystem();
-      
+
     }
     if (m_useShooter) {
       m_shooterSubsystem = new ShooterSubsystem();
       m_justShoot = new SequentialCommandGroup(
-        new ShooterWheelCommand(m_shooterSubsystem),
-        new ShooterShootCommand(m_shooterSubsystem)
-      )
-      ;
-    
+          new ShooterWheelCommand(m_shooterSubsystem),
+          new ShooterShootCommand(m_shooterSubsystem));
+
     }
     if (m_useClimber) {
       m_climberSubsystem = new ClimberSubsystem();
@@ -111,19 +108,19 @@ public class RobotContainer {
       m_defaultCommand = new DriveManualCommand(m_driveSubsystem, m_joystickSubsystem);
       m_driveSubsystem.setDefaultCommand(m_defaultCommand);
     }
-    
+
     m_autonomousChooser = new SendableChooser<Command>();
     m_autonomousChooser.addOption("Do Nothing", new InstantCommand());
 
     if (m_useShooter) {
       m_autonomousChooser.addOption("Just Shoot", m_justShoot);
-      m_autonomousChooser.setDefaultOption("Just Shoot",m_justShoot);
+      m_autonomousChooser.setDefaultOption("Just Shoot", m_justShoot);
     }
 
     if (m_useShooter && m_useDrive && m_useIntake && m_useMagazine) {
       m_autonomousChooser.addOption("Two Ball Auto", m_twoBallAuto);
     }
-      SmartDashboard.putData("Autonomous Mode", m_autonomousChooser);
+    SmartDashboard.putData("Autonomous Mode", m_autonomousChooser);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -143,21 +140,23 @@ public class RobotContainer {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.Y)
           .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
     }
-    
-     /*new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
-     .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));
-     new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
-     .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48));*/
-     if (m_useDrive) {
-     new JoystickButton(m_joystickSubsystem.m_driverR, Constants.driveStraight)
-     .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem));
-     }
+
+    /*
+     * new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
+     * .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));
+     * new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
+     * .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48));
+     */
+    if (m_useDrive) {
+      new JoystickButton(m_joystickSubsystem.m_driverR, Constants.driveStraight)
+          .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem));
+    }
     // new JoystickButton(driver,7)
     // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
     // m_pneumaticSubsystem));
-    if (m_useIntake){
-    new JoystickButton(m_joystickSubsystem.m_driverR, 1)
-        .whileHeld(new IntakeRunMotorCommand(m_intakeSubsystem));
+    if (m_useIntake) {
+      new JoystickButton(m_joystickSubsystem.m_driverR, 1)
+          .whileHeld(new IntakeRunMotorCommand(m_intakeSubsystem));
     }
   }
 
@@ -168,7 +167,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    if(m_autonomousChooser.getSelected() == null) {
+    if (m_autonomousChooser.getSelected() == null) {
       return new InstantCommand();
     } else {
       return m_autonomousChooser.getSelected();
