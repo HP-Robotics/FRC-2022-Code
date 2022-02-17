@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
   public TalonFX m_climber;
@@ -15,12 +16,15 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void extend () {
-    m_climber.set(ControlMode.PercentOutput,1.0);
+    m_climber.set(ControlMode.PercentOutput,Constants.climbSpeed);
   }
   public void stop () {
-    
+    m_climber.set(ControlMode.PercentOutput,0.0);
   }
 
+  public void retract () {
+    m_climber.set(ControlMode.PercentOutput,-Constants.climbSpeed);
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -12,6 +12,8 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.JoystickSubsystem;
 import frc.robot.subsystems.MagazineSubsystem;
 import frc.robot.commands.DriveManualCommand;
+import frc.robot.commands.ClimberExtendCommand;
+import frc.robot.commands.ClimberRetractCommand;
 import frc.robot.commands.ClimberToggleRotationCommand;
 import frc.robot.commands.DriveStraightCommand;
 import frc.robot.commands.IntakeRunMotorCommand;
@@ -99,6 +101,8 @@ public class RobotContainer {
     }
     if (m_useClimber) {
       m_climberSubsystem = new ClimberSubsystem();
+          new ClimberExtendCommand(m_climberSubsystem);
+          new ClimberRetractCommand(m_climberSubsystem);
     }
     if (m_useIntake) {
       m_intakeSubsystem = new IntakeSubsystem();
@@ -140,7 +144,7 @@ public class RobotContainer {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.Y)
           .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
     }
-
+    
     /*
      * new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
      * .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));
