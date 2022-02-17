@@ -38,7 +38,7 @@ import frc.robot.subsystems.ShooterSubsystem;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private Boolean m_useShooter = false;
+  private Boolean m_useShooter = true;
   private Boolean m_useClimber = false;
   private Boolean m_useIntake = false;
   private Boolean m_useDrive = false;
@@ -122,9 +122,10 @@ public class RobotContainer {
      .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));
      new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
      .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48));*/
+     if (m_useDrive) {
      new JoystickButton(m_joystickSubsystem.m_driverR, Constants.driveStraight)
      .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem));
-     
+     }
     // new JoystickButton(driver,7)
     // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
     // m_pneumaticSubsystem));
