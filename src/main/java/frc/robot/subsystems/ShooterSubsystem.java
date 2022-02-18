@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
@@ -15,12 +17,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ShooterSubsystem extends SubsystemBase {
 
     public double m_wheelSetPoint;
+    public ShuffleboardTab m_driverTab = Shuffleboard.getTab("Driver View");
     private ShuffleboardTab m_tab = Shuffleboard.getTab("Shooter Configuration");
     private NetworkTableEntry m_inputSpeed = m_tab.add("Input Speed", Constants.shooterSpeed)
             .getEntry();
     private NetworkTableEntry m_speedThreshold = m_tab.add("Speed Threshold", Constants.shooterSpeedThreshold)
             .getEntry();
-
+    private BooleanSupplier m_atSpeed = ()->upToSpeed();;
+    
 
     public TalonFX m_shooter;
     public TalonFX m_preShooter;
@@ -41,7 +45,7 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("shooterkI", Constants.shooterkI);
         SmartDashboard.putNumber("shooterkD", Constants.shooterkD);
         SmartDashboard.putNumber("shooterkF", Constants.shooterkF);
-
+        m_driverTab.addBoolean("Shooter at Speed", m_atSpeed);
     }
 
     public double getInputSpeed () {
@@ -49,6 +53,10 @@ public class ShooterSubsystem extends SubsystemBase {
     }
     public double getSpeedThreshold () {
         return m_speedThreshold.getDouble(Constants.shooterSpeedThreshold);
+    }
+
+    public Boolean upToSpeed () {
+        return Math.abs(m_shooter.getSelectedSensorVelocity()-getInputSpeed())<getSpeedThreshold();
     }
 
     public void periodic() {
@@ -75,7 +83,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void shoot(double speed) {
         m_preShooter.set(ControlMode.PercentOutput, speed);
-
+    
     }
 
     public void enable(boolean wheelOn) {

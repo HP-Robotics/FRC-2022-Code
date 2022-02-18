@@ -21,7 +21,7 @@ public class ShooterShootCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (Math.abs(m_shootsubsystem.m_shooter.getSelectedSensorVelocity()-m_shootsubsystem.getInputSpeed())<m_shootsubsystem.getSpeedThreshold()) {
+        if (m_shootsubsystem.upToSpeed()) {
             m_shootsubsystem.shoot(Constants.preshooterSpeed);
         } else {
             m_shootsubsystem.shoot(0);
