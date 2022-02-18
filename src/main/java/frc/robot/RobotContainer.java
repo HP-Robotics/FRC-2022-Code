@@ -51,8 +51,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private DriveSubsystem m_driveSubsystem;
   public ShooterSubsystem m_shooterSubsystem;
-  // private final PneumaticSubsystem m_pneumaticSubsystem = new
-  // PneumaticSubsystem();
+  private final PneumaticSubsystem m_pneumaticSubsystem = new PneumaticSubsystem();
   private ClimberSubsystem m_climberSubsystem;
   private IntakeSubsystem m_intakeSubsystem;
   public final JoystickSubsystem m_joystickSubsystem = new JoystickSubsystem();
@@ -74,20 +73,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    if (m_useShooter && m_useDrive && m_useIntake && m_useMagazine) {
-      new SequentialCommandGroup(
-          new ShooterWheelCommand(m_shooterSubsystem),
-          new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
-          new IntakeUpDownCommand(m_intakeSubsystem),
-          new MagazineToggleCommand(m_magazineSubsystem),
-          new IntakeRunMotorCommand(m_intakeSubsystem),
-          new DriveSetDistanceCommand(m_driveSubsystem, 120),
-          new IntakeRunMotorCommand(m_intakeSubsystem),
-          new IntakeUpDownCommand(m_intakeSubsystem),
-          new DriveSetDistanceCommand(m_driveSubsystem, -120),
-          new ShooterShootCommand(m_shooterSubsystem).withTimeout(3));
-    }
-    ;
+    
     if (m_useMagazine) {
       m_magazineSubsystem = new MagazineSubsystem();
 
@@ -97,12 +83,25 @@ public class RobotContainer {
       m_justShoot = new SequentialCommandGroup(
           new ShooterWheelCommand(m_shooterSubsystem),
           new ShooterShootCommand(m_shooterSubsystem));
+      if (m_useDrive && m_useIntake && m_useMagazine) {
+        m_twoBallAuto = new SequentialCommandGroup(
+            new ShooterWheelCommand(m_shooterSubsystem),
+            new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
+            new IntakeUpDownCommand(m_intakeSubsystem),
+            new MagazineToggleCommand(m_magazineSubsystem),
+            new IntakeRunMotorCommand(m_intakeSubsystem),
+            new DriveSetDistanceCommand(m_driveSubsystem, 120),
+            new IntakeRunMotorCommand(m_intakeSubsystem),
+            new IntakeUpDownCommand(m_intakeSubsystem),
+            new DriveSetDistanceCommand(m_driveSubsystem, -120),
+            new ShooterShootCommand(m_shooterSubsystem).withTimeout(3));
+      }
 
     }
     if (m_useClimber) {
       m_climberSubsystem = new ClimberSubsystem();
-          new ClimberExtendCommand(m_climberSubsystem);
-          new ClimberRetractCommand(m_climberSubsystem);
+      new ClimberExtendCommand(m_climberSubsystem);
+      new ClimberRetractCommand(m_climberSubsystem);
     }
     if (m_useIntake) {
       m_intakeSubsystem = new IntakeSubsystem();
@@ -144,7 +143,7 @@ public class RobotContainer {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.Y)
           .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
     }
-    
+
     /*
      * new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
      * .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, -48));
