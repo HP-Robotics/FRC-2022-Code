@@ -101,10 +101,12 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    //m_robotContainer.m_joystickSubsystem.m_operator.setRumble(GenericHID.RumbleType.kLeftRumble,
-      //  m_robotContainer.m_shooterSubsystem.lRumble);
-    //m_robotContainer.m_joystickSubsystem.m_operator.setRumble(GenericHID.RumbleType.kRightRumble,
-      //  m_robotContainer.m_shooterSubsystem.rRumble);
+    if(RobotContainer.m_useShooter){
+    m_robotContainer.m_joystickSubsystem.m_operator.setRumble(GenericHID.RumbleType.kLeftRumble,
+        m_robotContainer.m_shooterSubsystem.lRumble);
+    m_robotContainer.m_joystickSubsystem.m_operator.setRumble(GenericHID.RumbleType.kRightRumble,
+        m_robotContainer.m_shooterSubsystem.rRumble);
+    }
   }
 
   @Override

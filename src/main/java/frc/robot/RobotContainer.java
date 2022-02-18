@@ -43,7 +43,7 @@ import frc.robot.subsystems.ShooterSubsystem;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private Boolean m_useShooter = true;
+  public static Boolean m_useShooter = true;
   private Boolean m_useClimber = false;
   private Boolean m_useIntake = false;
   private Boolean m_useDrive = false;
