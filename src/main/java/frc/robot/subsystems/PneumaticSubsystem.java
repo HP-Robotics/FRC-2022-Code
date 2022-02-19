@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class PneumaticSubsystem extends SubsystemBase {
     Compressor c;
     Boolean climberRotated = false;
+    public boolean m_isUp = true;
     DoubleSolenoid climberRotation;
     DoubleSolenoid intakeExtend;
 
@@ -17,6 +18,7 @@ public class PneumaticSubsystem extends SubsystemBase {
         climberRotation.set(Value.kReverse);
 
         intakeExtend = new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 2, 3);
+        intakeExtend.set(Value.kForward);
 
         c = new Compressor(50, PneumaticsModuleType.REVPH);
         c.enableAnalog(50, 60);
@@ -36,5 +38,15 @@ public class PneumaticSubsystem extends SubsystemBase {
         climberRotated = !climberRotated;
         SetClimb(climberRotated);
         System.out.println(climberRotated);
+    }
+
+
+    public void SetIntake(Boolean state) {
+        if (state) {
+            intakeExtend.set(Value.kForward);
+        } else {
+            intakeExtend.set(Value.kReverse);
+        }
+
     }
 }

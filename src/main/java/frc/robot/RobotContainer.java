@@ -59,10 +59,11 @@ public class RobotContainer {
   private Boolean m_useIntake = false;
   private Boolean m_useDrive = false;
   private Boolean m_useMagazine = false;
+  private Boolean m_usePneumatic = true;
   // The robot's subsystems and commands are defined here...
   private DriveSubsystem m_driveSubsystem;
   public ShooterSubsystem m_shooterSubsystem;
-  private final PneumaticSubsystem m_pneumaticSubsystem = new PneumaticSubsystem();
+  private PneumaticSubsystem m_pneumaticSubsystem;
   private ClimberSubsystem m_climberSubsystem;
   private IntakeSubsystem m_intakeSubsystem;
   public final JoystickSubsystem m_joystickSubsystem = new JoystickSubsystem();
@@ -90,6 +91,11 @@ public class RobotContainer {
       m_magazineSubsystem = new MagazineSubsystem();
 
     }
+
+    if (m_usePneumatic) {
+      m_pneumaticSubsystem = new PneumaticSubsystem();
+    }
+
     if (m_useShooter) {
       m_shooterSubsystem = new ShooterSubsystem();
       m_justShoot = new SequentialCommandGroup(
@@ -99,17 +105,18 @@ public class RobotContainer {
         m_twoBallAuto = new SequentialCommandGroup(
             new ShooterWheelCommand(m_shooterSubsystem),
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
-            new IntakeUpDownCommand(m_intakeSubsystem),
+            new IntakeUpDownCommand(m_pneumaticSubsystem),
             new MagazineToggleCommand(m_magazineSubsystem),
             new IntakeRunMotorCommand(m_intakeSubsystem),
             new DriveSetDistanceCommand(m_driveSubsystem, 120),
             new IntakeRunMotorCommand(m_intakeSubsystem),
-            new IntakeUpDownCommand(m_intakeSubsystem),
+            new IntakeUpDownCommand(m_pneumaticSubsystem),
             new DriveSetDistanceCommand(m_driveSubsystem, -120),
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3));
       }
 
     }
+    
     if (m_useClimber) {
       m_climberSubsystem = new ClimberSubsystem();
       new ClimberExtendCommand(m_climberSubsystem);
@@ -198,9 +205,10 @@ public class RobotContainer {
     // new JoystickButton(driver,7)
     // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
     // m_pneumaticSubsystem));
-    if (m_useIntake) {
+    if (m_useIntake && m_usePneumatic) {
       new JoystickButton(m_joystickSubsystem.m_driverR, 1)
-          .whileHeld(new IntakeRunMotorCommand(m_intakeSubsystem));
+          .whileHeld(new IntakeRunMotorCommand(m_intakeSubsystem))
+          .whileHeld(new IntakeUpDownCommand(m_pneumaticSubsystem));
     }
     if (m_useIntake && m_useMagazine){
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)

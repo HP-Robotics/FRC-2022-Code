@@ -7,6 +7,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -16,6 +19,10 @@ public class MagazineSubsystem extends SubsystemBase {
   public boolean reversed = false;
   public Boolean originalState;
 
+  private ShuffleboardTab m_tab = Shuffleboard.getTab("Intake Configuration");
+  private NetworkTableEntry m_magazineSpeed = m_tab.add("Magazine Speed", Constants.MagazineSpeed)
+          .getEntry();
+
   /** Creates a new ExampleSubsystem. */
   public MagazineSubsystem() {
     m_magazineMotor = new TalonFX(12);
@@ -24,13 +31,13 @@ public class MagazineSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     if (reversed) { 
-      m_magazineMotor.set(ControlMode.PercentOutput, -Constants.MagazineSpeed);
+      m_magazineMotor.set(ControlMode.PercentOutput, -getMagazineSpeed());
     }
     else if (toggled == false) {
       m_magazineMotor.set(ControlMode.PercentOutput, 0);
     }
     else {
-      m_magazineMotor.set(ControlMode.PercentOutput, Constants.MagazineSpeed);
+      m_magazineMotor.set(ControlMode.PercentOutput, getMagazineSpeed());
       }
     
   }
@@ -42,6 +49,9 @@ public class MagazineSubsystem extends SubsystemBase {
     reversed = false;
   }
 
+  public double getMagazineSpeed () {
+    return m_magazineSpeed.getDouble(Constants.MagazineSpeed);
+}
 
   @Override
   public void simulationPeriodic() {
