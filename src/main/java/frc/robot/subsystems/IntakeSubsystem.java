@@ -23,6 +23,9 @@ public class IntakeSubsystem extends SubsystemBase {
   public void on() {
     m_intakeMotor.set(ControlMode.PercentOutput, m_intakeSpeed.getDouble(Constants.IntakeSpeed));
   }
+  public void reverse() {
+    m_intakeMotor.set(ControlMode.PercentOutput, -m_intakeSpeed.getDouble(Constants.IntakeSpeed));
+  }
 
   public void off() {
     m_intakeMotor.set(ControlMode.PercentOutput, 0);

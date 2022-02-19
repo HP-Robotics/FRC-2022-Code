@@ -11,22 +11,37 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class MagazineSubsystem extends SubsystemBase {
-  public TalonFX MagazineMotor;
+  public TalonFX m_magazineMotor;
   public boolean toggled = false;
+  public boolean reversed = false;
+  public Boolean originalState;
 
   /** Creates a new ExampleSubsystem. */
   public MagazineSubsystem() {
-    MagazineMotor = new TalonFX(12);
+    m_magazineMotor = new TalonFX(12);
   }
 
   @Override
   public void periodic() {
-    if (toggled == false) {
-      MagazineMotor.set(ControlMode.PercentOutput, 0);
-    } else {
-      MagazineMotor.set(ControlMode.PercentOutput, Constants.MagazineSpeed);
+    if (reversed) { 
+      m_magazineMotor.set(ControlMode.PercentOutput, -Constants.MagazineSpeed);
     }
+    else if (toggled == false) {
+      m_magazineMotor.set(ControlMode.PercentOutput, 0);
+    }
+    else {
+      m_magazineMotor.set(ControlMode.PercentOutput, Constants.MagazineSpeed);
+      }
+    
   }
+  public void reverse() {
+    reversed = true;
+  }
+
+  public void off() {
+    reversed = false;
+  }
+
 
   @Override
   public void simulationPeriodic() {
