@@ -106,7 +106,7 @@ public class RobotContainer {
             new ShooterWheelCommand(m_shooterSubsystem),
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
             new IntakeUpDownCommand(m_pneumaticSubsystem),
-            new MagazineToggleCommand(m_magazineSubsystem),
+            new MagazineToggleCommand(m_magazineSubsystem, false),
             new IntakeRunMotorCommand(m_intakeSubsystem),
             new DriveSetDistanceCommand(m_driveSubsystem, 120),
             new IntakeRunMotorCommand(m_intakeSubsystem),
@@ -205,15 +205,21 @@ public class RobotContainer {
     // new JoystickButton(driver,7)
     // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
     // m_pneumaticSubsystem));
-    if (m_useIntake && m_usePneumatic) {
+    if (m_useIntake && m_usePneumatic && m_useMagazine) {
       new JoystickButton(m_joystickSubsystem.m_driverR, 1)
           .whileHeld(new IntakeRunMotorCommand(m_intakeSubsystem))
-          .whileHeld(new IntakeUpDownCommand(m_pneumaticSubsystem));
+          .whileHeld(new IntakeUpDownCommand(m_pneumaticSubsystem))
+          .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, true));
     }
     if (m_useIntake && m_useMagazine){
-      new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
         .whileHeld(new MagazineAndIntakeReverseCommand(m_intakeSubsystem, m_magazineSubsystem));
     }
+
+    if(m_useMagazine){
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.A )
+      .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, false));    }
+
   }
 
   /**
