@@ -41,6 +41,8 @@ public final class Constants {
     public static double climbSpeedUp = 0;
     public static double climbSpeedDown = -1.0;
     public static double climbStop = -0.1;
+    public static double climberMin = 500;
+    public static double climberMax = 2500;
 
     public static boolean programmerMode = true;
 
