@@ -4,7 +4,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -14,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.JoystickSubsystem;
+import frc.robot.subsystems.LIDARSubsystem;
 import frc.robot.subsystems.MagazineSubsystem;
 import frc.robot.commands.DriveManualCommand;
 import frc.robot.commands.ClimberExtendCommand;
@@ -61,7 +66,8 @@ public class RobotContainer {
   private IntakeSubsystem m_intakeSubsystem;
   public final JoystickSubsystem m_joystickSubsystem = new JoystickSubsystem();
   private MagazineSubsystem m_magazineSubsystem;
-
+  private LIDARSubsystem m_LidarSubsystem = new LIDARSubsystem();
+  
   private DriveManualCommand m_defaultCommand;
   private final SendableChooser<Command> m_autonomousChooser;
 
@@ -131,6 +137,15 @@ public class RobotContainer {
     SmartDashboard.putData("Autonomous Mode", m_autonomousChooser);
 
     
+/*
+    UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
+    usbCamera.setResolution(160, 120);
+    usbCamera.setFPS(10);
+    MjpegServer mjpegServer1 = new MjpegServer("serve_USB Camera 0", 1181);
+    mjpegServer1.setSource(usbCamera);
+    System.out.println(mjpegServer1.getListenAddress());
+*/
+
     m_camera = CameraServer.getInstance();
     if (m_camera != null) {
       UsbCamera usbCamera = m_camera.startAutomaticCapture();
@@ -145,6 +160,7 @@ public class RobotContainer {
     } else {
       System.out.println("CAMERA WAS NOT CONNECTED");
     }
+    
     // Configure the button bindings
     configureButtonBindings();
   }
