@@ -21,9 +21,9 @@ public class DriveManualCommand extends CommandBase {
 
     @Override
     public void execute() {
-        m_subsystem.drive(m_joystickSubsystem.driverLeft(), m_joystickSubsystem.driverRight());
-        // m_subsystem.arcadeDrive(m_leftSupplier.getAsDouble(),
-        // m_rightSupplier.getAsDouble());
+       // m_subsystem.drive(m_joystickSubsystem.driverLeft(), m_joystickSubsystem.driverRight());
+        m_subsystem.arcadeDrive(m_joystickSubsystem.driverRight(), 
+        m_joystickSubsystem.driverSpin());
     }
 
     @Override
