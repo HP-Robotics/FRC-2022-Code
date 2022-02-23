@@ -14,11 +14,11 @@ public class PneumaticSubsystem extends SubsystemBase {
     DoubleSolenoid intakeExtend;
 
     public PneumaticSubsystem() {
-        climberRotation = new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 0, 1);
+        climberRotation = new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 2, 3);
         climberRotation.set(Value.kReverse);
 
-        intakeExtend = new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 2, 3);
-        intakeExtend.set(Value.kForward);
+        intakeExtend = new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 0, 1);
+        intakeExtend.set(Value.kReverse);
 
         c = new Compressor(50, PneumaticsModuleType.REVPH);
         c.enableAnalog(50, 60);

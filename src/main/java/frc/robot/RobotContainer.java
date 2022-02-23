@@ -9,6 +9,9 @@ import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
+
+import javax.swing.plaf.TreeUI;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -54,11 +57,11 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class RobotContainer {
   public ShuffleboardTab m_driverTab = Shuffleboard.getTab("Driver View");
   private  CameraServer m_camera = null;
-  public static Boolean m_useShooter = true;
+  public static Boolean m_useShooter = false;
   private Boolean m_useClimber = false;
-  private Boolean m_useIntake = false;
+  private Boolean m_useIntake = true;
   private Boolean m_useDrive = false;
-  private Boolean m_useMagazine = false;
+  private Boolean m_useMagazine = true;
   private Boolean m_usePneumatic = true;
   // The robot's subsystems and commands are defined here...
   private DriveSubsystem m_driveSubsystem;
@@ -68,7 +71,7 @@ public class RobotContainer {
   private IntakeSubsystem m_intakeSubsystem;
   public final JoystickSubsystem m_joystickSubsystem = new JoystickSubsystem();
   private MagazineSubsystem m_magazineSubsystem;
-  private LIDARSubsystem m_LidarSubsystem = new LIDARSubsystem();
+  //private LIDARSubsystem m_LidarSubsystem = new LIDARSubsystem();
   
   private DriveManualCommand m_defaultCommand;
   private final SendableChooser<Command> m_autonomousChooser;
@@ -125,9 +128,7 @@ public class RobotContainer {
     if (m_useIntake) {
       m_intakeSubsystem = new IntakeSubsystem();
     }
-    if (m_useMagazine) {
-      m_magazineSubsystem = new MagazineSubsystem();
-    }
+    
     if (m_useDrive) {
       m_driveSubsystem = new DriveSubsystem();
       m_defaultCommand = new DriveManualCommand(m_driveSubsystem, m_joystickSubsystem);
@@ -157,7 +158,7 @@ public class RobotContainer {
     System.out.println(mjpegServer1.getListenAddress());
 */
 
-    m_camera = CameraServer.getInstance();
+   /* m_camera = CameraServer.getInstance();
     if (m_camera != null) {
       UsbCamera usbCamera = m_camera.startAutomaticCapture();
       if (usbCamera != null) {
@@ -171,7 +172,7 @@ public class RobotContainer {
     } else {
       System.out.println("CAMERA WAS NOT CONNECTED");
     }
-    
+    */
     // Configure the button bindings
     configureButtonBindings();
   }
