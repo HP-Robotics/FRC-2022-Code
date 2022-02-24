@@ -40,7 +40,7 @@ public class MagazineSubsystem extends SubsystemBase {
     else {
       m_magazineMotor.set(ControlMode.PercentOutput, getMagazineSpeed());
       }
-    
+
   }
   public void reverse() {
     reversed = true;
