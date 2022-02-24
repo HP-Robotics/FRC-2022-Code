@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.music.Orchestra;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -14,20 +15,28 @@ public class DriveSubsystem extends SubsystemBase {
 
   private ShuffleboardTab m_tab = Shuffleboard.getTab("Drive Train Configuration");
   private NetworkTableEntry m_rightHandSlowdown = m_tab.add("Right Hand Slowdown", Constants.rightHandSlowdown)
-            .getEntry();
-            private NetworkTableEntry m_leftHandSlowdown = m_tab.add("Left Hand Slowdown", Constants.leftHandSlowdown)
-            .getEntry();
+      .getEntry();
+  private NetworkTableEntry m_leftHandSlowdown = m_tab.add("Left Hand Slowdown", Constants.leftHandSlowdown)
+      .getEntry();
 
   public TalonFX m_left1;
   public TalonFX m_right1;
   public TalonFX m_left2;
   public TalonFX m_right2;
+  public Orchestra m_orchestra;
 
   public DriveSubsystem() {
     m_left1 = new TalonFX(1);
     m_right1 = new TalonFX(2);
     m_left2 = new TalonFX(3);
     m_right2 = new TalonFX(4);
+
+    m_orchestra = new Orchestra();
+    m_orchestra.addInstrument(m_left1);
+    m_orchestra.addInstrument(m_left2);
+    m_orchestra.addInstrument(m_right1);
+    m_orchestra.addInstrument(m_right2);
+    m_orchestra.loadMusic("C:\\Users\\Robotics\\Desktop\\TestChirp.chrp");
 
     m_left1.configFactoryDefault();
     m_right1.configFactoryDefault();
@@ -59,7 +68,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void drive(double left, double right) {
     double m_rSlowdown = m_rightHandSlowdown.getDouble(Constants.rightHandSlowdown);
     double m_lSlowdown = m_leftHandSlowdown.getDouble(Constants.leftHandSlowdown);
-    //System.out.println(left + " " + right);
+    // System.out.println(left + " " + right);
     m_left1.set(ControlMode.PercentOutput, left * m_lSlowdown);
     m_right1.set(ControlMode.PercentOutput, right * m_rSlowdown);
     m_left2.set(ControlMode.PercentOutput, left * m_lSlowdown);
@@ -93,7 +102,7 @@ public class DriveSubsystem extends SubsystemBase {
         rightSpeed = left - right;
       }
     }
-    //System.out.println(leftSpeed);
+    // System.out.println(leftSpeed);
 
     m_left1.set(ControlMode.PercentOutput, leftSpeed);
     m_right1.set(ControlMode.PercentOutput, rightSpeed);
@@ -153,5 +162,17 @@ public class DriveSubsystem extends SubsystemBase {
     m_right1.set(ControlMode.PercentOutput, 0);
     m_left2.set(ControlMode.PercentOutput, 0);
     m_right2.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void playorchestra() {
+    if (!m_orchestra.isPlaying()) {
+      m_orchestra.play();
+    }
+  }
+
+  public void stoporchestra() {
+    if (m_orchestra.isPlaying()) {
+      m_orchestra.stop();
+    }
   }
 }

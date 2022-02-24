@@ -202,6 +202,10 @@ public class RobotContainer {
     if (m_useDrive) {
       new JoystickButton(m_joystickSubsystem.m_driverR, Constants.driveStraight)
           .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem));
+      new JoystickButton(m_joystickSubsystem.m_driverR, 13)    
+        .whenPressed(new InstantCommand(m_driveSubsystem::playorchestra,m_driveSubsystem));
+      new JoystickButton(m_joystickSubsystem.m_driverR, 12)
+      .whenPressed(new InstantCommand(m_driveSubsystem::stoporchestra,m_driveSubsystem));
     }
     // new JoystickButton(driver,7)
     // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
