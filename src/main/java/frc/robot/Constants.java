@@ -38,7 +38,13 @@ public final class Constants {
     public static int Y = 4;
     public static int driveStraight = 2;
     
+    // These values are arbitrary and will need to be changed
     public static double climbSpeed = 1.0;
+    public static double climbSpeedDown = -1;
+    public static double climbSpeedUp = 0;
+    public static double climbStop = -0.1;
+    public static double climberMin = 500;
+    public static double climberMax = 5000;
 
     public static boolean programmerMode = true;
 
