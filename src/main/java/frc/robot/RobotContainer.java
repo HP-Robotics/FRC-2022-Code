@@ -4,12 +4,24 @@
 
 package frc.robot;
 
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.MjpegServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoMode.PixelFormat;
+
+import javax.swing.plaf.TreeUI;
+
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.JoystickSubsystem;
+import frc.robot.subsystems.LIDARSubsystem;
 import frc.robot.subsystems.MagazineSubsystem;
 import frc.robot.commands.DriveManualCommand;
 import frc.robot.commands.ClimberExtendCommand;
@@ -26,7 +38,6 @@ import frc.robot.commands.ShooterShootCommand;
 import frc.robot.commands.ShooterWheelCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -44,20 +55,24 @@ import frc.robot.subsystems.ShooterSubsystem;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private Boolean m_useShooter = true;
+  public ShuffleboardTab m_driverTab = Shuffleboard.getTab("Driver View");
+  private  CameraServer m_camera = null;
+  public static Boolean m_useShooter = false;
   private Boolean m_useClimber = false;
-  private Boolean m_useIntake = false;
+  private Boolean m_useIntake = true;
   private Boolean m_useDrive = false;
-  private Boolean m_useMagazine = false;
+  private Boolean m_useMagazine = true;
+  private Boolean m_usePneumatic = true;
   // The robot's subsystems and commands are defined here...
   private DriveSubsystem m_driveSubsystem;
   public ShooterSubsystem m_shooterSubsystem;
-  private final PneumaticSubsystem m_pneumaticSubsystem = new PneumaticSubsystem();
+  private PneumaticSubsystem m_pneumaticSubsystem;
   private ClimberSubsystem m_climberSubsystem;
   private IntakeSubsystem m_intakeSubsystem;
   public final JoystickSubsystem m_joystickSubsystem = new JoystickSubsystem();
   private MagazineSubsystem m_magazineSubsystem;
-
+  //private LIDARSubsystem m_LidarSubsystem = new LIDARSubsystem();
+  
   private DriveManualCommand m_defaultCommand;
   private final SendableChooser<Command> m_autonomousChooser;
 
@@ -79,6 +94,11 @@ public class RobotContainer {
       m_magazineSubsystem = new MagazineSubsystem();
 
     }
+
+    if (m_usePneumatic) {
+      m_pneumaticSubsystem = new PneumaticSubsystem();
+    }
+
     if (m_useShooter) {
       m_shooterSubsystem = new ShooterSubsystem();
       m_justShoot = new SequentialCommandGroup(
@@ -88,17 +108,18 @@ public class RobotContainer {
         m_twoBallAuto = new SequentialCommandGroup(
             new ShooterWheelCommand(m_shooterSubsystem),
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
-            new IntakeUpDownCommand(m_intakeSubsystem),
-            new MagazineToggleCommand(m_magazineSubsystem),
+            new IntakeUpDownCommand(m_pneumaticSubsystem),
+            new MagazineToggleCommand(m_magazineSubsystem, false),
             new IntakeRunMotorCommand(m_intakeSubsystem),
             new DriveSetDistanceCommand(m_driveSubsystem, 120),
             new IntakeRunMotorCommand(m_intakeSubsystem),
-            new IntakeUpDownCommand(m_intakeSubsystem),
+            new IntakeUpDownCommand(m_pneumaticSubsystem),
             new DriveSetDistanceCommand(m_driveSubsystem, -120),
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3));
       }
 
     }
+    
     if (m_useClimber) {
       m_climberSubsystem = new ClimberSubsystem();
       new ClimberExtendCommand(m_climberSubsystem);
@@ -107,9 +128,7 @@ public class RobotContainer {
     if (m_useIntake) {
       m_intakeSubsystem = new IntakeSubsystem();
     }
-    if (m_useMagazine) {
-      m_magazineSubsystem = new MagazineSubsystem();
-    }
+    
     if (m_useDrive) {
       m_driveSubsystem = new DriveSubsystem();
       m_defaultCommand = new DriveManualCommand(m_driveSubsystem, m_joystickSubsystem);
@@ -128,6 +147,32 @@ public class RobotContainer {
       m_autonomousChooser.addOption("Two Ball Auto", m_twoBallAuto);
     }
     SmartDashboard.putData("Autonomous Mode", m_autonomousChooser);
+
+    
+/*
+    UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
+    usbCamera.setResolution(160, 120);
+    usbCamera.setFPS(10);
+    MjpegServer mjpegServer1 = new MjpegServer("serve_USB Camera 0", 1181);
+    mjpegServer1.setSource(usbCamera);
+    System.out.println(mjpegServer1.getListenAddress());
+*/
+
+   /* m_camera = CameraServer.getInstance();
+    if (m_camera != null) {
+      UsbCamera usbCamera = m_camera.startAutomaticCapture();
+      if (usbCamera != null) {
+        System.out.println("Yay, we have a camera!");
+        usbCamera.setResolution(160, 120);
+        usbCamera.setFPS(10);
+      } else {
+        System.out.println("startAutomaticCapture() failed, no USB Camera");
+      }
+      
+    } else {
+      System.out.println("CAMERA WAS NOT CONNECTED");
+    }
+    */
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -161,14 +206,21 @@ public class RobotContainer {
     // new JoystickButton(driver,7)
     // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
     // m_pneumaticSubsystem));
-    if (m_useIntake) {
+    if (m_useIntake && m_usePneumatic && m_useMagazine) {
       new JoystickButton(m_joystickSubsystem.m_driverR, 1)
-          .whileHeld(new IntakeRunMotorCommand(m_intakeSubsystem));
+          .whileHeld(new IntakeRunMotorCommand(m_intakeSubsystem))
+          .whileHeld(new IntakeUpDownCommand(m_pneumaticSubsystem))
+          .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, true));
     }
     if (m_useIntake && m_useMagazine){
-      new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
         .whileHeld(new MagazineAndIntakeReverseCommand(m_intakeSubsystem, m_magazineSubsystem));
     }
+
+    if(m_useMagazine){
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.A )
+      .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, false));    }
+
   }
 
   /**

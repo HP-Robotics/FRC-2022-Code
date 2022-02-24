@@ -50,6 +50,10 @@ public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public ClimberSubsystem() {
     m_climber = new TalonFX(31);
+    m_climber.configForwardSoftLimitThreshold(10000);
+    m_climber.configReverseSoftLimitThreshold(0);
+    m_climber.configForwardSoftLimitEnable(true);
+    m_climber.configReverseSoftLimitEnable(true);
     m_climber.setSelectedSensorPosition(0);
   }
 
