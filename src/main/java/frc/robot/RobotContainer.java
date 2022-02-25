@@ -50,7 +50,6 @@ import frc.robot.subsystems.ShooterSubsystem;
  */
 public class RobotContainer {
   public ShuffleboardTab m_driverTab = Shuffleboard.getTab("Driver View");
-  private CameraServer m_camera = null;
   public static Boolean m_useShooter = false;
   private Boolean m_useClimber = false;
   private Boolean m_useIntake = true;
