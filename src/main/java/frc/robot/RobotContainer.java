@@ -71,12 +71,6 @@ public class RobotContainer {
 
   private Command m_justShoot;
   private Command m_twoBallAuto;
-  // arcade drive
-  /*
-   * () -> {
-   * return (Math.pow(driver.getRawAxis(0), 3));
-   * });
-   */
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -176,18 +170,18 @@ public class RobotContainer {
      * .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48));
      */
     if (m_useDrive) {
-      new JoystickButton(m_joystickSubsystem.m_driverR, Constants.driveStraight)
+      new JoystickButton(m_joystickSubsystem.m_driver, Constants.driveStraight)
           .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem));
-      new JoystickButton(m_joystickSubsystem.m_driverR, 13)
+      new JoystickButton(m_joystickSubsystem.m_driver, 13)
           .whenPressed(new InstantCommand(m_driveSubsystem::playorchestra, m_driveSubsystem));
-      new JoystickButton(m_joystickSubsystem.m_driverR, 12)
+      new JoystickButton(m_joystickSubsystem.m_driver, 12)
           .whenPressed(new InstantCommand(m_driveSubsystem::stoporchestra, m_driveSubsystem));
     }
     // new JoystickButton(driver,7)
     // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
     // m_pneumaticSubsystem));
     if (m_useIntake && m_usePneumatic && m_useMagazine) {
-      new JoystickButton(m_joystickSubsystem.m_driverR, 1)
+      new JoystickButton(m_joystickSubsystem.m_driver, 1)
           .whileHeld(new IntakeRunMotorCommand(m_intakeSubsystem))
           .whileHeld(new IntakeUpDownCommand(m_pneumaticSubsystem))
           .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, true));

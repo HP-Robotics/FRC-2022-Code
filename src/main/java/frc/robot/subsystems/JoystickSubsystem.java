@@ -9,25 +9,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class JoystickSubsystem extends SubsystemBase {
-    public final Joystick m_driverL = new Joystick(0);
-    public final Joystick m_driverR = new Joystick(1);
-    public final Joystick m_operator = new Joystick(2);
+    public final Joystick m_driver = new Joystick(0);
+    public final Joystick m_operator = new Joystick(1);
 
-    // return (Math.pow(driver.getRawAxis(1) * -1, 3));
-    /** Creates a new ExampleSubsystem. */
     public JoystickSubsystem() {
 
     }
 
-    public double driverLeft() {
-        return applyAxisDeadzone(m_driverL.getRawAxis(1));
-    }
-    public double driverRight() {
-        return applyAxisDeadzone(m_driverR.getRawAxis(1));
+    public double driverMove() {
+        return applyAxisDeadzone(m_driver.getRawAxis(1));
     }
 
     public double driverSpin() {
-        double spin = m_driverR.getRawAxis(0);
+        double spin = m_driver.getRawAxis(0);
         if (spin < 0) {
            return spin * spin * -1;
         }

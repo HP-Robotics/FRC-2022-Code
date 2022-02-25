@@ -26,7 +26,7 @@ public class DriveStraightCommand extends CommandBase {
 
     @Override
     public void execute() {
-        m_subsystem.driveStraight(m_joystickSubsystem.m_driverR.getRawAxis(1) * -1);
+        m_subsystem.driveStraight(m_joystickSubsystem.m_driver.getRawAxis(1) * -1);
     }
 
     @Override
