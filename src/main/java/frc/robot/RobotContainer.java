@@ -88,6 +88,22 @@ public class RobotContainer {
 
     if (m_useShooter) {
       m_shooterSubsystem = new ShooterSubsystem();
+      }
+
+    if (m_useClimber) {
+      m_climberSubsystem = new ClimberSubsystem();
+    }
+    if (m_useIntake) {
+      m_intakeSubsystem = new IntakeSubsystem();
+    }
+
+    if (m_useDrive) {
+      m_driveSubsystem = new DriveSubsystem();
+      m_defaultCommand = new DriveManualCommand(m_driveSubsystem, m_joystickSubsystem);
+      m_driveSubsystem.setDefaultCommand(m_defaultCommand);
+    }
+
+    if(m_useShooter) {
       m_justShoot = new SequentialCommandGroup(
           new ShooterWheelCommand(m_shooterSubsystem),
           new ShooterShootCommand(m_shooterSubsystem).withTimeout(3.0));
@@ -104,22 +120,10 @@ public class RobotContainer {
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
             new MagazineToggleCommand(m_magazineSubsystem, false),
             new ShooterWheelCommand(m_shooterSubsystem));
-      }
 
     }
-
-    if (m_useClimber) {
-      m_climberSubsystem = new ClimberSubsystem();
-    }
-    if (m_useIntake) {
-      m_intakeSubsystem = new IntakeSubsystem();
     }
 
-    if (m_useDrive) {
-      m_driveSubsystem = new DriveSubsystem();
-      m_defaultCommand = new DriveManualCommand(m_driveSubsystem, m_joystickSubsystem);
-      m_driveSubsystem.setDefaultCommand(m_defaultCommand);
-    }
 
     m_autonomousChooser = new SendableChooser<Command>();
     m_autonomousChooser.addOption("Do Nothing", new InstantCommand());
