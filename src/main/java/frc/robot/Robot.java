@@ -62,6 +62,10 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
+    if(RobotContainer.m_useShooter){
+      m_robotContainer.m_joystickSubsystem.m_operator.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
+      m_robotContainer.m_joystickSubsystem.m_operator.setRumble(GenericHID.RumbleType.kRightRumble, 0);
+    }
   }
 
   @Override

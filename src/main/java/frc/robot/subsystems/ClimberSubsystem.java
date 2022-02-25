@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -50,11 +51,13 @@ public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public ClimberSubsystem() {
     m_climber = new TalonFX(31);
+    m_climber.configFactoryDefault();
     m_climber.configForwardSoftLimitThreshold(10000);
     m_climber.configReverseSoftLimitThreshold(0);
     m_climber.configForwardSoftLimitEnable(true);
     m_climber.configReverseSoftLimitEnable(true);
     m_climber.setSelectedSensorPosition(0);
+    m_climber.setNeutralMode(NeutralMode.Brake);
   }
 
   public void extend() {

@@ -43,6 +43,8 @@ public final class Constants {
     public static double climbStop = -0.1;
     public static double climberMin = 500;
     public static double climberMax = 2500;
+    public static int LB = 5;
+    public static int RB = 6;
 
     public static boolean programmerMode = true;
 
