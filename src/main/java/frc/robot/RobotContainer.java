@@ -4,13 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.cscore.CvSink;
-import edu.wpi.first.cscore.CvSource;
-import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.cscore.VideoMode.PixelFormat;
-
-import javax.swing.plaf.TreeUI;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -56,7 +50,7 @@ import frc.robot.subsystems.ShooterSubsystem;
  */
 public class RobotContainer {
   public ShuffleboardTab m_driverTab = Shuffleboard.getTab("Driver View");
-  private  CameraServer m_camera = null;
+  private CameraServer m_camera = null;
   public static Boolean m_useShooter = false;
   private Boolean m_useClimber = false;
   private Boolean m_useIntake = true;
@@ -71,8 +65,8 @@ public class RobotContainer {
   private IntakeSubsystem m_intakeSubsystem;
   public final JoystickSubsystem m_joystickSubsystem = new JoystickSubsystem();
   private MagazineSubsystem m_magazineSubsystem;
-  //private LIDARSubsystem m_LidarSubsystem = new LIDARSubsystem();
-  
+  // private LIDARSubsystem m_LidarSubsystem = new LIDARSubsystem();
+
   private DriveManualCommand m_defaultCommand;
   private final SendableChooser<Command> m_autonomousChooser;
 
@@ -89,7 +83,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    
+
     if (m_useMagazine) {
       m_magazineSubsystem = new MagazineSubsystem();
 
@@ -120,7 +114,7 @@ public class RobotContainer {
       }
 
     }
-    
+
     if (m_useClimber) {
       m_climberSubsystem = new ClimberSubsystem();
       new ClimberExtendCommand(m_climberSubsystem);
@@ -129,7 +123,7 @@ public class RobotContainer {
     if (m_useIntake) {
       m_intakeSubsystem = new IntakeSubsystem();
     }
-    
+
     if (m_useDrive) {
       m_driveSubsystem = new DriveSubsystem();
       m_defaultCommand = new DriveManualCommand(m_driveSubsystem, m_joystickSubsystem);
@@ -149,31 +143,15 @@ public class RobotContainer {
     }
     SmartDashboard.putData("Autonomous Mode", m_autonomousChooser);
 
-    
-/*
-    UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
-    usbCamera.setResolution(160, 120);
-    usbCamera.setFPS(10);
-    MjpegServer mjpegServer1 = new MjpegServer("serve_USB Camera 0", 1181);
-    mjpegServer1.setSource(usbCamera);
-    System.out.println(mjpegServer1.getListenAddress());
-*/
-
-   /* m_camera = CameraServer.getInstance();
-    if (m_camera != null) {
-      UsbCamera usbCamera = m_camera.startAutomaticCapture();
-      if (usbCamera != null) {
-        System.out.println("Yay, we have a camera!");
-        usbCamera.setResolution(160, 120);
-        usbCamera.setFPS(10);
-      } else {
-        System.out.println("startAutomaticCapture() failed, no USB Camera");
-      }
-      
+    UsbCamera usbCamera = CameraServer.startAutomaticCapture(0);
+    if (usbCamera != null) {
+      System.out.println("Yay, we have a camera!");
+      usbCamera.setResolution(160, 120);
+      usbCamera.setFPS(10);
     } else {
-      System.out.println("CAMERA WAS NOT CONNECTED");
+      System.out.println("startAutomaticCapture() failed, no USB Camera");
     }
-    */
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -203,10 +181,10 @@ public class RobotContainer {
     if (m_useDrive) {
       new JoystickButton(m_joystickSubsystem.m_driverR, Constants.driveStraight)
           .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem));
-      new JoystickButton(m_joystickSubsystem.m_driverR, 13)    
-        .whenPressed(new InstantCommand(m_driveSubsystem::playorchestra,m_driveSubsystem));
+      new JoystickButton(m_joystickSubsystem.m_driverR, 13)
+          .whenPressed(new InstantCommand(m_driveSubsystem::playorchestra, m_driveSubsystem));
       new JoystickButton(m_joystickSubsystem.m_driverR, 12)
-      .whenPressed(new InstantCommand(m_driveSubsystem::stoporchestra,m_driveSubsystem));
+          .whenPressed(new InstantCommand(m_driveSubsystem::stoporchestra, m_driveSubsystem));
     }
     // new JoystickButton(driver,7)
     // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
@@ -217,14 +195,15 @@ public class RobotContainer {
           .whileHeld(new IntakeUpDownCommand(m_pneumaticSubsystem))
           .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, true));
     }
-    if (m_useIntake && m_useMagazine){
+    if (m_useIntake && m_useMagazine) {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
-        .whileHeld(new MagazineAndIntakeReverseCommand(m_intakeSubsystem, m_magazineSubsystem));
+          .whileHeld(new MagazineAndIntakeReverseCommand(m_intakeSubsystem, m_magazineSubsystem));
     }
 
-    if(m_useMagazine){
-      new JoystickButton(m_joystickSubsystem.m_operator, Constants.A )
-      .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, false));    }
+    if (m_useMagazine) {
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
+          .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, false));
+    }
 
   }
 
