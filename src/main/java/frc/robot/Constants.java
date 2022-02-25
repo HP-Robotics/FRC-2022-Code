@@ -39,6 +39,8 @@ public final class Constants {
     public static int driveStraight = 2;
     
     public static double climbSpeed = 1.0;
+    public static int LB = 5;
+    public static int RB = 6;
 
     public static boolean programmerMode = true;
 

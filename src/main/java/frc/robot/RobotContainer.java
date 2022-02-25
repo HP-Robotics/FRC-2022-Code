@@ -116,8 +116,6 @@ public class RobotContainer {
 
     if (m_useClimber) {
       m_climberSubsystem = new ClimberSubsystem();
-      new ClimberExtendCommand(m_climberSubsystem);
-      new ClimberRetractCommand(m_climberSubsystem);
     }
     if (m_useIntake) {
       m_intakeSubsystem = new IntakeSubsystem();
@@ -203,7 +201,12 @@ public class RobotContainer {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
           .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, false));
     }
-
+    if(m_useClimber) {
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.LB)
+      .whileHeld(new ClimberExtendCommand(m_climberSubsystem));
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.RB)
+      .whileHeld(new ClimberRetractCommand(m_climberSubsystem));
+    }
   }
 
   /**
