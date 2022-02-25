@@ -103,19 +103,20 @@ public class RobotContainer {
       m_shooterSubsystem = new ShooterSubsystem();
       m_justShoot = new SequentialCommandGroup(
           new ShooterWheelCommand(m_shooterSubsystem),
-          new ShooterShootCommand(m_shooterSubsystem));
+          new ShooterShootCommand(m_shooterSubsystem).withTimeout(3.0));
       if (m_useDrive && m_useIntake && m_useMagazine) {
         m_twoBallAuto = new SequentialCommandGroup(
             new ShooterWheelCommand(m_shooterSubsystem),
+            new MagazineToggleCommand(m_magazineSubsystem, true),
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
-            new IntakeUpDownCommand(m_pneumaticSubsystem),
-            new MagazineToggleCommand(m_magazineSubsystem, false),
-            new IntakeRunMotorCommand(m_intakeSubsystem),
-            new DriveSetDistanceCommand(m_driveSubsystem, 120),
-            new IntakeRunMotorCommand(m_intakeSubsystem),
-            new IntakeUpDownCommand(m_pneumaticSubsystem),
+            new ParallelCommandGroup(
+                new IntakeUpDownCommand(m_pneumaticSubsystem),
+                new IntakeRunMotorCommand(m_intakeSubsystem),
+                new DriveSetDistanceCommand(m_driveSubsystem, 120)).withTimeout(4),
             new DriveSetDistanceCommand(m_driveSubsystem, -120),
-            new ShooterShootCommand(m_shooterSubsystem).withTimeout(3));
+            new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
+            new MagazineToggleCommand(m_magazineSubsystem, false),
+            new ShooterWheelCommand(m_shooterSubsystem));
       }
 
     }
