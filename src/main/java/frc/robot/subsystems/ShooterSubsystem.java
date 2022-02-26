@@ -4,7 +4,7 @@ import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.networktables.NetworkTableEntry;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -40,6 +40,8 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter.config_kD(0, Constants.shooterkD);
         m_shooter.config_kF(0, Constants.shooterkF);
         m_preShooter = new TalonFX(22);
+        m_preShooter.configFactoryDefault();
+        m_preShooter.setNeutralMode(NeutralMode.Brake);
 
         SmartDashboard.putNumber("shooterkP", Constants.shooterkP);
         SmartDashboard.putNumber("shooterkI", Constants.shooterkI);
