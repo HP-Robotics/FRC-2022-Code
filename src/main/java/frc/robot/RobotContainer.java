@@ -38,6 +38,8 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ShooterSubsystem;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -50,10 +52,10 @@ import frc.robot.subsystems.ShooterSubsystem;
  */
 public class RobotContainer {
   public ShuffleboardTab m_driverTab = Shuffleboard.getTab("Driver View");
-  public static Boolean m_useShooter = false;
-  private Boolean m_useClimber = false;
+  public static Boolean m_useShooter = true;
+  private Boolean m_useClimber = true;
   private Boolean m_useIntake = true;
-  private Boolean m_useDrive = false;
+  private Boolean m_useDrive = true;
   private Boolean m_useMagazine = true;
   private Boolean m_usePneumatic = true;
   // The robot's subsystems and commands are defined here...
@@ -161,9 +163,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     if (m_useShooter) {
-      new JoystickButton(m_joystickSubsystem.m_operator, Constants.X)
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
           .whileHeld(new ShooterShootCommand(m_shooterSubsystem));
-      new JoystickButton(m_joystickSubsystem.m_operator, Constants.Y)
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
           .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
     }
 
@@ -198,23 +200,35 @@ public class RobotContainer {
           .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, true));
     }
     if (m_useIntake && m_useMagazine) {
-      new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.Y)
           .whileHeld(new MagazineAndIntakeReverseCommand(m_intakeSubsystem, m_magazineSubsystem));
     }
     
     
 
     if (m_useMagazine) {
-      new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.X)
           .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, false));
     }
     if(m_useClimber) {
-      new JoystickButton(m_joystickSubsystem.m_operator, Constants.LB)
-      .whileHeld(new ClimberExtendCommand(m_climberSubsystem));
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.RB)
+      .whileHeld(new ClimberExtendCommand(m_climberSubsystem));
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.LB)
       .whileHeld(new ClimberRetractCommand(m_climberSubsystem));
+
+      new Trigger(m_joystickSubsystem::triggerPressedRight)
+      .whenActive(new InstantCommand(m_pneumaticSubsystem::climberForward, m_pneumaticSubsystem));
+  
+      new Trigger(m_joystickSubsystem::triggerPressedLeft)
+      .whenActive(new InstantCommand(m_pneumaticSubsystem::climberBack, m_pneumaticSubsystem));
+    
+    
     }
+
+
   }
+
+    
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

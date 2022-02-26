@@ -34,6 +34,16 @@ public class PneumaticSubsystem extends SubsystemBase {
 
     }
 
+    public void climberForward (){
+        SetClimb(true);
+        System.out.println(true);
+    }
+
+    public void climberBack (){
+        SetClimb(false);
+        System.out.println(false);
+    }
+
     public void ToggleClimb() {
         climberRotated = !climberRotated;
         SetClimb(climberRotated);

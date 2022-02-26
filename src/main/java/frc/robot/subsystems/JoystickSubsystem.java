@@ -35,6 +35,20 @@ public class JoystickSubsystem extends SubsystemBase {
         return -input * -input * -input;
     }
 
+    public Boolean triggerPressedLeft(){
+        if(m_operator.getRawAxis(2)>=0.6){
+          return true;
+        }
+        else return false;
+      }
+
+    public Boolean triggerPressedRight(){
+        if(m_operator.getRawAxis(3)>=0.6){
+          return true;
+        }
+        else return false;
+      }
+
     @Override
     public void periodic() {
 
