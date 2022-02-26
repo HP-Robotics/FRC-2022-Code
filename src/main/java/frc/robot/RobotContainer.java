@@ -164,7 +164,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     if (m_useShooter) {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
-          .whileHeld(new ShooterShootCommand(m_shooterSubsystem));
+          .whileHeld(new ShooterShootCommand(m_shooterSubsystem))
+          .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, true));
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
           .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
     }
