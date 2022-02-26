@@ -181,6 +181,13 @@ public class RobotContainer {
       new JoystickButton(m_joystickSubsystem.m_driver, 12)
           .whenPressed(new InstantCommand(m_driveSubsystem::stoporchestra, m_driveSubsystem));
     }
+
+    if(m_useShooter&&m_useDrive) {
+      new JoystickButton(m_joystickSubsystem.m_driver, 11)
+      .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 24))
+      .whileHeld(new ShooterShootCommand(m_shooterSubsystem));
+    }
+
     // new JoystickButton(driver,7)
     // .whenPressed(new ClimberToggleRotationCommand(m_climberSubsystem,
     // m_pneumaticSubsystem));
@@ -194,6 +201,8 @@ public class RobotContainer {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
           .whileHeld(new MagazineAndIntakeReverseCommand(m_intakeSubsystem, m_magazineSubsystem));
     }
+    
+    
 
     if (m_useMagazine) {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
