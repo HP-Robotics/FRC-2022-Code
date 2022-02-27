@@ -48,7 +48,7 @@ public final class Constants {
 
     public static boolean programmerMode = true;
 
-    public static double MagazineSpeed = 1.0;
+    public static double MagazineSpeed = 0.6;
     public static double IntakeSpeed = 1.0;
     public static double deadzone = 0;
 
