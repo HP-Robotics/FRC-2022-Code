@@ -51,12 +51,21 @@ public class PneumaticSubsystem extends SubsystemBase {
     }
 
 
-    public void SetIntake(Boolean state) {
+    public void setIntake(Boolean state) {
         if (state) {
             intakeExtend.set(Value.kForward);
         } else {
             intakeExtend.set(Value.kReverse);
         }
 
+    }
+
+
+    public void intakeUp() {
+        this.setIntake(true);
+    }
+
+    public void intakeDown() {
+        this.setIntake(false);
     }
 }

@@ -27,7 +27,7 @@ public class IntakeUpDownCommand extends CommandBase {
   @Override
   public void initialize() {
     
-    m_subsystem.SetIntake(true);
+    m_subsystem.setIntake(true);
   }
 
 
@@ -39,7 +39,7 @@ public class IntakeUpDownCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.SetIntake(false);
+    m_subsystem.setIntake(false);
   }
 
   // Returns true when the command should end.
