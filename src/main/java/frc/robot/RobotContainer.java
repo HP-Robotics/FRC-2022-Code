@@ -120,6 +120,7 @@ public class RobotContainer {
                 new IntakeRunMotorCommand(m_intakeSubsystem),
                 new DriveSetDistanceCommand(m_driveSubsystem, 65)).withTimeout(4),
             new DriveSetDistanceCommand(m_driveSubsystem, -65),
+            new PrintCommand("This is a test"),
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
             new MagazineToggleCommand(m_magazineSubsystem, false),
             new ShooterWheelCommand(m_shooterSubsystem));
