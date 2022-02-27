@@ -53,7 +53,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   public ShuffleboardTab m_driverTab = Shuffleboard.getTab("Driver View");
   public static Boolean m_useShooter = true;
-  private Boolean m_useClimber = true;
+  private Boolean m_useClimber = false;
   private Boolean m_useIntake = true;
   private Boolean m_useDrive = true;
   private Boolean m_useMagazine = true;
@@ -109,6 +109,7 @@ public class RobotContainer {
       m_justShoot = new SequentialCommandGroup(
           new ShooterWheelCommand(m_shooterSubsystem),
           new ShooterShootCommand(m_shooterSubsystem).withTimeout(3.0));
+
       if (m_useDrive && m_useIntake && m_useMagazine) {
         m_twoBallAuto = new SequentialCommandGroup(
             new ShooterWheelCommand(m_shooterSubsystem),
@@ -117,8 +118,8 @@ public class RobotContainer {
             new ParallelCommandGroup(
                 new IntakeUpDownCommand(m_pneumaticSubsystem),
                 new IntakeRunMotorCommand(m_intakeSubsystem),
-                new DriveSetDistanceCommand(m_driveSubsystem, 120)).withTimeout(4),
-            new DriveSetDistanceCommand(m_driveSubsystem, -120),
+                new DriveSetDistanceCommand(m_driveSubsystem, 65)).withTimeout(4),
+            new DriveSetDistanceCommand(m_driveSubsystem, -65),
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
             new MagazineToggleCommand(m_magazineSubsystem, false),
             new ShooterWheelCommand(m_shooterSubsystem));
@@ -165,7 +166,8 @@ public class RobotContainer {
     if (m_useShooter) {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.B)
           .whileHeld(new ShooterShootCommand(m_shooterSubsystem))
-          .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, true));
+          .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, true))
+          .whenReleased(new MagazineToggleCommand(m_magazineSubsystem, false));
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
           .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
     }
@@ -187,8 +189,7 @@ public class RobotContainer {
 
     if(m_useShooter&&m_useDrive) {
       new JoystickButton(m_joystickSubsystem.m_driver, 11)
-      .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 24))
-      .whileHeld(new ShooterShootCommand(m_shooterSubsystem));
+      .whileHeld(new DriveSetDistanceCommand(m_driveSubsystem, 24));
     }
 
     // new JoystickButton(driver,7)
@@ -198,11 +199,13 @@ public class RobotContainer {
       new JoystickButton(m_joystickSubsystem.m_driver, 1)
           .whileHeld(new IntakeRunMotorCommand(m_intakeSubsystem))
           .whileHeld(new IntakeUpDownCommand(m_pneumaticSubsystem))
-          .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, true));
+          .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, false))
+          .whenReleased(new MagazineToggleCommand(m_magazineSubsystem, false));
     }
     if (m_useIntake && m_useMagazine) {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.Y)
-          .whileHeld(new MagazineAndIntakeReverseCommand(m_intakeSubsystem, m_magazineSubsystem));
+          .whileHeld(new MagazineAndIntakeReverseCommand(m_intakeSubsystem, m_magazineSubsystem))
+          .whileHeld(new IntakeUpDownCommand(m_pneumaticSubsystem));
     }
     
     
