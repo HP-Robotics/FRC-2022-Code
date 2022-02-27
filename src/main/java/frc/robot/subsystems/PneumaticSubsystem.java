@@ -21,7 +21,7 @@ public class PneumaticSubsystem extends SubsystemBase {
         intakeExtend.set(Value.kReverse);
 
         c = new Compressor(50, PneumaticsModuleType.REVPH);
-        c.enableAnalog(50, 60);
+        c.enableAnalog(110, 118);
         SetClimb(climberRotated);
     }
 
