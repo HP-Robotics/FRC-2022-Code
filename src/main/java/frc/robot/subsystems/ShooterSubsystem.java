@@ -39,6 +39,7 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter.config_kI(0, Constants.shooterkI);
         m_shooter.config_kD(0, Constants.shooterkD);
         m_shooter.config_kF(0, Constants.shooterkF);
+        m_shooter.config_IntegralZone(0, Constants.shooterkIzone, 100);
         m_preShooter = new TalonFX(22);
         m_preShooter.configFactoryDefault();
         m_preShooter.setNeutralMode(NeutralMode.Brake);

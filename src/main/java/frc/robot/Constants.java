@@ -22,15 +22,16 @@ public final class Constants {
     public static double preshooterSpeed = 0.5;
     public static double shooterSpeed = 15000;
     public static double shooterSpeedThreshold = 200;
-    public static double shooterkD = 0.5;
+    public static double shooterkD = 0.0;
     public static double shooterkF = 0.048;
-    public static double shooterkI = 0.0;
+    public static double shooterkI = 0.0005;
     public static double shooterkP = 0.12;
+    public static double shooterkIzone = 500;
 
-    public static double drivekP = 0.5;
-    public static double drivekI = 0;
+    public static double drivekP = 0.2;
+    public static double drivekI = 0.001;
     public static double drivekD = 0;
-    public static double drivekF = 0;
+    public static double drivekF = 0.06;
 
     public static int X = 3;
     public static int A = 1;
