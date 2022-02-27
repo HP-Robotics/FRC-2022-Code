@@ -49,6 +49,25 @@ public class JoystickSubsystem extends SubsystemBase {
         else return false;
       }
 
+      public Boolean povUp(){
+        if (m_operator.getPOV() == 0) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+
+      public Boolean povDown(){
+        if (m_operator.getPOV() == 180) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+
+
     @Override
     public void periodic() {
 

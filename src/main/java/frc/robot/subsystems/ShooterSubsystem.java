@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import java.util.function.BooleanSupplier;
-
+import java.util.function.Supplier;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -15,16 +15,19 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShooterSubsystem extends SubsystemBase {
-
+    private String m_wheelTarget = "High";
     public double m_wheelSetPoint;
     public ShuffleboardTab m_driverTab = Shuffleboard.getTab("Driver View");
     private ShuffleboardTab m_tab = Shuffleboard.getTab("Shooter Configuration");
-    private NetworkTableEntry m_inputSpeed = m_tab.add("Input Speed", Constants.shooterSpeed)
+    private NetworkTableEntry m_inputHighSpeed = m_tab.add("Input Speed High" , Constants.shooterHighSpeed)
+            .getEntry();
+    private NetworkTableEntry m_inputLowSpeed = m_tab.add("Input Speed Low", Constants.shooterLowSpeed)
             .getEntry();
     private NetworkTableEntry m_speedThreshold = m_tab.add("Speed Threshold", Constants.shooterSpeedThreshold)
             .getEntry();
     private BooleanSupplier m_atSpeed = ()->upToSpeed();;
-    
+        private Supplier<String> m_getWheelTarget = ()->{ return  m_wheelTarget;};
+   
 
     public TalonFX m_shooter;
     public TalonFX m_preShooter;
@@ -49,10 +52,17 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("shooterkD", Constants.shooterkD);
         SmartDashboard.putNumber("shooterkF", Constants.shooterkF);
         m_driverTab.addBoolean("Shooter at Speed", m_atSpeed);
+        m_driverTab.addString("Shooter Wheel Target", m_getWheelTarget);
     }
 
     public double getInputSpeed () {
-        return m_inputSpeed.getDouble(Constants.shooterSpeed);
+        if(m_wheelTarget == "High"){
+            return m_inputHighSpeed.getDouble(Constants.shooterHighSpeed);
+        }
+        else if (m_wheelTarget == "Low"){
+            return m_inputLowSpeed.getDouble(Constants.shooterLowSpeed);
+        }
+        return 0;
     }
     public double getSpeedThreshold () {
         return m_speedThreshold.getDouble(Constants.shooterSpeedThreshold);
@@ -88,6 +98,18 @@ public class ShooterSubsystem extends SubsystemBase {
         m_preShooter.set(ControlMode.PercentOutput, speed);
     
     }
+
+    public void lowSpeed() {
+        m_wheelTarget = "Low";
+        this.enable(true);
+    }   
+
+    public void highSpeed() {
+        m_wheelTarget = "High";
+        this.enable(true);
+    }   
+    
+
 
     public void enable(boolean wheelOn) {
         if (wheelOn) {

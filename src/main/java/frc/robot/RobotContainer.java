@@ -118,7 +118,7 @@ public class RobotContainer {
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
             new ParallelCommandGroup(
                 new IntakeRunMotorCommand(m_intakeSubsystem),
-                new DriveSetDistanceCommand(m_driveSubsystem, 50)).withTimeout(4),
+                new DriveSetDistanceCommand(m_driveSubsystem, 50)).withTimeout(3),
             new InstantCommand(m_pneumaticSubsystem::intakeDown,m_pneumaticSubsystem),
             new DriveSetDistanceCommand(m_driveSubsystem, -50),
             new PrintCommand("This is a test"),
@@ -136,6 +136,7 @@ public class RobotContainer {
     if (m_useShooter) {
       m_autonomousChooser.addOption("Just Shoot", m_justShoot);
       m_autonomousChooser.setDefaultOption("Just Shoot", m_justShoot);
+
     }
 
     if (m_useShooter && m_useDrive && m_useIntake && m_useMagazine) {
@@ -172,6 +173,13 @@ public class RobotContainer {
           .whenReleased(new MagazineToggleCommand(m_magazineSubsystem, false));
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
           .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
+
+          new Trigger(m_joystickSubsystem::povUp)
+          .whenActive(new InstantCommand(m_shooterSubsystem::highSpeed, m_shooterSubsystem));
+      
+          new Trigger(m_joystickSubsystem::povDown)
+          .whenActive(new InstantCommand(m_shooterSubsystem::lowSpeed, m_shooterSubsystem));
+          
     }
 
     /*
@@ -228,7 +236,7 @@ public class RobotContainer {
       new Trigger(m_joystickSubsystem::triggerPressedLeft)
       .whenActive(new InstantCommand(m_pneumaticSubsystem::climberBack, m_pneumaticSubsystem));
     
-    
+      
     }
 
 
