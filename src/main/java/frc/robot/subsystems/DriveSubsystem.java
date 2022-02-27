@@ -36,7 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_orchestra.addInstrument(m_left2);
     m_orchestra.addInstrument(m_right1);
     m_orchestra.addInstrument(m_right2);
-    m_orchestra.loadMusic("C:\\Users\\Robotics\\Desktop\\TestChirp.chrp");
+    m_orchestra.loadMusic("/home/lvuser/TestChirp.chrp");
 
     m_left1.configFactoryDefault();
     m_right1.configFactoryDefault();
