@@ -82,6 +82,19 @@ public class ClimberSubsystem extends SubsystemBase {
     }
   }
 
+  public void extendSpecific(double target) {
+    if (m_climber.getSelectedSensorPosition(0) > target) {
+      stop();
+      }
+      else {
+        m_climber.set(ControlMode.PercentOutput, getSpeedUp());
+      }
+  }
+
+  public void autoClimber() {
+    m_climber.set(ControlMode.MotionMagic, Constants.climberTarget);
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

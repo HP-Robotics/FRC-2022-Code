@@ -18,6 +18,7 @@ import frc.robot.subsystems.JoystickSubsystem;
 import frc.robot.subsystems.LIDARSubsystem;
 import frc.robot.subsystems.MagazineSubsystem;
 import frc.robot.commands.DriveManualCommand;
+import frc.robot.commands.ClimberClimbCommand;
 import frc.robot.commands.ClimberExtendCommand;
 import frc.robot.commands.ClimberRetractCommand;
 import frc.robot.commands.ClimberToggleRotationCommand;
@@ -179,7 +180,6 @@ public class RobotContainer {
       
           new Trigger(m_joystickSubsystem::povDown)
           .whenActive(new InstantCommand(m_shooterSubsystem::lowSpeed, m_shooterSubsystem));
-          
     }
 
     /*
@@ -236,7 +236,12 @@ public class RobotContainer {
       new Trigger(m_joystickSubsystem::triggerPressedLeft)
       .whenActive(new InstantCommand(m_pneumaticSubsystem::climberBack, m_pneumaticSubsystem));
     
+      new JoystickButton(m_joystickSubsystem.m_operator,8)
+      .whenPressed (new SequentialCommandGroup(
+        (new ClimberClimbCommand(m_climberSubsystem)),
+      new ClimberToggleRotationCommand(m_climberSubsystem, m_pneumaticSubsystem)));
       
+
     }
 
 
