@@ -53,7 +53,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   public ShuffleboardTab m_driverTab = Shuffleboard.getTab("Driver View");
   public static Boolean m_useShooter = true;
-  private Boolean m_useClimber = false;
+  private Boolean m_useClimber = true;
   private Boolean m_useIntake = true;
   private Boolean m_useDrive = true;
   private Boolean m_useMagazine = true;
@@ -198,8 +198,8 @@ public class RobotContainer {
     }
 
     if(m_useShooter&&m_useDrive) {
-      new JoystickButton(m_joystickSubsystem.m_driver, 11)
-      .whileHeld(new DriveSetDistanceCommand(m_driveSubsystem, 24));
+      new JoystickButton(m_joystickSubsystem.m_driver, 8)
+      .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 36));
     }
 
     // new JoystickButton(driver,7)
