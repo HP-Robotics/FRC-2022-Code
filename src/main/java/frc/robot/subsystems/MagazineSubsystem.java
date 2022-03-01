@@ -27,6 +27,8 @@ public class MagazineSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public MagazineSubsystem() {
     m_magazineMotor = new TalonSRX(12);
+    m_magazineMotor.configFactoryDefault();
+    
   }
 
   @Override
