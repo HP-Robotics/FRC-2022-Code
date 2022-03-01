@@ -9,25 +9,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class JoystickSubsystem extends SubsystemBase {
-    public final Joystick m_driverL = new Joystick(0);
-    public final Joystick m_driverR = new Joystick(1);
-    public final Joystick m_operator = new Joystick(2);
+    public final Joystick m_driver = new Joystick(0);
+    public final Joystick m_operator = new Joystick(1);
 
-    // return (Math.pow(driver.getRawAxis(1) * -1, 3));
-    /** Creates a new ExampleSubsystem. */
     public JoystickSubsystem() {
 
     }
 
-    public double driverLeft() {
-        return applyAxisDeadzone(m_driverL.getRawAxis(1));
-    }
-    public double driverRight() {
-        return applyAxisDeadzone(m_driverR.getRawAxis(1));
+    public double driverMove() {
+        return applyAxisDeadzone(m_driver.getRawAxis(1));
     }
 
     public double driverSpin() {
-        double spin = m_driverR.getRawAxis(0);
+        double spin = m_driver.getRawAxis(0);
         if (spin < 0) {
            return spin * spin * -1;
         }
@@ -40,6 +34,39 @@ public class JoystickSubsystem extends SubsystemBase {
         }
         return -input * -input * -input;
     }
+
+    public Boolean triggerPressedLeft(){
+        if(m_operator.getRawAxis(2)>=0.6){
+          return true;
+        }
+        else return false;
+      }
+
+    public Boolean triggerPressedRight(){
+        if(m_operator.getRawAxis(3)>=0.6){
+          return true;
+        }
+        else return false;
+      }
+
+      public Boolean povUp(){
+        if (m_operator.getPOV() == 0) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+
+      public Boolean povDown(){
+        if (m_operator.getPOV() == 180) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+
 
     @Override
     public void periodic() {

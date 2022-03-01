@@ -7,7 +7,7 @@ public class ShooterWheelCommand extends CommandBase {
     private final ShooterSubsystem shootSubsystem;
     private Boolean WheelOn;
 
-    public ShooterWheelCommand(ShooterSubsystem subsytem, Boolean WheelOn) {
+    public ShooterWheelCommand(ShooterSubsystem subsytem) {
         shootSubsystem = subsytem;
         addRequirements(shootSubsystem);
     }

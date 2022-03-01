@@ -20,30 +20,43 @@ public final class Constants {
     public static double rightHandSlowdown = 1.0;
     public static double leftHandSlowdown = 1.0;
     public static double preshooterSpeed = 0.5;
-    public static double shooterSpeed = 15000;
+    public static double shooterHighSpeed = 14000;
+    public static double shooterLowSpeed = 8000;
     public static double shooterSpeedThreshold = 200;
-    public static double shooterkD = 0.5;
+    public static double shooterkD = 0.0;
     public static double shooterkF = 0.048;
-    public static double shooterkI = 0.0;
+    public static double shooterkI = 0.0005;
     public static double shooterkP = 0.12;
+    public static double shooterkIzone = 500;
 
-    public static double drivekP = 0.5;
-    public static double drivekI = 0;
+    public static double drivekP = 0.2;
+    public static double drivekI = 0.001;
     public static double drivekD = 0;
-    public static double drivekF = 0;
+    public static double drivekF = 0.06;
 
     public static int X = 3;
     public static int A = 1;
     public static int B = 2;
     public static int Y = 4;
     public static int driveStraight = 2;
-    public static int RightBumper = 6;
-    public static int LeftBumper = 5;
-
+    
+    public static double climbSpeedUp = 0.4;
+    public static double climbSpeedDown = -0.4;
+    public static double climbStop = 0;
+    public static double climberMin = -23000;
+    public static double climberMax = 264000;
+    //starting position -247000;
+    public static double climberTarget = 500;
+    public static int LB = 5;
+    public static int RB = 6;
 
     public static boolean programmerMode = true;
 
-    public static double MagazineSpeed = 1.0;
+    public static double MagazineSpeed = -0.6;
     public static double IntakeSpeed = 1.0;
     public static double deadzone = 0;
+
+    public static int cameraPort = 1181;
+
+    public static final int lidarId = 0;
 }

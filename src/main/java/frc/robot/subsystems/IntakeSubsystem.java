@@ -14,7 +14,6 @@ public class IntakeSubsystem extends SubsystemBase {
   private NetworkTableEntry m_intakeSpeed = m_tab.add("Intake Speed", Constants.IntakeSpeed)
   .getEntry();
   public TalonFX m_intakeMotor;
-  public boolean m_isUp = true;
 
   public IntakeSubsystem() {
     m_intakeMotor = new TalonFX(11);
@@ -22,6 +21,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void on() {
     m_intakeMotor.set(ControlMode.PercentOutput, m_intakeSpeed.getDouble(Constants.IntakeSpeed));
+  }
+  public void reverse() {
+    m_intakeMotor.set(ControlMode.PercentOutput, -m_intakeSpeed.getDouble(Constants.IntakeSpeed));
   }
 
   public void off() {
