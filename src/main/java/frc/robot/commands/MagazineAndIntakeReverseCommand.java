@@ -42,7 +42,7 @@ public class MagazineAndIntakeReverseCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_intake.off();
-    m_magazine.off();
+    m_magazine.unreverse();
   }
 
   // Returns true when the command should end.

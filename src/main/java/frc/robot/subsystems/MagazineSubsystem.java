@@ -33,23 +33,32 @@ public class MagazineSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (reversed) { 
-      m_magazineMotor.set(ControlMode.PercentOutput, -getMagazineSpeed());
+
+  }
+  public void on () {
+    toggled = true;
+    if(!reversed){
+      m_magazineMotor.set(ControlMode.PercentOutput, getMagazineSpeed());
     }
-    else if (toggled == false) {
+  }
+  public void off () {
+    toggled = false;
+    if(!reversed) {
       m_magazineMotor.set(ControlMode.PercentOutput, 0);
     }
-    else {
-      m_magazineMotor.set(ControlMode.PercentOutput, getMagazineSpeed());
-      }
-
   }
   public void reverse() {
     reversed = true;
+    m_magazineMotor.set(ControlMode.PercentOutput, -getMagazineSpeed());
   }
-
-  public void off() {
+  public void unreverse() {
     reversed = false;
+    if(toggled) {
+      on();
+    }
+    else {
+      off();
+    }
   }
 
   public double getMagazineSpeed () {

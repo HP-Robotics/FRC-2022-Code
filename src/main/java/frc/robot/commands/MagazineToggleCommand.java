@@ -15,9 +15,9 @@ public class MagazineToggleCommand extends CommandBase {
     @Override
     public void initialize() {
         if (m_subsystem.toggled == true && !m_leaveOn) {
-            m_subsystem.toggled = false;
+            m_subsystem.off();
         } else {
-            m_subsystem.toggled = true;
+            m_subsystem.on();
         }
     }
 
