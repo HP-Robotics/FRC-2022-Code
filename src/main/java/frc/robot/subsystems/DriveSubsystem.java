@@ -46,6 +46,9 @@ public class DriveSubsystem extends SubsystemBase {
     m_right1.setInverted(true);
     m_right2.setInverted(true);
 
+    m_left2.follow(m_left1);
+    m_right2.follow(m_right1);
+
     setuppid(Constants.drivekP, Constants.drivekI, Constants.drivekD, Constants.drivekF, 100);
   }
 
@@ -61,8 +64,6 @@ public class DriveSubsystem extends SubsystemBase {
     double m_lSlowdown = m_leftHandSlowdown.getDouble(Constants.leftHandSlowdown);
     m_left1.set(ControlMode.PercentOutput, left * m_lSlowdown);
     m_right1.set(ControlMode.PercentOutput, left * m_rSlowdown);
-    m_left2.set(ControlMode.PercentOutput, left * m_lSlowdown);
-    m_right2.set(ControlMode.PercentOutput, left * m_rSlowdown);
   }
 
   public void drive(double left, double right) {
@@ -71,8 +72,6 @@ public class DriveSubsystem extends SubsystemBase {
     // System.out.println(left + " " + right);
     m_left1.set(ControlMode.PercentOutput, left * m_lSlowdown);
     m_right1.set(ControlMode.PercentOutput, right * m_rSlowdown);
-    m_left2.set(ControlMode.PercentOutput, left * m_lSlowdown);
-    m_right2.set(ControlMode.PercentOutput, right * m_rSlowdown);
   }
 
   public void arcadeDrive(double left, double right) {
@@ -106,9 +105,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     m_left1.set(ControlMode.PercentOutput, leftSpeed);
     m_right1.set(ControlMode.PercentOutput, rightSpeed);
-    m_left2.set(ControlMode.PercentOutput, leftSpeed);
-    m_right2.set(ControlMode.PercentOutput, rightSpeed);
-
   }
 
   public void setuppid(double kP, double kI, double kD, double kF, int timeout) {
@@ -149,8 +145,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_left2.setSelectedSensorPosition(0);
     m_right2.setSelectedSensorPosition(0);
 
-    m_left2.follow(m_left1);
-    m_right2.follow(m_right1);
+
     m_right1.follow(m_left1);
 
     m_left1.set(ControlMode.MotionMagic, distance);
@@ -160,8 +155,6 @@ public class DriveSubsystem extends SubsystemBase {
   public void disablepid() {
     m_left1.set(ControlMode.PercentOutput, 0);
     m_right1.set(ControlMode.PercentOutput, 0);
-    m_left2.set(ControlMode.PercentOutput, 0);
-    m_right2.set(ControlMode.PercentOutput, 0);
   }
 
   public void playorchestra() {
