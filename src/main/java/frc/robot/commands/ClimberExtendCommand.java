@@ -27,12 +27,14 @@ public class ClimberExtendCommand extends CommandBase {
   @Override
   public void initialize() {
 
+    m_subsystem.extend();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.extend();
+    
   }
 
   // Called once the command ends or is interrupted.
