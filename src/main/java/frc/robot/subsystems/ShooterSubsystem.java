@@ -72,14 +72,17 @@ public class ShooterSubsystem extends SubsystemBase {
         return Math.abs(m_shooter.getSelectedSensorVelocity()-getInputSpeed())<getSpeedThreshold();
     }
 
-    public void periodic() {
-        m_shooter.set(ControlMode.Velocity, m_wheelSetPoint);
-        if (m_wheelSetPoint == 0) {
+    public void setSpeed(double setPoint) {
+        m_wheelSetPoint = setPoint;
+        if (setPoint == 0) {
             m_shooter.set(ControlMode.PercentOutput, 0);
         } else {
-            m_shooter.set(ControlMode.Velocity, m_wheelSetPoint);
+            m_shooter.set(ControlMode.Velocity, setPoint);
         }
-        m_shooter.getSelectedSensorVelocity();
+    }
+
+    public void periodic() {
+        
 
         if (m_wheelSetPoint == 0) {
             lRumble = 0;
@@ -113,9 +116,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void enable(boolean wheelOn) {
         if (wheelOn) {
-            m_wheelSetPoint = getInputSpeed();
+            setSpeed(getInputSpeed());
         } else {
-            m_wheelSetPoint = 0;
+            setSpeed(0);
         }
 
     }
