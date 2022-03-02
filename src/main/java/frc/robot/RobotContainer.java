@@ -229,9 +229,9 @@ public class RobotContainer {
           .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, false));
     }
     if(m_useClimber) {
-      new JoystickButton(m_joystickSubsystem.m_operator, Constants.RB)
-      .whileHeld(new ClimberExtendCommand(m_climberSubsystem));
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.LB)
+      .whileHeld(new ClimberExtendCommand(m_climberSubsystem));
+      new JoystickButton(m_joystickSubsystem.m_operator, Constants.RB)
       .whileHeld(new ClimberRetractCommand(m_climberSubsystem));
 
       new Trigger(m_joystickSubsystem::triggerPressedRight)
