@@ -3,6 +3,8 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
+
 public class FalconCANIntervalConfig {
    public static int primes[]={101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293};
    public static int index = 0;
@@ -17,7 +19,6 @@ public class FalconCANIntervalConfig {
             incrementIndex();
         }
         Talon.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, primes[index]);
-        incrementIndex();
     }
 
     private static void incrementIndex() {

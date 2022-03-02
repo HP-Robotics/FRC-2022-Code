@@ -43,8 +43,8 @@ public final class Constants {
     public static double climbSpeedUp = 0.4;
     public static double climbSpeedDown = -0.4;
     public static double climbStop = 0;
-    public static double climberMin = -23000;
-    public static double climberMax = 264000;
+    public static double climberMin = -24000;
+    public static double climberMax = 209000;
     //starting position -247000;
     public static double climberTarget = 500;
     public static int LB = 5;

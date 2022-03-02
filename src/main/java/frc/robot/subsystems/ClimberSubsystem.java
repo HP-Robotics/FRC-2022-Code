@@ -104,10 +104,10 @@ public class ClimberSubsystem extends SubsystemBase {
  
  	Status_17_Targets1 =(0x1C00)*/
     ;
-    //m_climber.configForwardSoftLimitThreshold(Constants.climberMax);
-    //m_climber.configReverseSoftLimitThreshold(Constants.climberMin);
-    //m_climber.configForwardSoftLimitEnable(true);
-    //m_climber.configReverseSoftLimitEnable(true);
+    m_climber.configForwardSoftLimitThreshold(Constants.climberMax);
+    m_climber.configReverseSoftLimitThreshold(Constants.climberMin);
+    m_climber.configForwardSoftLimitEnable(true);
+    m_climber.configReverseSoftLimitEnable(true);
     m_climber.setSelectedSensorPosition(0);
     m_climber.setNeutralMode(NeutralMode.Brake);
 
@@ -116,16 +116,16 @@ public class ClimberSubsystem extends SubsystemBase {
     }, EntryListenerFlags.kUpdate);
 
     m_ignoreLimits.addListener((Notification)->{
-   //  m_climber.configForwardSoftLimitEnable(!Notification.value.getBoolean());
-   //  m_climber.configReverseSoftLimitEnable(!Notification.value.getBoolean());
+     m_climber.configForwardSoftLimitEnable(!Notification.value.getBoolean());
+     m_climber.configReverseSoftLimitEnable(!Notification.value.getBoolean());
     }, EntryListenerFlags.kUpdate);
 
     m_climbMax.addListener((Notification)->{
-    //  m_climber.configForwardSoftLimitThreshold(m_climbMax.getDouble(Constants.climberMax));
+      m_climber.configForwardSoftLimitThreshold(m_climbMax.getDouble(Constants.climberMax));
     }, EntryListenerFlags.kUpdate);
 
     m_climbMin.addListener((Notification)->{
-    //  m_climber.configReverseSoftLimitThreshold(m_climbMin.getDouble(Constants.climberMin));
+      m_climber.configReverseSoftLimitThreshold(m_climbMin.getDouble(Constants.climberMin));
     }, EntryListenerFlags.kUpdate);
   }
 
@@ -156,7 +156,7 @@ public class ClimberSubsystem extends SubsystemBase {
   
   @Override
   public void periodic() {
-    //System.out.println(m_climber.getSelectedSensorPosition());
+    System.out.println(m_climber.getSelectedSensorPosition());
     
   }
 
