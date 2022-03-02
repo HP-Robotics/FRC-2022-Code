@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.FalconCANIntervalConfig;
 
 public class IntakeSubsystem extends SubsystemBase {
   private ShuffleboardTab m_tab = Shuffleboard.getTab("Intake Configuration");
@@ -17,6 +18,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {
     m_intakeMotor = new TalonFX(11);
+    FalconCANIntervalConfig.ScrambleCANInterval(m_intakeMotor, false, false);
   }
 
   public void on() {

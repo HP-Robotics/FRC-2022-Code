@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.FalconCANIntervalConfig;
 
 public class ClimberSubsystem extends SubsystemBase {
   public TalonFX m_climber;
@@ -62,6 +64,46 @@ public class ClimberSubsystem extends SubsystemBase {
   public ClimberSubsystem() {
     m_climber = new TalonFX(31);
     m_climber.configFactoryDefault();
+    //FalconCANIntervalConfig.ScrambleCANInterval(m_climber, false, true);
+
+    System.out.println("Status_1_General: " + m_climber.getStatusFramePeriod(StatusFrame.Status_1_General));
+    System.out.println("Status_2_Feedback0: " + m_climber.getStatusFramePeriod(StatusFrame.Status_2_Feedback0));
+    System.out.println("Status_4_AinTempVbat: " + m_climber.getStatusFramePeriod(StatusFrame.Status_4_AinTempVbat));
+    System.out.println("Status_6_Misc: " + m_climber.getStatusFramePeriod(StatusFrame.Status_6_Misc));
+    System.out.println("Status_7_CommStatus: " + m_climber.getStatusFramePeriod(StatusFrame.Status_7_CommStatus));
+    System.out.println("Status_9_MotProfBuffer: " + m_climber.getStatusFramePeriod(StatusFrame.Status_9_MotProfBuffer));
+    System.out.println("Status_10.1_MotionMagic: " + m_climber.getStatusFramePeriod(StatusFrame.Status_10_MotionMagic));
+    System.out.println("Status_10.2_Targets: " + m_climber.getStatusFramePeriod(StatusFrame.Status_10_Targets));
+    System.out.println("Status_12_Feedback1: " + m_climber.getStatusFramePeriod(StatusFrame.Status_12_Feedback1));
+    System.out.println("Status_13_Base_PIDF0: " + m_climber.getStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0));
+    System.out.println("Status_14_Turn_PIDF1: " + m_climber.getStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1));
+    System.out.println("Status_15_FirmwareApiStatus: " + m_climber.getStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus));
+    System.out.println("Status_17_Targets1: " + m_climber.getStatusFramePeriod(StatusFrame.Status_17_Targets1));
+
+ 	/*Status_2_Feedback0 =(0x1440)
+ 
+ 	Status_4_AinTempVbat =(0x14C0)
+ 
+ 	Status_6_Misc =(0x1540)
+ 
+ 	Status_7_CommStatus =(0x1580)
+ 
+ 	Status_9_MotProfBuffer =(0x1600)
+ 
+ 	Status_10_MotionMagic =(0x1640)
+ 
+ 	Status_10_Targets =(0x1640)
+ 
+ 	Status_12_Feedback1 =(0x16C0)
+ 
+ 	Status_13_Base_PIDF0 =(0x1700)
+ 
+ 	Status_14_Turn_PIDF1 =(0x1740)
+ 
+ 	Status_15_FirmwareApiStatus =(0x1780)
+ 
+ 	Status_17_Targets1 =(0x1C00)*/
+    ;
     //m_climber.configForwardSoftLimitThreshold(Constants.climberMax);
     //m_climber.configReverseSoftLimitThreshold(Constants.climberMin);
     //m_climber.configForwardSoftLimitEnable(true);

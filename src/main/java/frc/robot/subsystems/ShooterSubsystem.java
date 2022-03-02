@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
+import frc.robot.FalconCANIntervalConfig;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -38,6 +39,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
         m_shooter = new TalonFX(21);
         m_shooter.configFactoryDefault();
+        //FalconCANIntervalConfig.ScrambleCANInterval(m_shooter, true, true);
         m_shooter.config_kP(0, Constants.shooterkP);
         m_shooter.config_kI(0, Constants.shooterkI);
         m_shooter.config_kD(0, Constants.shooterkD);
@@ -45,6 +47,7 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooter.config_IntegralZone(0, Constants.shooterkIzone, 100);
         m_preShooter = new TalonFX(22);
         m_preShooter.configFactoryDefault();
+        //FalconCANIntervalConfig.ScrambleCANInterval(m_preShooter, false, true);
         m_preShooter.setNeutralMode(NeutralMode.Brake);
 
         SmartDashboard.putNumber("shooterkP", Constants.shooterkP);

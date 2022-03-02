@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.music.Orchestra;
 
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.FalconCANIntervalConfig;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -30,6 +32,11 @@ public class DriveSubsystem extends SubsystemBase {
     m_right1 = new TalonFX(2);
     m_left2 = new TalonFX(3);
     m_right2 = new TalonFX(4);
+
+    //FalconCANIntervalConfig.ScrambleCANInterval(m_left1, true, true);
+    //FalconCANIntervalConfig.ScrambleCANInterval(m_left2, true, true);
+    //FalconCANIntervalConfig.ScrambleCANInterval(m_right1, true, true);
+    //FalconCANIntervalConfig.ScrambleCANInterval(m_right2, true, true);
 
     m_orchestra = new Orchestra();
     m_orchestra.addInstrument(m_left1);
@@ -53,10 +60,10 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void periodic() {
-    SmartDashboard.putNumber("LeftFront", m_left1.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("LeftBack", m_left2.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("RightFront", m_right1.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("RightBack", m_right2.getSelectedSensorVelocity());
+    //  SmartDashboard.putNumber("LeftFront", m_left1.getSelectedSensorVelocity());
+   //  SmartDashboard.putNumber("LeftBack", m_left2.getSelectedSensorVelocity());
+  //  SmartDashboard.putNumber("RightFront", m_right1.getSelectedSensorVelocity());
+ //   SmartDashboard.putNumber("RightBack", m_right2.getSelectedSensorVelocity());
   }
 
   public void driveStraight(double left) {
@@ -150,6 +157,12 @@ public class DriveSubsystem extends SubsystemBase {
 
     m_left1.set(ControlMode.MotionMagic, distance);
 
+  }
+
+  public void setCANFrame(TalonFX Talon, int period) {
+    Talon.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, period);
+    Talon.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, period);
+    Talon.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, period);
   }
 
   public void disablepid() {

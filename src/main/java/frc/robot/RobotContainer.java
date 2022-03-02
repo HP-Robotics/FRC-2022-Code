@@ -6,6 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.cscore.UsbCamera;
 
+import java.util.concurrent.TimeUnit;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -84,21 +86,23 @@ public class RobotContainer {
       m_magazineSubsystem = new MagazineSubsystem();
 
     }
-
+    
     if (m_usePneumatic) {
       m_pneumaticSubsystem = new PneumaticSubsystem();
     }
-
+   
     if (m_useShooter) {
       m_shooterSubsystem = new ShooterSubsystem();
       }
-
+     
     if (m_useClimber) {
       m_climberSubsystem = new ClimberSubsystem();
     }
+   
     if (m_useIntake) {
       m_intakeSubsystem = new IntakeSubsystem();
     }
+  
 
     if (m_useDrive) {
       m_driveSubsystem = new DriveSubsystem();
@@ -241,6 +245,8 @@ public class RobotContainer {
         (new ClimberClimbCommand(m_climberSubsystem)),
       new ClimberToggleRotationCommand(m_climberSubsystem, m_pneumaticSubsystem)));
       
+      new JoystickButton(m_joystickSubsystem.m_driver, 5)
+      .whenPressed(new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem));
 
     }
 
