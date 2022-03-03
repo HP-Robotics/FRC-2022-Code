@@ -40,8 +40,8 @@ public final class Constants {
     public static int Y = 4;
     public static int driveStraight = 2;
     
-    public static double climbSpeedUp = 0.4;
-    public static double climbSpeedDown = -0.4;
+    public static double climbSpeedUp = 1;
+    public static double climbSpeedDown = -1;
     public static double climbStop = 0;
     public static double climberMin = -24000;
     public static double climberMax = 209000;
