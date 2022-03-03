@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PneumaticSubsystem extends SubsystemBase {
     Compressor c;
-    Boolean climberRotated = false;
+    Boolean climberRotated = true;
     public boolean m_isUp = true;
     DoubleSolenoid climberRotation;
     DoubleSolenoid intakeExtend;
