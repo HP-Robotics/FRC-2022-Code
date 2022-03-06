@@ -123,9 +123,9 @@ public class RobotContainer {
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
             new ParallelCommandGroup(
                 new IntakeRunMotorCommand(m_intakeSubsystem),
-                new DriveSetDistanceCommand(m_driveSubsystem, 50)).withTimeout(3),
+                new DriveSetDistanceCommand(m_driveSubsystem, 58)).withTimeout(3),
             new InstantCommand(m_pneumaticSubsystem::intakeDown,m_pneumaticSubsystem),
-            new DriveSetDistanceCommand(m_driveSubsystem, -50),
+            new DriveSetDistanceCommand(m_driveSubsystem, -58),
             new PrintCommand("This is a test"),
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
             new MagazineToggleCommand(m_magazineSubsystem, false),
@@ -203,7 +203,7 @@ public class RobotContainer {
 
     if(m_useShooter&&m_useDrive) {
       new JoystickButton(m_joystickSubsystem.m_driver, 8)
-      .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 36));
+      .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 36).withTimeout(5));
     }
 
     // new JoystickButton(driver,7)
