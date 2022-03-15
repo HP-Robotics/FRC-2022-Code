@@ -66,6 +66,22 @@ public class JoystickSubsystem extends SubsystemBase {
           return false;
         }
       }
+      public Boolean povRight(){
+        if (m_operator.getPOV() == 90) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+      public Boolean povLeft(){
+        if (m_operator.getPOV() == 270) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
 
 
     @Override

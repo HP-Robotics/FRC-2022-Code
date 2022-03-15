@@ -39,9 +39,16 @@ public class ClimberSubsystem extends SubsystemBase {
       private NetworkTableEntry m_ignoreLimits = m_tab.add("Manual Override", false)
       .withWidget(BuiltInWidgets.kToggleButton)
       .getEntry();
+      private NetworkTableEntry m_inputUpSlow = m_tab.add("Climber Speed Up Slow", Constants.climbSpeedUpSlow)
+      .getEntry();
+      private NetworkTableEntry m_inputDownSlow = m_tab.add("Climber Speed Down Slow", Constants.climbSpeedDownSlow)
+      .getEntry();
 
   public double getSpeedUp() {
     return m_inputUp.getDouble(Constants.climbSpeedUp);
+  }
+  public double getSpeedUpSlow() {
+    return m_inputUpSlow.getDouble(Constants.climbSpeedUp);
   }
 
   public double getClimberMax() {
@@ -54,6 +61,9 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public double getSpeedDown() {
     return m_inputDown.getDouble(Constants.climbSpeedDown);
+  }
+  public double getSpeedDownSlow() {
+    return m_inputDownSlow.getDouble(Constants.climbSpeedDown);
   }
 
   public double getClimbStop() {
@@ -132,6 +142,9 @@ public class ClimberSubsystem extends SubsystemBase {
   public void extend() { 
         m_climber.set(ControlMode.PercentOutput, getSpeedUp());
   }
+  public void slowExtend() {
+      m_climber.set(ControlMode.PercentOutput, getSpeedUpSlow());
+  }
 
   public void stop() {
     m_climber.set(ControlMode.PercentOutput, getClimbStop());
@@ -140,6 +153,9 @@ public class ClimberSubsystem extends SubsystemBase {
   public void retract() {
       m_climber.set(ControlMode.PercentOutput, getSpeedDown());
   }
+  public void retractSlow() {
+    m_climber.set(ControlMode.PercentOutput, getSpeedDownSlow());
+}
 
   public void extendSpecific(double target) {
     if (m_climber.getSelectedSensorPosition(0) > target) {

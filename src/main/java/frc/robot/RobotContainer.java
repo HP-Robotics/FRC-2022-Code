@@ -22,7 +22,10 @@ import frc.robot.subsystems.MagazineSubsystem;
 import frc.robot.commands.DriveManualCommand;
 import frc.robot.commands.ClimberClimbCommand;
 import frc.robot.commands.ClimberExtendCommand;
+import frc.robot.commands.ClimberFastRetractCommand;
 import frc.robot.commands.ClimberRetractCommand;
+import frc.robot.commands.ClimberSlowExtendCommand;
+import frc.robot.commands.ClimberSlowRetractCommand;
 import frc.robot.commands.ClimberToggleRotationCommand;
 import frc.robot.commands.DriveStraightCommand;
 import frc.robot.commands.IntakeRunMotorCommand;
@@ -247,6 +250,12 @@ public class RobotContainer {
       
       new JoystickButton(m_joystickSubsystem.m_driver, 5)
       .whenPressed(new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem));
+
+      new Trigger(m_joystickSubsystem::povRight)
+      .whenActive(new SequentialCommandGroup(
+        new ClimberSlowRetractCommand(m_climberSubsystem),
+        new ClimberFastRetractCommand(m_climberSubsystem),
+        new ClimberSlowExtendCommand(m_climberSubsystem)));
 
     }
 
