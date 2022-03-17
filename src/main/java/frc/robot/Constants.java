@@ -39,7 +39,7 @@ public final class Constants {
     public static int B = 2;
     public static int Y = 4;
     public static int driveStraight = 2;
-    
+
     public static double climbSpeedUp = 1;
     public static double climbSpeedDown = -1;
     public static double climbSpeedUpSlow = 0.5;
@@ -51,7 +51,7 @@ public final class Constants {
     public static double climberSlowPoint = 1;
     public static double climberHigherPoint = 2;
 
-    //starting position -247000;
+    // starting position -247000;
     public static double climberTarget = 500;
     public static int LB = 5;
     public static int RB = 6;

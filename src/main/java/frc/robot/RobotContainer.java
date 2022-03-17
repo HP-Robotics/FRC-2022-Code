@@ -89,23 +89,22 @@ public class RobotContainer {
       m_magazineSubsystem = new MagazineSubsystem();
 
     }
-    
+
     if (m_usePneumatic) {
       m_pneumaticSubsystem = new PneumaticSubsystem();
     }
-   
+
     if (m_useShooter) {
       m_shooterSubsystem = new ShooterSubsystem();
-      }
-     
+    }
+
     if (m_useClimber) {
       m_climberSubsystem = new ClimberSubsystem();
     }
-   
+
     if (m_useIntake) {
       m_intakeSubsystem = new IntakeSubsystem();
     }
-  
 
     if (m_useDrive) {
       m_driveSubsystem = new DriveSubsystem();
@@ -113,30 +112,29 @@ public class RobotContainer {
       m_driveSubsystem.setDefaultCommand(m_defaultCommand);
     }
 
-    if(m_useShooter) {
+    if (m_useShooter) {
       m_justShoot = new SequentialCommandGroup(
           new ShooterWheelCommand(m_shooterSubsystem),
           new ShooterShootCommand(m_shooterSubsystem).withTimeout(3.0));
 
       if (m_useDrive && m_useIntake && m_useMagazine) {
-        m_twoBallAuto = new SequentialCommandGroup(   
-            new InstantCommand(m_pneumaticSubsystem::intakeUp,m_pneumaticSubsystem),
+        m_twoBallAuto = new SequentialCommandGroup(
+            new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
             new ShooterWheelCommand(m_shooterSubsystem),
             new MagazineToggleCommand(m_magazineSubsystem, true),
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
             new ParallelCommandGroup(
                 new IntakeRunMotorCommand(m_intakeSubsystem),
                 new DriveSetDistanceCommand(m_driveSubsystem, 58)).withTimeout(3),
-            new InstantCommand(m_pneumaticSubsystem::intakeDown,m_pneumaticSubsystem),
+            new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
             new DriveSetDistanceCommand(m_driveSubsystem, -58),
             new PrintCommand("This is a test"),
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
             new MagazineToggleCommand(m_magazineSubsystem, false),
             new ShooterWheelCommand(m_shooterSubsystem));
 
+      }
     }
-    }
-
 
     m_autonomousChooser = new SendableChooser<Command>();
     m_autonomousChooser.addOption("Do Nothing", new InstantCommand());
@@ -182,10 +180,10 @@ public class RobotContainer {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
           .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
 
-          new Trigger(m_joystickSubsystem::povUp)
+      new Trigger(m_joystickSubsystem::povUp)
           .whenActive(new InstantCommand(m_shooterSubsystem::highSpeed, m_shooterSubsystem));
-      
-          new Trigger(m_joystickSubsystem::povDown)
+
+      new Trigger(m_joystickSubsystem::povDown)
           .whenActive(new InstantCommand(m_shooterSubsystem::lowSpeed, m_shooterSubsystem));
     }
 
@@ -204,9 +202,9 @@ public class RobotContainer {
           .whenPressed(new InstantCommand(m_driveSubsystem::stoporchestra, m_driveSubsystem));
     }
 
-    if(m_useShooter&&m_useDrive) {
+    if (m_useShooter && m_useDrive) {
       new JoystickButton(m_joystickSubsystem.m_driver, 8)
-      .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 36).withTimeout(5));
+          .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 36).withTimeout(5));
     }
 
     // new JoystickButton(driver,7)
@@ -224,45 +222,40 @@ public class RobotContainer {
           .whileHeld(new MagazineAndIntakeReverseCommand(m_intakeSubsystem, m_magazineSubsystem))
           .whileHeld(new IntakeUpDownCommand(m_pneumaticSubsystem));
     }
-    
-    
 
     if (m_useMagazine) {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.X)
           .whenPressed(new MagazineToggleCommand(m_magazineSubsystem, false));
     }
-    if(m_useClimber) {
+    if (m_useClimber) {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.LB)
-      .whileHeld(new ClimberExtendCommand(m_climberSubsystem));
+          .whileHeld(new ClimberExtendCommand(m_climberSubsystem));
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.RB)
-      .whileHeld(new ClimberRetractCommand(m_climberSubsystem));
+          .whileHeld(new ClimberRetractCommand(m_climberSubsystem));
 
       new Trigger(m_joystickSubsystem::triggerPressedRight)
-      .whenActive(new InstantCommand(m_pneumaticSubsystem::climberForward, m_pneumaticSubsystem));
-  
+          .whenActive(new InstantCommand(m_pneumaticSubsystem::climberForward, m_pneumaticSubsystem));
+
       new Trigger(m_joystickSubsystem::triggerPressedLeft)
-      .whenActive(new InstantCommand(m_pneumaticSubsystem::climberBack, m_pneumaticSubsystem));
-    
-      new JoystickButton(m_joystickSubsystem.m_operator,8)
-      .whenPressed (new SequentialCommandGroup(
-        (new ClimberClimbCommand(m_climberSubsystem)),
-      new ClimberToggleRotationCommand(m_climberSubsystem, m_pneumaticSubsystem)));
-      
+          .whenActive(new InstantCommand(m_pneumaticSubsystem::climberBack, m_pneumaticSubsystem));
+
+      new JoystickButton(m_joystickSubsystem.m_operator, 8)
+          .whenPressed(new SequentialCommandGroup(
+              (new ClimberClimbCommand(m_climberSubsystem)),
+              new ClimberToggleRotationCommand(m_climberSubsystem, m_pneumaticSubsystem)));
+
       new JoystickButton(m_joystickSubsystem.m_driver, 5)
-      .whenPressed(new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem));
+          .whenPressed(new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem));
 
       new Trigger(m_joystickSubsystem::povRight)
-      .whenActive(new SequentialCommandGroup(
-        new ClimberSlowRetractCommand(m_climberSubsystem),
-        new ClimberFastRetractCommand(m_climberSubsystem),
-        new ClimberSlowExtendCommand(m_climberSubsystem)));
+          .whileActiveContinuous(new SequentialCommandGroup(
+              new ClimberSlowRetractCommand(m_climberSubsystem),
+              new ClimberFastRetractCommand(m_climberSubsystem),
+              new ClimberSlowExtendCommand(m_climberSubsystem)));
 
     }
 
-
   }
-
-    
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
