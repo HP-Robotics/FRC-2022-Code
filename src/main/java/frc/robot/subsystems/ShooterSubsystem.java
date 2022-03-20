@@ -5,8 +5,10 @@ import java.util.function.Supplier;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import edu.wpi.first.networktables.NetworkTableEntry;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,6 +30,10 @@ public class ShooterSubsystem extends SubsystemBase {
             .getEntry();
     private BooleanSupplier m_atSpeed = ()->upToSpeed();;
         private Supplier<String> m_getWheelTarget = ()->{ return  m_wheelTarget;};
+
+    NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    NetworkTable table = inst.getTable("limelight-shooter");
+    NetworkTableEntry hubX = table.getEntry("tx");
    
 
     public TalonFX m_shooter;
@@ -114,6 +120,10 @@ public class ShooterSubsystem extends SubsystemBase {
         m_wheelTarget = "High";
         this.enable(true);
     }   
+
+    public double getNormalizedHubX() {
+        return ((hubX.getDouble(0))/56);
+    }
     
 
 

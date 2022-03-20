@@ -29,6 +29,7 @@ import frc.robot.commands.ClimberSlowRetractCommand;
 import frc.robot.commands.ClimberToggleRotationCommand;
 import frc.robot.commands.DriveStraightCommand;
 import frc.robot.commands.DriveTrackCargo;
+import frc.robot.commands.DriveTrackHub;
 import frc.robot.commands.IntakeRunMotorCommand;
 import frc.robot.commands.MagazineAndIntakeReverseCommand;
 import frc.robot.commands.IntakeUpDownCommand;
@@ -209,6 +210,8 @@ public class RobotContainer {
     if (m_useShooter && m_useDrive) {
       new JoystickButton(m_joystickSubsystem.m_driver, 8)
           .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 36).withTimeout(5));
+      new JoystickButton(m_joystickSubsystem.m_driver, 4)
+          .whileHeld(new DriveTrackHub(m_driveSubsystem, m_joystickSubsystem, m_shooterSubsystem));
     }
 
     // new JoystickButton(driver,7)
