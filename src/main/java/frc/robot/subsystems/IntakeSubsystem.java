@@ -43,7 +43,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println(cargoX.getDouble(0));
+  
     // This method will be called once per scheduler run
   }
 
