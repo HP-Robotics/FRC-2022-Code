@@ -178,7 +178,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println(m_climber.getSelectedSensorPosition());
+    //System.out.println(m_climber.getSelectedSensorPosition());
 
   }
 

@@ -20,7 +20,7 @@ public final class Constants {
     public static double rightHandSlowdown = 1.0;
     public static double leftHandSlowdown = 1.0;
     public static double preshooterSpeed = 0.5;
-    public static double shooterHighSpeed = 14000;
+    public static double shooterHighSpeed = 14100;
     public static double shooterLowSpeed = 8000;
     public static double shooterSpeedThreshold = 200;
     public static double shooterkD = 0.0;
@@ -48,8 +48,8 @@ public final class Constants {
     public static double climberMin = -24000;
     public static double climberMax = 209000;
     public static double climberFastPoint = 0;
-    public static double climberSlowPoint = 1;
-    public static double climberHigherPoint = 2;
+    public static double climberSlowPoint = 179000;
+    public static double climberHigherPoint = 90000;
 
     // starting position -247000;
     public static double climberTarget = 500;
