@@ -22,8 +22,14 @@ public class DriveTrackCargo extends CommandBase {
 
     @Override
     public void execute() {
-        m_subsystem.arcadeDrive(m_joystickSubsystem.driverMove(), 
-        m_intakeSubsystem.getNormalizedCargoX());
+        if (m_intakeSubsystem.trackingCargo()){
+            m_subsystem.arcadeDrive(m_joystickSubsystem.driverMove(), 
+            m_intakeSubsystem.getNormalizedCargoX());
+        }    
+        else {
+            m_subsystem.arcadeDrive(m_joystickSubsystem.driverMove(), 
+        m_joystickSubsystem.driverSpin());
+        }
     }
 
     @Override

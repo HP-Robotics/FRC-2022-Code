@@ -125,7 +125,13 @@ public class ShooterSubsystem extends SubsystemBase {
         return ((hubX.getDouble(0))/56);
     }
     
-
+    public boolean trackingHub() {
+        if (table.getEntry("tv").getNumber(0).intValue() >= 0.5){
+         return true;
+        } 
+        return false;
+        
+      }
 
     public void enable(boolean wheelOn) {
         if (wheelOn) {

@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.DriveSubsystem;
@@ -23,8 +22,13 @@ public class DriveTrackHub extends CommandBase {
 
     @Override
     public void execute() {
-        m_subsystem.arcadeDrive(m_joystickSubsystem.driverMove(), 
-        m_shooterSubsystem.getNormalizedHubX());
+        if (m_shooterSubsystem.trackingHub()) {
+            m_subsystem.arcadeDrive(m_joystickSubsystem.driverMove(),
+                    m_shooterSubsystem.getNormalizedHubX());
+        } else {
+            m_subsystem.arcadeDrive(m_joystickSubsystem.driverMove(),
+                    m_joystickSubsystem.driverSpin());
+        }
     }
 
     @Override

@@ -42,6 +42,14 @@ public class IntakeSubsystem extends SubsystemBase {
     return ((cargoX.getDouble(0))/56.0);
   }
 
+  public boolean trackingCargo() {
+    if (table.getEntry("tv").getNumber(0).intValue() >= 0.5){
+     return true;
+    } 
+    return false;
+    
+  }
+
   @Override
   public void periodic() {
     int teamval = team.getBoolean(true) ? 0 : 1;
