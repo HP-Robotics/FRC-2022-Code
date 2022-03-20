@@ -20,6 +20,7 @@ public class IntakeSubsystem extends SubsystemBase {
   NetworkTableInstance inst = NetworkTableInstance.getDefault();
   NetworkTable table = inst.getTable("limelight-intake");
   NetworkTableEntry cargoX = table.getEntry("tx");
+  NetworkTableEntry team = inst.getTable("FMSInfo").getEntry("IsRedAlliance");
 
   public IntakeSubsystem() {
     m_intakeMotor = new TalonFX(11);
@@ -43,7 +44,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-  
+    int teamval = team.getBoolean(true) ? 0 : 1;
+    table.getEntry("pipeline").setNumber(teamval);
     // This method will be called once per scheduler run
   }
 

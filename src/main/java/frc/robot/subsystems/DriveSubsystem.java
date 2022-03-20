@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.music.Orchestra;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,6 +15,8 @@ import frc.robot.Constants;
 import frc.robot.FalconCANIntervalConfig;
 
 public class DriveSubsystem extends SubsystemBase {
+
+  public ADXRS450_Gyro gyro;
 
   private ShuffleboardTab m_tab = Shuffleboard.getTab("Drive Train Configuration");
   private NetworkTableEntry m_rightHandSlowdown = m_tab.add("Right Hand Slowdown", Constants.rightHandSlowdown)
@@ -33,10 +36,10 @@ public class DriveSubsystem extends SubsystemBase {
     m_left2 = new TalonFX(3);
     m_right2 = new TalonFX(4);
 
-    //FalconCANIntervalConfig.ScrambleCANInterval(m_left1, true, true);
-    //FalconCANIntervalConfig.ScrambleCANInterval(m_left2, true, true);
-    //FalconCANIntervalConfig.ScrambleCANInterval(m_right1, true, true);
-    //FalconCANIntervalConfig.ScrambleCANInterval(m_right2, true, true);
+    // FalconCANIntervalConfig.ScrambleCANInterval(m_left1, true, true);
+    // FalconCANIntervalConfig.ScrambleCANInterval(m_left2, true, true);
+    // FalconCANIntervalConfig.ScrambleCANInterval(m_right1, true, true);
+    // FalconCANIntervalConfig.ScrambleCANInterval(m_right2, true, true);
 
     m_orchestra = new Orchestra();
     m_orchestra.addInstrument(m_left1);
@@ -57,13 +60,19 @@ public class DriveSubsystem extends SubsystemBase {
     m_right2.follow(m_right1);
 
     setuppid(Constants.drivekP, Constants.drivekI, Constants.drivekD, Constants.drivekF, 100);
+
+    gyro = new ADXRS450_Gyro();
+
+    gyro.calibrate();
+    gyro.reset();
   }
 
   public void periodic() {
-    //  SmartDashboard.putNumber("LeftFront", m_left1.getSelectedSensorVelocity());
-   //  SmartDashboard.putNumber("LeftBack", m_left2.getSelectedSensorVelocity());
-  //  SmartDashboard.putNumber("RightFront", m_right1.getSelectedSensorVelocity());
- //   SmartDashboard.putNumber("RightBack", m_right2.getSelectedSensorVelocity());
+    // SmartDashboard.putNumber("LeftFront", m_left1.getSelectedSensorVelocity());
+    // SmartDashboard.putNumber("LeftBack", m_left2.getSelectedSensorVelocity());
+    // SmartDashboard.putNumber("RightFront", m_right1.getSelectedSensorVelocity());
+    // SmartDashboard.putNumber("RightBack", m_right2.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Gyro", gyro.getAngle());
   }
 
   public void driveStraight(double left) {
@@ -112,6 +121,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     m_left1.set(ControlMode.PercentOutput, leftSpeed);
     m_right1.set(ControlMode.PercentOutput, rightSpeed);
+
   }
 
   public void setuppid(double kP, double kI, double kD, double kF, int timeout) {
@@ -152,11 +162,20 @@ public class DriveSubsystem extends SubsystemBase {
     m_left2.setSelectedSensorPosition(0);
     m_right2.setSelectedSensorPosition(0);
 
-
     m_right1.follow(m_left1);
 
     m_left1.set(ControlMode.MotionMagic, distance);
 
+  }
+
+  public void turnpid(double distance) {
+    m_left1.setSelectedSensorPosition(0);
+    m_right1.setSelectedSensorPosition(0);
+    m_left2.setSelectedSensorPosition(0);
+    m_right2.setSelectedSensorPosition(0);
+
+    m_right1.set(ControlMode.MotionMagic, distance);
+    m_left1.set(ControlMode.MotionMagic, -distance);
   }
 
   public void setCANFrame(TalonFX Talon, int period) {

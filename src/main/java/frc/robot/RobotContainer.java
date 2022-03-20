@@ -30,6 +30,7 @@ import frc.robot.commands.ClimberToggleRotationCommand;
 import frc.robot.commands.DriveStraightCommand;
 import frc.robot.commands.DriveTrackCargo;
 import frc.robot.commands.DriveTrackHub;
+import frc.robot.commands.DriveTurn;
 import frc.robot.commands.IntakeRunMotorCommand;
 import frc.robot.commands.MagazineAndIntakeReverseCommand;
 import frc.robot.commands.IntakeUpDownCommand;
@@ -120,7 +121,7 @@ public class RobotContainer {
           new ShooterWheelCommand(m_shooterSubsystem),
           new ShooterShootCommand(m_shooterSubsystem).withTimeout(3.0));
 
-      if (m_useDrive && m_useIntake && m_useMagazine) {
+      if (m_useDrive && m_useIntake && m_useMagazine&& m_usePneumatic) {
         m_twoBallAuto = new SequentialCommandGroup(
             new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
             new ShooterWheelCommand(m_shooterSubsystem),
@@ -196,6 +197,9 @@ public class RobotContainer {
      * new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
      * .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48));
      */
+
+     //new JoystickButton(m_joystickSubsystem.m_driver, 9)\\
+     //.whenPressed(new DriveTurn(m_driveSubsystem, 24)); \\
     if (m_useDrive) {
       new JoystickButton(m_joystickSubsystem.m_driver, Constants.driveStraight)
           .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem));
