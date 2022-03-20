@@ -28,6 +28,7 @@ import frc.robot.commands.ClimberSlowExtendCommand;
 import frc.robot.commands.ClimberSlowRetractCommand;
 import frc.robot.commands.ClimberToggleRotationCommand;
 import frc.robot.commands.DriveStraightCommand;
+import frc.robot.commands.DriveTrackCargo;
 import frc.robot.commands.IntakeRunMotorCommand;
 import frc.robot.commands.MagazineAndIntakeReverseCommand;
 import frc.robot.commands.IntakeUpDownCommand;
@@ -42,6 +43,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
@@ -59,7 +61,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   public ShuffleboardTab m_driverTab = Shuffleboard.getTab("Driver View");
   public static Boolean m_useShooter = true;
-  private Boolean m_useClimber = true;
+  private Boolean m_useClimber = false;
   private Boolean m_useIntake = true;
   private Boolean m_useDrive = true;
   private Boolean m_useMagazine = true;
@@ -200,6 +202,8 @@ public class RobotContainer {
           .whenPressed(new InstantCommand(m_driveSubsystem::playorchestra, m_driveSubsystem));
       new JoystickButton(m_joystickSubsystem.m_driver, 12)
           .whenPressed(new InstantCommand(m_driveSubsystem::stoporchestra, m_driveSubsystem));
+      new JoystickButton(m_joystickSubsystem.m_driver, 2)
+          .whileHeld(new DriveTrackCargo(m_driveSubsystem, m_joystickSubsystem, m_intakeSubsystem));
     }
 
     if (m_useShooter && m_useDrive) {
@@ -251,7 +255,9 @@ public class RobotContainer {
           .whileActiveContinuous(new SequentialCommandGroup(
               new ClimberSlowRetractCommand(m_climberSubsystem),
               new ClimberFastRetractCommand(m_climberSubsystem),
-              new ClimberSlowExtendCommand(m_climberSubsystem)));
+              new ClimberSlowExtendCommand(m_climberSubsystem),
+              new WaitCommand(10)));
+      
 
     }
 
