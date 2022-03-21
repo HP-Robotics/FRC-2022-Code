@@ -17,6 +17,7 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public static double maxVelocity = 11000;
     public static double rightHandSlowdown = 1.0;
     public static double leftHandSlowdown = 1.0;
     public static double preshooterSpeed = 0.5;
@@ -29,6 +30,7 @@ public final class Constants {
     public static double shooterkP = 0.12;
     public static double shooterkIzone = 500;
 
+    // Spin Constants: kP = 0.25, kI = 0.002, kF = 0.06, kD = 2
     public static double drivekP = 0.2;
     public static double drivekI = 0.001;
     public static double drivekD = 0;

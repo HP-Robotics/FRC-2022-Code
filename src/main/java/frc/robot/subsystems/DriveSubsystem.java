@@ -29,6 +29,7 @@ public class DriveSubsystem extends SubsystemBase {
   public TalonFX m_left2;
   public TalonFX m_right2;
   public Orchestra m_orchestra;
+  public Boolean m_velocityDrive = false;
 
   public DriveSubsystem() {
     m_left1 = new TalonFX(1);
@@ -75,20 +76,24 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Gyro", gyro.getAngle());
   }
 
-  public void driveStraight(double left) {
-    double m_rSlowdown = m_rightHandSlowdown.getDouble(Constants.rightHandSlowdown);
-    double m_lSlowdown = m_leftHandSlowdown.getDouble(Constants.leftHandSlowdown);
-    m_left1.set(ControlMode.PercentOutput, left * m_lSlowdown);
-    m_right1.set(ControlMode.PercentOutput, left * m_rSlowdown);
+  public void drive(double left, double right) {
+    if (m_velocityDrive) {
+      if (Math.abs(left) < 0.05) {
+        m_left1.set(ControlMode.PercentOutput, 0);
+      } else {
+        m_left1.set(ControlMode.Velocity, left * Constants.maxVelocity);
+      }
+      if (Math.abs(right) < 0.05) {
+        m_right1.set(ControlMode.PercentOutput, 0);
+      } else {
+        m_right1.set(ControlMode.Velocity, right * Constants.maxVelocity);
+      }
+    } else {
+      m_left1.set(ControlMode.PercentOutput, left);
+      m_right1.set(ControlMode.PercentOutput, right);
+    }
   }
 
-  public void drive(double left, double right) {
-    double m_rSlowdown = m_rightHandSlowdown.getDouble(Constants.rightHandSlowdown);
-    double m_lSlowdown = m_leftHandSlowdown.getDouble(Constants.leftHandSlowdown);
-    // System.out.println(left + " " + right);
-    m_left1.set(ControlMode.PercentOutput, left * m_lSlowdown);
-    m_right1.set(ControlMode.PercentOutput, right * m_rSlowdown);
-  }
 
   public void arcadeDrive(double left, double right) {
 
@@ -118,10 +123,7 @@ public class DriveSubsystem extends SubsystemBase {
       }
     }
     // System.out.println(leftSpeed);
-
-    m_left1.set(ControlMode.PercentOutput, leftSpeed);
-    m_right1.set(ControlMode.PercentOutput, rightSpeed);
-
+    drive(leftSpeed, rightSpeed);
   }
 
   public void setuppid(double kP, double kI, double kD, double kF, int timeout) {
