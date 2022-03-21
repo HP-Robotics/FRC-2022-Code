@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.music.Orchestra;
@@ -54,6 +55,16 @@ public class DriveSubsystem extends SubsystemBase {
     m_left2.configFactoryDefault();
     m_right2.configFactoryDefault();
 
+    if (m_velocityDrive) {
+      /* First number is a maximum current limit, once that is reached, we are limited to the second number
+         for the duration given by the third number */
+     /* StatorCurrentLimitConfiguration limit = new StatorCurrentLimitConfiguration(true, 30, 40, 0.5);
+      m_left1.configStatorCurrentLimit(limit);
+      m_right1.configStatorCurrentLimit(limit);
+      m_left2.configStatorCurrentLimit(limit);
+      m_right2.configStatorCurrentLimit(limit);*/
+    }
+
     m_right1.setInverted(true);
     m_right2.setInverted(true);
 
@@ -93,7 +104,6 @@ public class DriveSubsystem extends SubsystemBase {
       m_right1.set(ControlMode.PercentOutput, right);
     }
   }
-
 
   public void arcadeDrive(double left, double right) {
 
