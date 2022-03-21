@@ -21,7 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
   NetworkTable table = inst.getTable("limelight-intake");
   NetworkTableEntry cargoX = table.getEntry("tx");
   NetworkTableEntry team = inst.getTable("FMSInfo").getEntry("IsRedAlliance");
-
+  public int m_cargoSightCounter=0; 
   public IntakeSubsystem() {
     m_intakeMotor = new TalonFX(11);
     FalconCANIntervalConfig.ScrambleCANInterval(m_intakeMotor, false, false);
@@ -54,7 +54,18 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     int teamval = team.getBoolean(true) ? 0 : 1;
     table.getEntry("pipeline").setNumber(teamval);
+
+    if(trackingCargo()){
+      m_cargoSightCounter=0;
+    }
+    else {
+      m_cargoSightCounter=m_cargoSightCounter-1;
+    }
     // This method will be called once per scheduler run
+  }
+
+  public Boolean cargoSeen() {
+    return (m_cargoSightCounter>-5);
   }
 
   @Override
