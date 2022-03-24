@@ -44,6 +44,7 @@ import frc.robot.subsystems.PneumaticSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -142,22 +143,24 @@ public class RobotContainer {
       m_threeBallAuto = new SequentialCommandGroup(
           new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
           new ShooterWheelCommand(m_shooterSubsystem),
-          new ParallelCommandGroup(
+          new ParallelDeadlineGroup(
+              new DriveSetDistanceCommand(m_driveSubsystem, 58),
               new IntakeRunMotorCommand(m_intakeSubsystem),
-              new MagazineToggleCommand(m_magazineSubsystem, true),
-              new DriveSetDistanceCommand(m_driveSubsystem, 58)).withTimeout(2),
+              new MagazineToggleCommand(m_magazineSubsystem, true)).withTimeout(2),
+          new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
           new ShooterShootCommand(m_shooterSubsystem).withTimeout(2),
-          new DriveTurn(m_driveSubsystem, 0),//103.27 clockwise
-          new ParallelCommandGroup(
-              new IntakeRunMotorCommand(m_intakeSubsystem),
-              new DriveSetDistanceCommand(m_driveSubsystem, 101)).withTimeout(3),
-          new DriveTurn(m_driveSubsystem, 0),//58.455 counterclockwise
-          //new DriveSetDistanceCommand(m_driveSubsystem, 0),
+          new DriveTurn(m_driveSubsystem, 0), // 103.27 clockwise
+          new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
+          new ParallelDeadlineGroup(
+              new DriveSetDistanceCommand(m_driveSubsystem, 101),
+              new IntakeRunMotorCommand(m_intakeSubsystem)).withTimeout(3),
+          new DriveTurn(m_driveSubsystem, 0), // 58.455 counterclockwise
+          // new DriveSetDistanceCommand(m_driveSubsystem, 0),
+          new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
           new ShooterShootCommand(m_shooterSubsystem).withTimeout(2),
           new MagazineToggleCommand(m_magazineSubsystem, false),
-          new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
           new ShooterWheelCommand(m_shooterSubsystem));
-          
+
     }
 
     m_autonomousChooser = new SendableChooser<Command>();
