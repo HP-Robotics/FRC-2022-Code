@@ -30,7 +30,7 @@ import frc.robot.commands.ClimberToggleRotationCommand;
 import frc.robot.commands.DriveStraightCommand;
 import frc.robot.commands.DriveTrackCargo;
 import frc.robot.commands.DriveTrackHub;
-import frc.robot.commands.DriveTurn;
+import frc.robot.commands.DriveTurnCommand;
 import frc.robot.commands.IntakeRunMotorCommand;
 import frc.robot.commands.MagazineAndIntakeReverseCommand;
 import frc.robot.commands.IntakeUpDownCommand;
@@ -149,12 +149,12 @@ public class RobotContainer {
               new MagazineToggleCommand(m_magazineSubsystem, true)).withTimeout(2),
           new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
           new ShooterShootCommand(m_shooterSubsystem).withTimeout(2),
-          new DriveTurn(m_driveSubsystem, 0), // 103.27 clockwise
+          new DriveTurnCommand(m_driveSubsystem, 0), // 103.27 clockwise
           new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
           new ParallelDeadlineGroup(
               new DriveSetDistanceCommand(m_driveSubsystem, 101),
               new IntakeRunMotorCommand(m_intakeSubsystem)).withTimeout(3),
-          new DriveTurn(m_driveSubsystem, 0), // 58.455 counterclockwise
+          new DriveTurnCommand(m_driveSubsystem, 0), // 58.455 counterclockwise
           // new DriveSetDistanceCommand(m_driveSubsystem, 0),
           new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
           new ShooterShootCommand(m_shooterSubsystem).withTimeout(2),
@@ -223,7 +223,7 @@ public class RobotContainer {
      */
 
     // new JoystickButton(m_joystickSubsystem.m_driver, 9)\\
-    // .whenPressed(new DriveTurn(m_driveSubsystem, 24)); \\
+    // .whenPressed(new DriveTurnCommand(m_driveSubsystem, 24)); \\
     if (m_useDrive) {
       new JoystickButton(m_joystickSubsystem.m_driver, Constants.driveStraight)
           .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem));
