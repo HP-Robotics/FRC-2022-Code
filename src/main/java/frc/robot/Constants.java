@@ -31,10 +31,10 @@ public final class Constants {
     public static double shooterkIzone = 500;
 
     // Spin Constants: kP = 0.25, kI = 0.002, kF = 0.06, kD = 2
-    public static double drivekP = 0.2;
-    public static double drivekI = 0.001;
-    public static double drivekD = 0;
-    public static double drivekF = 0.06;
+    public static double drivekP = 0.25;
+    public static double drivekI = 0.000;
+    public static double drivekD = 0.02;
+    public static double drivekF = 0.09;
 
     public static int X = 3;
     public static int A = 1;
@@ -49,7 +49,7 @@ public final class Constants {
     public static double climbStop = 0;
     public static double climberMin = -24000;
     public static double climberMax = 209000;
-    public static double climberFastPoint = 0;
+    public static double climberFastPoint = -20000;
     public static double climberSlowPoint = 179000;
     public static double climberHigherPoint = 90000;
 
