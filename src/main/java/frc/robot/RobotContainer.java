@@ -83,6 +83,7 @@ public class RobotContainer {
 
   private Command m_justShoot;
   private Command m_twoBallAuto;
+  private Command m_threeBallAuto;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -121,7 +122,7 @@ public class RobotContainer {
           new ShooterWheelCommand(m_shooterSubsystem),
           new ShooterShootCommand(m_shooterSubsystem).withTimeout(3.0));
 
-      if (m_useDrive && m_useIntake && m_useMagazine&& m_usePneumatic) {
+      if (m_useDrive && m_useIntake && m_useMagazine && m_usePneumatic) {
         m_twoBallAuto = new SequentialCommandGroup(
             new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
             new ParallelCommandGroup(
@@ -138,6 +139,25 @@ public class RobotContainer {
             new ShooterWheelCommand(m_shooterSubsystem));
 
       }
+      m_threeBallAuto = new SequentialCommandGroup(
+          new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
+          new ShooterWheelCommand(m_shooterSubsystem),
+          new ParallelCommandGroup(
+              new IntakeRunMotorCommand(m_intakeSubsystem),
+              new MagazineToggleCommand(m_magazineSubsystem, true),
+              new DriveSetDistanceCommand(m_driveSubsystem, 58)).withTimeout(2),
+          new ShooterShootCommand(m_shooterSubsystem).withTimeout(2),
+          new DriveTurn(m_driveSubsystem, 0),//103.27 clockwise
+          new ParallelCommandGroup(
+              new IntakeRunMotorCommand(m_intakeSubsystem),
+              new DriveSetDistanceCommand(m_driveSubsystem, 101)).withTimeout(3),
+          new DriveTurn(m_driveSubsystem, 0),//58.455 counterclockwise
+          //new DriveSetDistanceCommand(m_driveSubsystem, 0),
+          new ShooterShootCommand(m_shooterSubsystem).withTimeout(2),
+          new MagazineToggleCommand(m_magazineSubsystem, false),
+          new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
+          new ShooterWheelCommand(m_shooterSubsystem));
+          
     }
 
     m_autonomousChooser = new SendableChooser<Command>();
@@ -151,6 +171,7 @@ public class RobotContainer {
 
     if (m_useShooter && m_useDrive && m_useIntake && m_useMagazine) {
       m_autonomousChooser.addOption("Two Ball Auto", m_twoBallAuto);
+      m_autonomousChooser.addOption("Three Ball Auto", m_threeBallAuto);
     }
     SmartDashboard.putData("Autonomous Mode", m_autonomousChooser);
 
@@ -198,8 +219,8 @@ public class RobotContainer {
      * .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48));
      */
 
-     //new JoystickButton(m_joystickSubsystem.m_driver, 9)\\
-     //.whenPressed(new DriveTurn(m_driveSubsystem, 24)); \\
+    // new JoystickButton(m_joystickSubsystem.m_driver, 9)\\
+    // .whenPressed(new DriveTurn(m_driveSubsystem, 24)); \\
     if (m_useDrive) {
       new JoystickButton(m_joystickSubsystem.m_driver, Constants.driveStraight)
           .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem));
@@ -264,7 +285,6 @@ public class RobotContainer {
               new ClimberFastRetractCommand(m_climberSubsystem),
               new ClimberSlowExtendCommand(m_climberSubsystem),
               new WaitCommand(10)));
-      
 
     }
 
