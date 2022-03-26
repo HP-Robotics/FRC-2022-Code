@@ -138,6 +138,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void setuppid(double kP, double kI, double kD, double kF, int timeout) {
 
+    if (m_velocityDrive) {
+      kI = 0.0;
+    }
+
     m_left1.config_kP(0, kP, timeout);
     m_left1.config_kI(0, kI, timeout);
     m_left1.config_kD(0, kD, timeout);

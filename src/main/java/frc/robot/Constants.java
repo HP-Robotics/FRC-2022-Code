@@ -32,7 +32,7 @@ public final class Constants {
 
     // Spin Constants: kP = 0.25, kI = 0.002, kF = 0.06, kD = 2
     public static double drivekP = 0.25;
-    public static double drivekI = 0.000;
+    public static double drivekI = 0.001;
     public static double drivekD = 0.02;
     public static double drivekF = 0.09;
 
