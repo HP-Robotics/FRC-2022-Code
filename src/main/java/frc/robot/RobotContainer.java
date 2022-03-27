@@ -130,7 +130,7 @@ public class RobotContainer {
                 new IntakeRunMotorCommand(m_intakeSubsystem),
                 new DriveSetDistanceCommand(m_driveSubsystem, 58)).withTimeout(3),
             new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
-            new DriveSetDistanceCommand(m_driveSubsystem, -16),
+            new DriveSetDistanceCommand(m_driveSubsystem, -16).withTimeout(3),
             new ShooterWheelCommand(m_shooterSubsystem),
             new MagazineToggleCommand(m_magazineSubsystem, true),
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
