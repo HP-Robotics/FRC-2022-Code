@@ -1,0 +1,36 @@
+Current experimental vision code.
+
+How to install opencv for python on your computer:
+    https://docs.opencv.org/4.x/da/df6/tutorial_py_table_of_contents_setup.html
+    
+    Install from prebuilt if possible (trust me)
+
+About the samples:
+    There are 2 runs. Each run has multiple pictures from 5 different positions.
+    The general description of the positions is in Numbers
+    You can tell the runs apart by the timestamp. First set is date, second one is H/M/S
+
+Useful things we've found:
+    Real world robot/point dimensions are in Numbers
+    Camera angle is 47.3 degrees
+    Goal is 75 inches above camera lens
+    
+    Real world coordinates of the nth tape rectangle are (starting with n=0):
+        (27*cos(2n*10.61),27*sin(2n*10.61)) (27*cos((2n-1)*10.61),27*sin((2n-1)*10.61))
+    
+    tvec coordinates:
+        1st coordinate: L/R offset between camera and target
+        2nd coordinate: U/D offset
+        3rd coordinate: F/B offset
+    
+Opencv python tutorials (Seriously the best resource for this stuff!!!):
+    https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html
+    More specifically:
+        Messing with images: https://docs.opencv.org/4.x/d2/d96/tutorial_py_table_of_contents_imgproc.html
+        SolvePnP stuff: https://docs.opencv.org/4.x/d9/db7/tutorial_py_table_of_contents_calib3d.html
+
+Likely TODOs:
+    Better contour detection
+    Height filter on solvePnP output
+    Stop hardcoding solvePnP data
+    group the contours together for better results
