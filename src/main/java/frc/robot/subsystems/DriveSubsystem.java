@@ -178,7 +178,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_left2.setSelectedSensorPosition(0);
     m_right2.setSelectedSensorPosition(0);
 
-    m_right1.follow(m_left1);
+    m_right1.set(ControlMode.MotionMagic, distance);
 
     m_left1.set(ControlMode.MotionMagic, distance);
 
