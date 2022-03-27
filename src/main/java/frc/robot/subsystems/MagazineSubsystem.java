@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -29,6 +30,10 @@ public class MagazineSubsystem extends SubsystemBase {
     m_magazineMotor.configFactoryDefault();
     m_magazineSpeed.setNumber(Constants.MagazineSpeed);
     m_magazineMotor.setInverted(true);
+    m_magazineMotor.configPeakCurrentLimit(30);
+    m_magazineMotor.configPeakCurrentDuration(100);
+    m_magazineMotor.configContinuousCurrentLimit(5);
+    m_magazineMotor.enableCurrentLimit(true);
   }
 
   @Override
