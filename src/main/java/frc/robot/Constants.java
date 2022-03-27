@@ -35,6 +35,7 @@ public final class Constants {
     public static double drivekI = 0.001;
     public static double drivekD = 0.02;
     public static double drivekF = 0.09;
+    public static double degreesToInches = 1/(-4.7);
 
     public static int X = 3;
     public static int A = 1;
