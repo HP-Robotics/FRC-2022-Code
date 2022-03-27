@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -190,6 +191,7 @@ public class RobotContainer {
       }
     }
 
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -290,11 +292,13 @@ public class RobotContainer {
               new ClimberSlowRetractCommand(m_climberSubsystem),
               new ClimberFastRetractCommand(m_climberSubsystem),
               new ClimberSlowExtendCommand(m_climberSubsystem),
+              new InstantCommand(m_pneumaticSubsystem::climberBack, m_pneumaticSubsystem),
               new WaitCommand(10)));
-
     }
 
   }
+
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
