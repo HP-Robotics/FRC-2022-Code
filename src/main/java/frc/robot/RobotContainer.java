@@ -69,6 +69,7 @@ public class RobotContainer {
   private Boolean m_useDrive = true;
   private Boolean m_useMagazine = true;
   private Boolean m_usePneumatic = true;
+  private Boolean m_useCamera = false;
   // The robot's subsystems and commands are defined here...
   private DriveSubsystem m_driveSubsystem;
   public ShooterSubsystem m_shooterSubsystem;
@@ -128,9 +129,9 @@ public class RobotContainer {
             new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
             new ParallelCommandGroup(
                 new IntakeRunMotorCommand(m_intakeSubsystem),
-                new DriveSetDistanceCommand(m_driveSubsystem, 58)).withTimeout(3),
+                new DriveSetDistanceCommand(m_driveSubsystem, 58)).withTimeout(2),
             new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
-            new DriveSetDistanceCommand(m_driveSubsystem, -16).withTimeout(3),
+            new DriveSetDistanceCommand(m_driveSubsystem, -16).withTimeout(2),
             new ShooterWheelCommand(m_shooterSubsystem),
             new MagazineToggleCommand(m_magazineSubsystem, true),
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
@@ -178,13 +179,15 @@ public class RobotContainer {
     }
     SmartDashboard.putData("Autonomous Mode", m_autonomousChooser);
 
-    UsbCamera usbCamera = CameraServer.startAutomaticCapture(0);
-    if (usbCamera != null) {
-      System.out.println("Yay, we have a camera!");
-      usbCamera.setResolution(160, 120);
-      usbCamera.setFPS(10);
-    } else {
-      System.out.println("startAutomaticCapture() failed, no USB Camera");
+    if (m_useCamera) {
+      UsbCamera usbCamera = CameraServer.startAutomaticCapture(0);
+      if (usbCamera != null) {
+        System.out.println("Yay, we have a camera!");
+        usbCamera.setResolution(160, 120);
+        usbCamera.setFPS(10);
+      } else {
+        System.out.println("startAutomaticCapture() failed, no USB Camera");
+      }
     }
 
     // Configure the button bindings
