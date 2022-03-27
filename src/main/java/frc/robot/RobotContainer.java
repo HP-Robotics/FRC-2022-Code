@@ -150,13 +150,13 @@ public class RobotContainer {
               new MagazineToggleCommand(m_magazineSubsystem, true)).withTimeout(2),
           new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
           new ShooterShootCommand(m_shooterSubsystem).withTimeout(2),
-          new DriveTurnCommand(m_driveSubsystem, 0), // 103.27 clockwise
+          new DriveTurnCommand(m_driveSubsystem, 103.27), // 103.27 clockwise
           new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
           new ParallelDeadlineGroup(
               new DriveSetDistanceCommand(m_driveSubsystem, 101),
               new IntakeRunMotorCommand(m_intakeSubsystem)).withTimeout(3),
-          new DriveTurnCommand(m_driveSubsystem, 0), // 58.455 counterclockwise
-          // new DriveSetDistanceCommand(m_driveSubsystem, 0),
+          new DriveTurnCommand(m_driveSubsystem, -58.455), // 58.455 counterclockwise
+          new DriveSetDistanceCommand(m_driveSubsystem, -16).withTimeout(1),
           new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
           new ShooterShootCommand(m_shooterSubsystem).withTimeout(2),
           new MagazineToggleCommand(m_magazineSubsystem, false),
@@ -225,8 +225,8 @@ public class RobotContainer {
      * .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 48));
      */
 
-    // new JoystickButton(m_joystickSubsystem.m_driver, 9)\\
-    // .whenPressed(new DriveTurnCommand(m_driveSubsystem, 24)); \\
+    // new JoystickButton(m_joystickSubsystem.m_driver, 9)
+    // .whenPressed(new DriveTurnCommand(m_driveSubsystem, 90));
     if (m_useDrive) {
       new JoystickButton(m_joystickSubsystem.m_driver, Constants.driveStraight)
           .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem));
