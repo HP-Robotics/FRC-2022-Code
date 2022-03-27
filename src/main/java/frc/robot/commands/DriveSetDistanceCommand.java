@@ -34,13 +34,13 @@ public class DriveSetDistanceCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        System.out.println("");
+        System.out.println(".");
         System.out.println("Time to Complete: " + m_driveTime.get() + " Distance Moved in Ticks: " + m_distance);
         System.out.println("Left Error: " + (m_subsystem.m_left1.getClosedLoopTarget()-m_subsystem.m_left1.getSelectedSensorPosition(0)));
         System.out.println("Right Error: " + (m_subsystem.m_right1.getClosedLoopTarget()-m_subsystem.m_right1.getSelectedSensorPosition(0)));
         System.out.println("Left Velocity: " + m_subsystem.m_left1.getSelectedSensorVelocity(0));
         System.out.println("Right Velocity: " + m_subsystem.m_right1.getSelectedSensorVelocity(0));
-        System.out.println("");
+        System.out.println(".");
         m_subsystem.disablepid();
     }
 
