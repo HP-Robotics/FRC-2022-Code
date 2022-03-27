@@ -38,6 +38,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public TalonFX m_shooter;
     public TalonFX m_preShooter;
+    public TalonFX m_shooterFollower;
     public double lRumble = 0;
     public double rRumble = 0;
 
@@ -55,6 +56,10 @@ public class ShooterSubsystem extends SubsystemBase {
         m_preShooter.configFactoryDefault();
         //FalconCANIntervalConfig.ScrambleCANInterval(m_preShooter, false, true);
         m_preShooter.setNeutralMode(NeutralMode.Brake);
+        m_shooterFollower = new TalonFX(23);
+        m_shooterFollower.configFactoryDefault();
+        //m_shooterFollower.follow(m_shooter);
+
 
         SmartDashboard.putNumber("shooterkP", Constants.shooterkP);
         SmartDashboard.putNumber("shooterkI", Constants.shooterkI);
