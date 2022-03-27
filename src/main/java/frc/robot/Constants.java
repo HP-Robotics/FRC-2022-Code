@@ -49,7 +49,7 @@ public final class Constants {
     public static double climbStop = 0;
     public static double climberMin = -24000;
     public static double climberMax = 209000;
-    public static double climberFastPoint = -20000;
+    public static double climberFastPoint = -23500;
     public static double climberSlowPoint = 179000;
     public static double climberHigherPoint = 90000;
 
