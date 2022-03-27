@@ -28,7 +28,7 @@ public class MagazineSubsystem extends SubsystemBase {
     m_magazineMotor = new TalonSRX(12);
     m_magazineMotor.configFactoryDefault();
     m_magazineSpeed.setNumber(Constants.MagazineSpeed);
-    
+    m_magazineMotor.setInverted(true);
   }
 
   @Override
