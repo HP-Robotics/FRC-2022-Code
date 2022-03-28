@@ -45,7 +45,7 @@ public final class Constants {
 
     public static double climbSpeedUp = 1;
     public static double climbSpeedDown = -1;
-    public static double climbSpeedUpSlow = 0.5;
+    public static double climbSpeedUpSlow = 0.3;
     public static double climbSpeedDownSlow = -0.5;
     public static double climbStop = 0;
     public static double climberMin = -24000;
