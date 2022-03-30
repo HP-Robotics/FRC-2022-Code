@@ -65,6 +65,10 @@ public class Robot extends TimedRobot {
     if(RobotContainer.m_useShooter){
       m_robotContainer.m_joystickSubsystem.m_operator.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
       m_robotContainer.m_joystickSubsystem.m_operator.setRumble(GenericHID.RumbleType.kRightRumble, 0);
+      m_robotContainer.m_shooterSubsystem.disableLimelight();
+    }
+    if (RobotContainer.m_useIntake) {
+      m_robotContainer.m_intakeSubsystem.disableLimelight();
     }
   }
 
@@ -79,6 +83,13 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    if(RobotContainer.m_useShooter){
+      m_robotContainer.m_shooterSubsystem.enableLimelight();
+    }
+    if (RobotContainer.m_useIntake) {
+      m_robotContainer.m_intakeSubsystem.enableLimelight();
+    }
+
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -99,6 +110,12 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+    }
+    if(RobotContainer.m_useShooter){
+      m_robotContainer.m_shooterSubsystem.enableLimelight();
+    }
+    if (RobotContainer.m_useIntake) {
+      m_robotContainer.m_intakeSubsystem.enableLimelight();
     }
   }
 

@@ -68,4 +68,6 @@ public final class Constants {
     public static int cameraPort = 1181;
 
     public static final int lidarId = 0;
+    
+    public static double blinkenPattern = -0.77;
 }

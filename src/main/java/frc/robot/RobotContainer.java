@@ -66,7 +66,7 @@ public class RobotContainer {
   public ShuffleboardTab m_driverTab = Shuffleboard.getTab("Driver View");
   public static Boolean m_useShooter = true;
   private Boolean m_useClimber = true;
-  private Boolean m_useIntake = true;
+  public static Boolean m_useIntake = true;
   private Boolean m_useDrive = true;
   private Boolean m_useMagazine = true;
   private Boolean m_usePneumatic = true;
@@ -76,7 +76,7 @@ public class RobotContainer {
   public ShooterSubsystem m_shooterSubsystem;
   private PneumaticSubsystem m_pneumaticSubsystem;
   private ClimberSubsystem m_climberSubsystem;
-  private IntakeSubsystem m_intakeSubsystem;
+  public IntakeSubsystem m_intakeSubsystem;
   public final JoystickSubsystem m_joystickSubsystem = new JoystickSubsystem();
   private MagazineSubsystem m_magazineSubsystem;
   // private LIDARSubsystem m_LidarSubsystem = new LIDARSubsystem();
@@ -87,11 +87,14 @@ public class RobotContainer {
   private Command m_justShoot;
   private Command m_twoBallAuto;
   private Command m_threeBallAuto;
-
+  private Spark m_blinken;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
+    m_blinken= new Spark(0);
+    m_blinken.set(Constants.blinkenPattern);
 
     if (m_useMagazine) {
       m_magazineSubsystem = new MagazineSubsystem();
@@ -130,9 +133,9 @@ public class RobotContainer {
             new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
             new ParallelCommandGroup(
                 new IntakeRunMotorCommand(m_intakeSubsystem),
-                new DriveSetDistanceCommand(m_driveSubsystem, 58)).withTimeout(2),
+                new DriveSetDistanceCommand(m_driveSubsystem, 52)).withTimeout(2),
             new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
-            new DriveSetDistanceCommand(m_driveSubsystem, -16).withTimeout(2),
+            new DriveSetDistanceCommand(m_driveSubsystem, -10).withTimeout(2),
             new ShooterWheelCommand(m_shooterSubsystem),
             new MagazineToggleCommand(m_magazineSubsystem, true),
             new ShooterShootCommand(m_shooterSubsystem).withTimeout(3),
@@ -146,12 +149,12 @@ public class RobotContainer {
           new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
           new ShooterWheelCommand(m_shooterSubsystem),
           new ParallelDeadlineGroup(
-              new DriveSetDistanceCommand(m_driveSubsystem, 58),
+              new DriveSetDistanceCommand(m_driveSubsystem, 52),
               new IntakeRunMotorCommand(m_intakeSubsystem),
               new MagazineToggleCommand(m_magazineSubsystem, true)).withTimeout(2),
           new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
           
-              new DriveSetDistanceCommand(m_driveSubsystem, -16).withTimeout(1),
+              new DriveSetDistanceCommand(m_driveSubsystem, -10).withTimeout(1),
               new ShooterShootCommand(m_shooterSubsystem).withTimeout(2),
           new DriveTurnCommand(m_driveSubsystem, 111), // 103.27 clockwise
           new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
@@ -193,7 +196,7 @@ public class RobotContainer {
       }
     }
 
-
+    
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -296,6 +299,7 @@ public class RobotContainer {
               new ClimberSlowExtendCommand(m_climberSubsystem),
               new InstantCommand(m_pneumaticSubsystem::climberBack, m_pneumaticSubsystem),
               new WaitCommand(10)));
+
     }
 
   }

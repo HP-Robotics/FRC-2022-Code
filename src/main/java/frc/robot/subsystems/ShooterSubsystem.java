@@ -58,7 +58,8 @@ public class ShooterSubsystem extends SubsystemBase {
         m_preShooter.setNeutralMode(NeutralMode.Brake);
         m_shooterFollower = new TalonFX(23);
         m_shooterFollower.configFactoryDefault();
-        //m_shooterFollower.follow(m_shooter);
+        m_shooterFollower.follow(m_shooter);
+        m_shooterFollower.setInverted(true);
 
 
         SmartDashboard.putNumber("shooterkP", Constants.shooterkP);
@@ -145,5 +146,15 @@ public class ShooterSubsystem extends SubsystemBase {
             setSpeed(0);
         }
 
+    }
+
+    public void enableLimelight() {
+        table.getEntry("ledMode").setNumber(0);
+        table.getEntry("camMode").setNumber(0);
+    }
+
+    public void disableLimelight() {
+        table.getEntry("ledMode").setNumber(1);
+        table.getEntry("camMode").setNumber(1);
     }
 }

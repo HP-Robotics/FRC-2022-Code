@@ -68,6 +68,14 @@ public class IntakeSubsystem extends SubsystemBase {
     return (m_cargoSightCounter>-5);
   }
 
+  public void enableLimelight() {
+    table.getEntry("camMode").setNumber(0);
+  }
+
+  public void disableLimelight() {
+    table.getEntry("camMode").setNumber(1);
+  }
+
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
