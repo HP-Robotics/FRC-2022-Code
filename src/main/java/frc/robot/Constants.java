@@ -21,8 +21,8 @@ public final class Constants {
     public static double rightHandSlowdown = 1.0;
     public static double leftHandSlowdown = 1.0;
     public static double preshooterSpeed = 0.5;
-    public static double shooterHighSpeed = 14100;
-    public static double shooterLowSpeed = 8000;
+    public static double shooterHighSpeed = 14100 * (2.0/3.0); // 9400
+    public static double shooterLowSpeed = 8000 * (2.0/3.0); // 5333
     public static double shooterSpeedThreshold = 200;
     public static double shooterkD = 0.0;
     public static double shooterkF = 0.048;
