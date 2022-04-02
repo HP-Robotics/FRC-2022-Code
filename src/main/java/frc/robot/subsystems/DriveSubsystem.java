@@ -6,6 +6,9 @@ import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.music.Orchestra;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -17,7 +20,7 @@ import frc.robot.FalconCANIntervalConfig;
 
 public class DriveSubsystem extends SubsystemBase {
 
-  public ADXRS450_Gyro gyro;
+  public ADXRS450_Gyro m_gyro;
 
   private ShuffleboardTab m_tab = Shuffleboard.getTab("Drive Train Configuration");
   private NetworkTableEntry m_rightHandSlowdown = m_tab.add("Right Hand Slowdown", Constants.rightHandSlowdown)
@@ -31,6 +34,7 @@ public class DriveSubsystem extends SubsystemBase {
   public TalonFX m_right2;
   public Orchestra m_orchestra;
   public Boolean m_velocityDrive = false;
+  public final DifferentialDriveOdometry m_odometry;
 
   public DriveSubsystem() {
     m_left1 = new TalonFX(1);
@@ -73,19 +77,32 @@ public class DriveSubsystem extends SubsystemBase {
 
     setuppid(Constants.drivekP, Constants.drivekI, Constants.drivekD, Constants.drivekF, 100);
 
-    gyro = new ADXRS450_Gyro();
+    m_gyro = new ADXRS450_Gyro();
 
-    gyro.calibrate();
-    gyro.reset();
+    m_gyro.calibrate();
+    m_gyro.reset();
+
+    m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
+    resetOdometry(new Pose2d());
+
   }
+
+  public double ticksToMeters(double input) {
+    return (input*6*Math.PI*0.0254)/(2048*10.71);
+}
+
 
   public void periodic() {
     // SmartDashboard.putNumber("LeftFront", m_left1.getSelectedSensorVelocity());
     // SmartDashboard.putNumber("LeftBack", m_left2.getSelectedSensorVelocity());
     // SmartDashboard.putNumber("RightFront", m_right1.getSelectedSensorVelocity());
     // SmartDashboard.putNumber("RightBack", m_right2.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Gyro", gyro.getAngle());
-  }
+    SmartDashboard.putNumber("Gyro", m_gyro.getAngle());
+    m_odometry.update(
+      m_gyro.getRotation2d(),ticksToMeters( m_left1.getSelectedSensorPosition()), ticksToMeters(m_right1.getSelectedSensorPosition()));
+
+}
+  
 
   public void drive(double left, double right) {
     if (m_velocityDrive) {
@@ -215,5 +232,48 @@ public class DriveSubsystem extends SubsystemBase {
     if (m_orchestra.isPlaying()) {
       m_orchestra.stop();
     }
+  }
+
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+
+  /**
+   * Returns the current wheel speeds of the robot.
+   *
+   * @return The current wheel speeds.
+   */
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(10*ticksToMeters(m_left1.getSelectedSensorVelocity()),10*ticksToMeters( m_right1.getSelectedSensorVelocity()));
+  }
+
+  /**
+   * Resets the odometry to the specified pose.
+   *
+   * @param pose The pose to which to set the odometry.
+   * @return 
+   */
+
+   public void zOdemtry() {
+     resetOdometry(new Pose2d());
+   }
+
+  public void resetOdometry(Pose2d pose) {
+    resetEncoders();
+    m_gyro.reset();
+    m_odometry.resetPosition(pose, m_gyro.getRotation2d());
+  }
+
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    m_left1.set(ControlMode.PercentOutput, leftVolts/12);
+      m_right1.set(ControlMode.PercentOutput, rightVolts/12);
+  }
+
+  /** Resets the drive encoders to currently read a position of 0. */
+  public void resetEncoders() {
+    m_left1.setSelectedSensorPosition(0);
+    m_right1.setSelectedSensorPosition(0);
+    m_left2.setSelectedSensorPosition(0);
+    m_right2.setSelectedSensorPosition(0);
   }
 }

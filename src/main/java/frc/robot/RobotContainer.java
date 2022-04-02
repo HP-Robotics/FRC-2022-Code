@@ -5,7 +5,19 @@
 package frc.robot;
 
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -51,6 +63,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -87,13 +100,15 @@ public class RobotContainer {
   private Command m_justShoot;
   private Command m_twoBallAuto;
   private Command m_threeBallAuto;
+  private Command m_fourBallAuto;
   private Spark m_blinken;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
 
-    m_blinken= new Spark(0);
+    m_blinken = new Spark(0);
     m_blinken.set(Constants.blinkenPattern);
 
     if (m_useMagazine) {
@@ -144,29 +159,53 @@ public class RobotContainer {
             new MagazineToggleCommand(m_magazineSubsystem, false),
             new ShooterWheelCommand(m_shooterSubsystem));
 
+        m_threeBallAuto = new SequentialCommandGroup(
+            new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
+            new ShooterWheelCommand(m_shooterSubsystem),
+            new ParallelDeadlineGroup(
+                new DriveSetDistanceCommand(m_driveSubsystem, 52),
+                new IntakeRunMotorCommand(m_intakeSubsystem),
+                new MagazineToggleCommand(m_magazineSubsystem, true)).withTimeout(2),
+            new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
+
+            new DriveSetDistanceCommand(m_driveSubsystem, -10).withTimeout(1),
+            new ShooterShootCommand(m_shooterSubsystem).withTimeout(2),
+            new DriveTurnCommand(m_driveSubsystem, 111), // 103.27 clockwise
+            new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
+            new ParallelDeadlineGroup(
+                new DriveSetDistanceCommand(m_driveSubsystem, 104),
+                new IntakeRunMotorCommand(m_intakeSubsystem)).withTimeout(3),
+            new DriveTurnCommand(m_driveSubsystem, -58.455), // 58.455 counterclockwise
+            new DriveTrackHub(m_driveSubsystem, m_joystickSubsystem, m_shooterSubsystem).withTimeout(1),
+            new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
+            new ShooterShootCommand(m_shooterSubsystem).withTimeout(2), // */
+            new MagazineToggleCommand(m_magazineSubsystem, false),
+            new ShooterWheelCommand(m_shooterSubsystem));
+
+        m_fourBallAuto = new SequentialCommandGroup(
+            new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
+            new ShooterWheelCommand(m_shooterSubsystem),
+            new InstantCommand(m_driveSubsystem::zOdemtry, m_driveSubsystem),
+            new ParallelDeadlineGroup(
+                getFanceCommand(52, 0, 19, false),
+                new IntakeRunMotorCommand(m_intakeSubsystem),
+                new MagazineToggleCommand(m_magazineSubsystem, true)).withTimeout(3),
+            new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
+            new ShooterShootCommand(m_shooterSubsystem).withTimeout(1.25),
+            new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
+            new InstantCommand(m_driveSubsystem::zOdemtry, m_driveSubsystem),
+            new ParallelDeadlineGroup(
+                getFanceCommand(140, -60, 0, false),
+                new IntakeRunMotorCommand(m_intakeSubsystem)),
+            new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
+            new InstantCommand(m_driveSubsystem::zOdemtry, m_driveSubsystem),
+            getFanceCommand(-140, 60, 0, true),
+            new DriveTrackHub(m_driveSubsystem, m_joystickSubsystem, m_shooterSubsystem).withTimeout(1),
+            new ShooterShootCommand(m_shooterSubsystem).withTimeout(2), // */
+            new MagazineToggleCommand(m_magazineSubsystem, false),
+            new ShooterWheelCommand(m_shooterSubsystem));
+
       }
-      m_threeBallAuto = new SequentialCommandGroup(
-          new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
-          new ShooterWheelCommand(m_shooterSubsystem),
-          new ParallelDeadlineGroup(
-              new DriveSetDistanceCommand(m_driveSubsystem, 52),
-              new IntakeRunMotorCommand(m_intakeSubsystem),
-              new MagazineToggleCommand(m_magazineSubsystem, true)).withTimeout(2),
-          new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
-          
-              new DriveSetDistanceCommand(m_driveSubsystem, -10).withTimeout(1),
-              new ShooterShootCommand(m_shooterSubsystem).withTimeout(2),
-          new DriveTurnCommand(m_driveSubsystem, 111), // 103.27 clockwise
-          new InstantCommand(m_pneumaticSubsystem::intakeUp, m_pneumaticSubsystem),
-          new ParallelDeadlineGroup(
-              new DriveSetDistanceCommand(m_driveSubsystem, 104),
-              new IntakeRunMotorCommand(m_intakeSubsystem)).withTimeout(3),
-          new DriveTurnCommand(m_driveSubsystem, -58.455), // 58.455 counterclockwise
-          new DriveTrackHub(m_driveSubsystem, m_joystickSubsystem, m_shooterSubsystem).withTimeout(1),
-          new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
-          new ShooterShootCommand(m_shooterSubsystem).withTimeout(2),//*/
-          new MagazineToggleCommand(m_magazineSubsystem, false),
-          new ShooterWheelCommand(m_shooterSubsystem));
 
     }
 
@@ -182,6 +221,7 @@ public class RobotContainer {
     if (m_useShooter && m_useDrive && m_useIntake && m_useMagazine) {
       m_autonomousChooser.addOption("Two Ball Auto", m_twoBallAuto);
       m_autonomousChooser.addOption("Three Ball Auto", m_threeBallAuto);
+      m_autonomousChooser.addOption("Four Ball Auto", m_fourBallAuto);
     }
     SmartDashboard.putData("Autonomous Mode", m_autonomousChooser);
 
@@ -196,7 +236,6 @@ public class RobotContainer {
       }
     }
 
-    
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -234,6 +273,14 @@ public class RobotContainer {
 
     // new JoystickButton(m_joystickSubsystem.m_driver, 9)
     // .whenPressed(new DriveTurnCommand(m_driveSubsystem, 90));
+
+    /*
+     * .whenHeld(new SequentialCommandGroup(
+     * new InstantCommand(m_driveSubsystem::zOdemtry, m_driveSubsystem),
+     * getFanceCommand(52,0,19, false),
+     * new WaitCommand(10)));
+     */
+
     if (m_useDrive) {
       new JoystickButton(m_joystickSubsystem.m_driver, Constants.driveStraight)
           .whileHeld(new DriveStraightCommand(m_driveSubsystem, m_joystickSubsystem));
@@ -304,7 +351,62 @@ public class RobotContainer {
 
   }
 
+  public Command getFanceCommand(double x, double y, double degrees, Boolean reversed) {
 
+    // Create a voltage constraint to ensure we don't accelerate too fast
+    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
+        new SimpleMotorFeedforward(
+            Constants.ksVolts,
+            Constants.kvVoltSecondsPerMeter,
+            Constants.kaVoltSecondsSquaredPerMeter),
+        Constants.kDriveKinematics,
+        10);
+
+    // Create config for trajectory
+    TrajectoryConfig config = new TrajectoryConfig(
+        Constants.kMaxSpeedMetersPerSecond,
+        Constants.kMaxAccelerationMetersPerSecondSquared)
+
+            // Add kinematics to ensure max speed is actually obeyed
+            .setKinematics(Constants.kDriveKinematics)
+            // Apply the voltage constraint
+            .addConstraint(autoVoltageConstraint)
+            .setReversed(reversed);
+
+    // An example trajectory to follow. All units in meters.
+    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+        // Start at the origin facing the +X direction
+        new Pose2d(0, 0, new Rotation2d(0)),
+        // Pass through these two interior waypoints, making an 's' curve path
+        List.of(/* new Translation2d(1, 1), new Translation2d(2, -1) */),
+        // End 3 meters straight ahead of where we started, facing forward
+        new Pose2d(x * 0.0254, y * 0.0254, new Rotation2d(degrees * Math.PI / 180)),
+        // Pass config
+        config);
+
+    RamseteCommand ramseteCommand = new RamseteCommand(
+        exampleTrajectory,
+        m_driveSubsystem::getPose,
+        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+        new SimpleMotorFeedforward(
+            Constants.ksVolts,
+            Constants.kvVoltSecondsPerMeter,
+            Constants.kaVoltSecondsSquaredPerMeter),
+        Constants.kDriveKinematics,
+        m_driveSubsystem::getWheelSpeeds,
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        // RamseteCommand passes volts to the callback
+        m_driveSubsystem::tankDriveVolts,
+        m_driveSubsystem);
+
+    // Reset odometry to the starting pose of the trajectory.
+    m_driveSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
+
+    // Run path following command, then stop at the end.
+    System.out.println("Fance: " + exampleTrajectory.getTotalTimeSeconds());
+    return ramseteCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

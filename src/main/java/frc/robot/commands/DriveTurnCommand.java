@@ -24,9 +24,9 @@ public class DriveTurnCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        m_subsystem.gyro.reset();
+        m_subsystem.m_gyro.reset();
         m_subsystem.turnpid(m_distance);
-        m_gyroStart = m_subsystem.gyro.getAngle();
+        m_gyroStart = m_subsystem.m_gyro.getAngle();
         m_turnTimer.reset();
         m_turnTimer.start();
     }
@@ -44,7 +44,7 @@ public class DriveTurnCommand extends CommandBase {
         System.out.println("Right Error: " + (m_subsystem.m_right1.getClosedLoopTarget()-m_subsystem.m_right1.getSelectedSensorPosition(0)));
         System.out.println("Left Velocity: " + m_subsystem.m_left1.getSelectedSensorVelocity(0));
         System.out.println("Right Velocity: " + m_subsystem.m_right1.getSelectedSensorVelocity(0));
-        System.out.println("Actual Angle: " + (m_gyroStart-m_subsystem.gyro.getAngle()));
+        System.out.println("Actual Angle: " + (m_gyroStart-m_subsystem.m_gyro.getAngle()));
         System.out.println(".");
         m_subsystem.disablepid();
     }
