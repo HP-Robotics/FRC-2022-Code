@@ -24,10 +24,10 @@ public final class Constants {
     public static double shooterHighSpeed = 14100 * (2.0/3.0); // 9400
     public static double shooterLowSpeed = 8000 * (2.0/3.0); // 5333
     public static double shooterSpeedThreshold = 200;
-    public static double shooterkD = 0.0;
-    public static double shooterkF = 0.048;
+    public static double shooterkD = 7.5;
+    public static double shooterkF = 0.055;
     public static double shooterkI = 0.0005;
-    public static double shooterkP = 0.12;
+    public static double shooterkP = 0.145;
     public static double shooterkIzone = 500;
 
     // Spin Constants: kP = 0.25, kI = 0.002, kF = 0.06, kD = 2
