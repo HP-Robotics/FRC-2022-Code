@@ -60,13 +60,19 @@ public class DriveSubsystem extends SubsystemBase {
     m_right2.configFactoryDefault();
 
     if (m_velocityDrive) {
-      /* First number is a maximum current limit, once that is reached, we are limited to the second number
-         for the duration given by the third number */
-     /* StatorCurrentLimitConfiguration limit = new StatorCurrentLimitConfiguration(true, 30, 40, 0.5);
-      m_left1.configStatorCurrentLimit(limit);
-      m_right1.configStatorCurrentLimit(limit);
-      m_left2.configStatorCurrentLimit(limit);
-      m_right2.configStatorCurrentLimit(limit);*/
+      /*
+       * First number is a maximum current limit, once that is reached, we are limited
+       * to the second number
+       * for the duration given by the third number
+       */
+      /*
+       * StatorCurrentLimitConfiguration limit = new
+       * StatorCurrentLimitConfiguration(true, 30, 40, 0.5);
+       * m_left1.configStatorCurrentLimit(limit);
+       * m_right1.configStatorCurrentLimit(limit);
+       * m_left2.configStatorCurrentLimit(limit);
+       * m_right2.configStatorCurrentLimit(limit);
+       */
     }
 
     m_right1.setInverted(true);
@@ -88,9 +94,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double ticksToMeters(double input) {
-    return (input*6*Math.PI*0.0254)/(2048*10.71);
-}
-
+    return (input * 6 * Math.PI * 0.0254) / (2048 * 10.71);
+  }
 
   public void periodic() {
     // SmartDashboard.putNumber("LeftFront", m_left1.getSelectedSensorVelocity());
@@ -99,10 +104,10 @@ public class DriveSubsystem extends SubsystemBase {
     // SmartDashboard.putNumber("RightBack", m_right2.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Gyro", m_gyro.getAngle());
     m_odometry.update(
-      m_gyro.getRotation2d(),ticksToMeters( m_left1.getSelectedSensorPosition()), ticksToMeters(m_right1.getSelectedSensorPosition()));
+        m_gyro.getRotation2d(), ticksToMeters(m_left1.getSelectedSensorPosition()),
+        ticksToMeters(m_right1.getSelectedSensorPosition()));
 
-}
-  
+  }
 
   public void drive(double left, double right) {
     if (m_velocityDrive) {
@@ -244,19 +249,20 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The current wheel speeds.
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(10*ticksToMeters(m_left1.getSelectedSensorVelocity()),10*ticksToMeters( m_right1.getSelectedSensorVelocity()));
+    return new DifferentialDriveWheelSpeeds(10 * ticksToMeters(m_left1.getSelectedSensorVelocity()),
+        10 * ticksToMeters(m_right1.getSelectedSensorVelocity()));
   }
 
   /**
    * Resets the odometry to the specified pose.
    *
    * @param pose The pose to which to set the odometry.
-   * @return 
+   * @return
    */
 
-   public void zOdemtry() {
-     resetOdometry(new Pose2d());
-   }
+  public void zOdemtry() {
+    resetOdometry(new Pose2d());
+  }
 
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
@@ -265,8 +271,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    m_left1.set(ControlMode.PercentOutput, leftVolts/12);
-      m_right1.set(ControlMode.PercentOutput, rightVolts/12);
+    m_left1.set(ControlMode.PercentOutput, leftVolts / 12);
+    m_right1.set(ControlMode.PercentOutput, rightVolts / 12);
   }
 
   /** Resets the drive encoders to currently read a position of 0. */

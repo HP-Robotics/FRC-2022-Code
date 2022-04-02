@@ -11,11 +11,10 @@ public class DriveTurnCommand extends CommandBase {
     private double m_gyroStart;
     public Timer m_turnTimer = new Timer();
 
-
     public DriveTurnCommand(DriveSubsystem subsytem, double degrees) {
         m_subsystem = subsytem;
         addRequirements(m_subsystem);
-        m_distance = inchesToTicks(degrees*Constants.degreesToInches);
+        m_distance = inchesToTicks(degrees * Constants.degreesToInches);
     }
 
     public double inchesToTicks(double input) {
@@ -40,11 +39,13 @@ public class DriveTurnCommand extends CommandBase {
     public void end(boolean interrupted) {
         System.out.println(".");
         System.out.println("Time to Complete: " + m_turnTimer.get() + " Distance Moved in Ticks: " + m_distance);
-        System.out.println("Left Error: " + (m_subsystem.m_left1.getClosedLoopTarget()-m_subsystem.m_left1.getSelectedSensorPosition(0)));
-        System.out.println("Right Error: " + (m_subsystem.m_right1.getClosedLoopTarget()-m_subsystem.m_right1.getSelectedSensorPosition(0)));
+        System.out.println("Left Error: "
+                + (m_subsystem.m_left1.getClosedLoopTarget() - m_subsystem.m_left1.getSelectedSensorPosition(0)));
+        System.out.println("Right Error: "
+                + (m_subsystem.m_right1.getClosedLoopTarget() - m_subsystem.m_right1.getSelectedSensorPosition(0)));
         System.out.println("Left Velocity: " + m_subsystem.m_left1.getSelectedSensorVelocity(0));
         System.out.println("Right Velocity: " + m_subsystem.m_right1.getSelectedSensorVelocity(0));
-        System.out.println("Actual Angle: " + (m_gyroStart-m_subsystem.m_gyro.getAngle()));
+        System.out.println("Actual Angle: " + (m_gyroStart - m_subsystem.m_gyro.getAngle()));
         System.out.println(".");
         m_subsystem.disablepid();
     }
@@ -52,11 +53,12 @@ public class DriveTurnCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         // System.out.println(m_subsystem.m_left1.getClosedLoopTarget()-m_subsystem.m_left1.getSelectedSensorPosition(0));
-        return
-        Math.abs(m_subsystem.m_left1.getClosedLoopTarget()-m_subsystem.m_left1.getSelectedSensorPosition(0))
-        < 100 && Math.abs(m_subsystem.m_left1.getSelectedSensorVelocity(0)) < 50 &&
-        Math.abs(m_subsystem.m_right1.getClosedLoopTarget()-m_subsystem.m_right1.getSelectedSensorPosition(0))
-        < 100 && Math.abs(m_subsystem.m_right1.getSelectedSensorVelocity(0)) < 50;
+        return Math
+                .abs(m_subsystem.m_left1.getClosedLoopTarget() - m_subsystem.m_left1.getSelectedSensorPosition(0)) < 100
+                && Math.abs(m_subsystem.m_left1.getSelectedSensorVelocity(0)) < 50 &&
+                Math.abs(m_subsystem.m_right1.getClosedLoopTarget()
+                        - m_subsystem.m_right1.getSelectedSensorPosition(0)) < 100
+                && Math.abs(m_subsystem.m_right1.getSelectedSensorVelocity(0)) < 50;
     }
 
 }

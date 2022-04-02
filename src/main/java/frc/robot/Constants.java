@@ -23,8 +23,8 @@ public final class Constants {
     public static double rightHandSlowdown = 1.0;
     public static double leftHandSlowdown = 1.0;
     public static double preshooterSpeed = 0.5;
-    public static double shooterHighSpeed = 14100 * (2.0/3.0); // 9400
-    public static double shooterLowSpeed = 8000 * (2.0/3.0); // 5333
+    public static double shooterHighSpeed = 14100 * (2.0 / 3.0); // 9400
+    public static double shooterLowSpeed = 8000 * (2.0 / 3.0); // 5333
     public static double shooterSpeedThreshold = 200;
     public static double shooterkD = 7.5;
     public static double shooterkF = 0.055;
@@ -37,7 +37,7 @@ public final class Constants {
     public static double drivekI = 0.001;
     public static double drivekD = 0.02;
     public static double drivekF = 0.09;
-    public static double degreesToInches = 1/(-4.7);
+    public static double degreesToInches = 1 / (-4.7);
 
     public static int X = 3;
     public static int A = 1;
@@ -70,25 +70,25 @@ public final class Constants {
     public static int cameraPort = 1181;
 
     public static final int lidarId = 0;
-    
+
     public static double blinkenPattern = -0.77;
 
-    //For trajectory driving//
+    // For trajectory driving//
     public static final double ksVolts = 0.66155;
     public static final double kvVoltSecondsPerMeter = 2.4447;
     public static final double kaVoltSecondsSquaredPerMeter = 0.37029;
 
     // Example value only - as above, this must be tuned for your drive!
     public static final double kPDriveVel = 7;
-//3.3954
+    // 3.3954
     public static final double kTrackwidthMeters = 0.63134;
-    public static final DifferentialDriveKinematics kDriveKinematics = 
-        new DifferentialDriveKinematics(kTrackwidthMeters);
+    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
+            kTrackwidthMeters);
 
-        public static final double kMaxSpeedMetersPerSecond = 2.25;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 1.75;
-    //Change to three meters later//
-    
+    public static final double kMaxSpeedMetersPerSecond = 2.25;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 1.75;
+    // Change to three meters later//
+
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
 
