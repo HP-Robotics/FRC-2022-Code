@@ -20,7 +20,7 @@ public class LIDARSubsystem extends SubsystemBase {
    * Creates a new LIDARSubsystem.
    */
 
-  public ShuffleboardTab m_driverTab = Shuffleboard.getTab("Driver View");
+  public ShuffleboardTab m_driverTab = Shuffleboard.getTab("SmartDashboard");
     private ShuffleboardTab m_tab = Shuffleboard.getTab("Shooter Configuration");
     //private NetworkTableEntry m_LIDARDistance = m_tab.add("Input Speed", Constants.shooterSpeed)
             //.getEntry();

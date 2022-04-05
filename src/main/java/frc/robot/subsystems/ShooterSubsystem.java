@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ShooterSubsystem extends SubsystemBase {
     private String m_wheelTarget = "High";
     public double m_wheelSetPoint;
-    public ShuffleboardTab m_driverTab = Shuffleboard.getTab("Driver View");
+    public ShuffleboardTab m_driverTab = Shuffleboard.getTab("SmartDashboard");
     private ShuffleboardTab m_tab = Shuffleboard.getTab("Shooter Configuration");
     private NetworkTableEntry m_inputHighSpeed = m_tab.add("Input Speed High" , Constants.shooterHighSpeed)
             .getEntry();
@@ -62,10 +62,6 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooterFollower.setInverted(true);
 
 
-        SmartDashboard.putNumber("shooterkP", Constants.shooterkP);
-        SmartDashboard.putNumber("shooterkI", Constants.shooterkI);
-        SmartDashboard.putNumber("shooterkD", Constants.shooterkD);
-        SmartDashboard.putNumber("shooterkF", Constants.shooterkF);
         m_driverTab.addBoolean("Shooter at Speed", m_atSpeed);
         m_driverTab.addString("Shooter Wheel Target", m_getWheelTarget);
     }

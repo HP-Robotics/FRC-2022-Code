@@ -76,7 +76,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  public ShuffleboardTab m_driverTab = Shuffleboard.getTab("Driver View");
   public static Boolean m_useShooter = true;
   private Boolean m_useClimber = true;
   public static Boolean m_useIntake = true;
@@ -101,15 +100,14 @@ public class RobotContainer {
   private Command m_twoBallAuto;
   private Command m_threeBallAuto;
   private Command m_fourBallAuto;
-  private Spark m_blinken;
+  
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
 
-    m_blinken = new Spark(0);
-    m_blinken.set(Constants.blinkenPattern);
+    
 
     if (m_useMagazine) {
       m_magazineSubsystem = new MagazineSubsystem();
