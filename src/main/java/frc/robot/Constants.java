@@ -25,6 +25,7 @@ public final class Constants {
     public static double preshooterSpeed = 0.5;
     public static double shooterHighSpeed = 14100 * (2.0 / 3.0); // 9400
     public static double shooterLowSpeed = 8000 * (2.0 / 3.0); // 5333
+    public static double shooterSafeSpeed = 10750;
     public static double shooterSpeedThreshold = 200;
     public static double shooterkD = 7.5;
     public static double shooterkF = 0.055;

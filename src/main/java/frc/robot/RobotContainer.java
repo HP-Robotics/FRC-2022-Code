@@ -260,6 +260,8 @@ public class RobotContainer {
 
       new Trigger(m_joystickSubsystem::povDown)
           .whenActive(new InstantCommand(m_shooterSubsystem::lowSpeed, m_shooterSubsystem));
+      new Trigger(m_joystickSubsystem::povLeft)
+          .whenActive(new InstantCommand(m_shooterSubsystem::safeSpeed, m_shooterSubsystem));
     }
 
     /*

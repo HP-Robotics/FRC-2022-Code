@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,11 +19,14 @@ import frc.robot.FalconCANIntervalConfig;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShooterSubsystem extends SubsystemBase {
+    private Spark m_blinken;
     private String m_wheelTarget = "High";
     public double m_wheelSetPoint;
     public ShuffleboardTab m_driverTab = Shuffleboard.getTab("SmartDashboard");
     private ShuffleboardTab m_tab = Shuffleboard.getTab("Shooter Configuration");
     private NetworkTableEntry m_inputHighSpeed = m_tab.add("Input Speed High" , Constants.shooterHighSpeed)
+            .getEntry();
+    private NetworkTableEntry m_inputSafeSpeed = m_tab.add("Input Speed Safe Zone" , Constants.shooterSafeSpeed)
             .getEntry();
     private NetworkTableEntry m_inputLowSpeed = m_tab.add("Input Speed Low", Constants.shooterLowSpeed)
             .getEntry();
@@ -61,6 +65,9 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooterFollower.follow(m_shooter);
         m_shooterFollower.setInverted(true);
 
+        m_blinken = new Spark(0);
+        
+
 
         m_driverTab.addBoolean("Shooter at Speed", m_atSpeed);
         m_driverTab.addString("Shooter Wheel Target", m_getWheelTarget);
@@ -72,6 +79,9 @@ public class ShooterSubsystem extends SubsystemBase {
         }
         else if (m_wheelTarget == "Low"){
             return m_inputLowSpeed.getDouble(Constants.shooterLowSpeed);
+        }
+        else if (m_wheelTarget == "Safe Zone"){
+            return m_inputSafeSpeed.getDouble(Constants.shooterSafeSpeed);
         }
         return 0;
     }
@@ -94,7 +104,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void periodic() {
         
-
+        m_blinken.set(Constants.blinkenPattern);
         if (m_wheelSetPoint == 0) {
             lRumble = 0;
             rRumble = 0;
@@ -112,6 +122,12 @@ public class ShooterSubsystem extends SubsystemBase {
         m_preShooter.set(ControlMode.PercentOutput, speed);
     
     }
+
+public void safeSpeed() {
+    m_wheelTarget = "Safe Zone";
+    this.enable(true);
+}
+
 
     public void lowSpeed() {
         m_wheelTarget = "Low";
@@ -153,4 +169,7 @@ public class ShooterSubsystem extends SubsystemBase {
         table.getEntry("ledMode").setNumber(1);
         table.getEntry("camMode").setNumber(1);
     }
+
+
+
 }
