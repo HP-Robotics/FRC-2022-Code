@@ -55,7 +55,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public double lRumble = 0;
     public double rRumble = 0;
     public double[] visionDefault = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    public boolean m_usePython = false;
+    public boolean m_usePython = true;
     public int m_hubCounter = 0;
     
 
@@ -195,6 +195,9 @@ public class ShooterSubsystem extends SubsystemBase {
     public double getNormalizedHubX() {
         if (m_usePython) {
             double[] visionResult = hubD.getDoubleArray(visionDefault);
+            if (visionResult.length < 2) {
+                return 0;
+            }
             double pythonHubX = visionResult[1];
             return (((pythonHubX - 480.0 - Constants.shooterAngleFudge) / 960.0)*56);
         }
@@ -204,6 +207,9 @@ public class ShooterSubsystem extends SubsystemBase {
     public boolean trackingHub() {
         if (m_usePython) {
             double[] visionResult = hubD.getDoubleArray(visionDefault);
+            if (visionResult.length < 1) {
+                return false;
+            }
             return visionResult[0] >= 0.99;
         }
         return (table.getEntry("tv").getNumber(0).intValue() >= 0.5);
@@ -211,6 +217,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public double getHubDistance() {
         double[] visionResult = hubD.getDoubleArray(visionDefault);
+        if (visionResult.length < 9)
+            return -1;
         return visionResult[8] + m_fudge.getDouble(Constants.shooterDistanceFudge);
     }
 
@@ -226,6 +234,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public void enableLimelight() {
         table.getEntry("ledMode").setNumber(0);
         table.getEntry("camMode").setNumber(0);
+        table.getEntry("pipeline").setNumber(m_usePython ? 1 : 0);
     }
 
     public void disableLimelight() {
