@@ -132,13 +132,14 @@ def runPipeline(image, llrobot):
     global distances
     found = 0.0
     img_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    # TODO - TUNE HERE
     img_threshold = cv2.inRange(img_hsv, (53, 70, 70), (85, 255, 255))
 
     contours, _ = cv2.findContours(img_threshold,
                                    cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
     largestContour = np.array([[]])
-    llpython = [0, 0, 0, 0, 0, 0, 0, 0]
+    llpython = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     filteredContours =  np.array([[[]]])
 
     if len(contours) > 0:
@@ -165,6 +166,8 @@ def runPipeline(image, llrobot):
             botLeftContour = min(contour, key=distanceToBotLeft)
             # print(topLeftContour[0][1])
             # print()
+
+            # TODO - TUNE HERE.  Should be 75/73.
             topLeftDistance = 71/math.tan(math.radians(findAngle(int(topLeftContour[0][1]))))
             botLeftDistance = 69/math.tan(math.radians(findAngle(int(botLeftContour[0][1]))))
             if abs(topLeftDistance - botLeftDistance) < 2:

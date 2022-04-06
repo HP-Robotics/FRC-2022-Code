@@ -85,6 +85,7 @@ public class Robot extends TimedRobot {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     if(RobotContainer.m_useShooter){
       m_robotContainer.m_shooterSubsystem.enableLimelight();
+        m_robotContainer.m_shooterSubsystem.highSpeed();
     }
     if (RobotContainer.m_useIntake) {
       m_robotContainer.m_intakeSubsystem.enableLimelight();
@@ -104,6 +105,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -113,6 +115,9 @@ public class Robot extends TimedRobot {
     }
     if(RobotContainer.m_useShooter){
       m_robotContainer.m_shooterSubsystem.enableLimelight();
+      if(m_robotContainer.m_shooterSubsystem.m_usePython ){
+        m_robotContainer.m_shooterSubsystem.smartSpeed();
+      }
     }
     if (RobotContainer.m_useIntake) {
       m_robotContainer.m_intakeSubsystem.enableLimelight();

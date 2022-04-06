@@ -255,6 +255,9 @@ public class RobotContainer {
       new JoystickButton(m_joystickSubsystem.m_operator, Constants.A)
           .whenPressed(new ShooterWheelCommand(m_shooterSubsystem));
 
+      new JoystickButton(m_joystickSubsystem.m_operator, 7)
+          .whenPressed(new InstantCommand(m_shooterSubsystem::smartSpeed, m_shooterSubsystem));
+
       new Trigger(m_joystickSubsystem::povUp)
           .whenActive(new InstantCommand(m_shooterSubsystem::highSpeed, m_shooterSubsystem));
 

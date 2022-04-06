@@ -27,12 +27,14 @@ public final class Constants {
     public static double shooterLowSpeed = 8000 * (2.0 / 3.0); // 5333
     public static double shooterSafeSpeed = 10750;
     public static double shooterSpeedThreshold = 200;
+    public static double shooterDistanceFudge = 0;
+    public static double shooterAngleFudge = -20; // NOT IN SMARTDASHBOARD
     public static double shooterkD = 7.5;
     public static double shooterkF = 0.055;
     public static double shooterkI = 0.0005;
     public static double shooterkP = 0.145;
     public static double shooterkIzone = 500;
-
+    
     // Spin Constants: kP = 0.25, kI = 0.002, kF = 0.06, kD = 2
     public static double drivekP = 0.25;
     public static double drivekI = 0.001;

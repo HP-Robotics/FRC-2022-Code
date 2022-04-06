@@ -35,6 +35,7 @@ public class DriveSubsystem extends SubsystemBase {
   public Orchestra m_orchestra;
   public Boolean m_velocityDrive = false;
   public final DifferentialDriveOdometry m_odometry;
+  public double m_gyroTarget;
 
   public DriveSubsystem() {
     m_left1 = new TalonFX(1);
@@ -126,6 +127,16 @@ public class DriveSubsystem extends SubsystemBase {
       m_right1.set(ControlMode.PercentOutput, right);
     }
   }
+
+   public void setGyroTarget(double angle){
+      m_gyroTarget = angle;
+      m_gyro.reset();
+   }
+
+   public double getGyroAngle(){
+      return m_gyroTarget-m_gyro.getAngle();
+   }
+
 
   public void arcadeDrive(double left, double right) {
 
