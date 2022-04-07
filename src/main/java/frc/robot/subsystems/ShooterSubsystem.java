@@ -96,6 +96,9 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public double distanceToSpeed(double distance){
+        if (distance < 80) {
+            return m_inputLowSpeed.getDouble(Constants.shooterLowSpeed);
+        }
         double s = 28.2787363*distance+6205.814292;
         if(s<5000){
             s=5000;
@@ -138,7 +141,7 @@ public class ShooterSubsystem extends SubsystemBase {
             rRumble = 0.8;
         }
 
-        //m_distance.setDouble(getHubDistance());
+        m_distance.setDouble(getHubDistance());
 
 
         if(m_wheelTarget == "Smart"){
@@ -156,7 +159,7 @@ public class ShooterSubsystem extends SubsystemBase {
              if(m_wheelSetPoint!=0 && m_wheelSetPoint != m_wheelSmartSetPoint){
                 setSpeed(m_wheelSmartSetPoint); 
              }
-             //m_smartSpeed.setDouble(m_wheelSmartSetPoint);
+             m_smartSpeed.setDouble(m_wheelSmartSetPoint);
         }
         
 
