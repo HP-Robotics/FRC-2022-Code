@@ -45,6 +45,7 @@ import frc.robot.commands.DriveTrackCargo;
 import frc.robot.commands.DriveTrackHub;
 import frc.robot.commands.DriveTurnCommand;
 import frc.robot.commands.IntakeRunMotorCommand;
+import frc.robot.commands.IntakeSuperYuckCommand;
 import frc.robot.commands.MagazineAndIntakeReverseCommand;
 import frc.robot.commands.IntakeUpDownCommand;
 import frc.robot.commands.MagazineToggleCommand;
@@ -295,9 +296,16 @@ public class RobotContainer {
           .whileHeld(new DriveTrackCargo(m_driveSubsystem, m_joystickSubsystem, m_intakeSubsystem));
     }
 
+    if (m_useShooter && m_usePneumatic && m_useIntake) {
+      new JoystickButton(m_joystickSubsystem.m_driver, 7)
+      .whileHeld(new IntakeSuperYuckCommand(m_intakeSubsystem, m_magazineSubsystem, m_shooterSubsystem))
+      .whileHeld(new IntakeUpDownCommand(m_pneumaticSubsystem));
+    }
+
+
     if (m_useShooter && m_useDrive) {
-      new JoystickButton(m_joystickSubsystem.m_driver, 8)
-          .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 36).withTimeout(5));
+      //new JoystickButton(m_joystickSubsystem.m_driver, 8)
+      //    .whenPressed(new DriveSetDistanceCommand(m_driveSubsystem, 36).withTimeout(5));
       new JoystickButton(m_joystickSubsystem.m_driver, 4)
           .whileHeld(new DriveTrackHub(m_driveSubsystem, m_joystickSubsystem, m_shooterSubsystem));
     }
