@@ -196,6 +196,7 @@ public class RobotContainer {
             new ParallelDeadlineGroup(
                 getFanceCommand(140, -60, 0, false),
                 new IntakeRunMotorCommand(m_intakeSubsystem)),
+            new IntakeRunMotorCommand(m_intakeSubsystem).withTimeout(0.5),
             new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
             new InstantCommand(m_driveSubsystem::zOdemtry, m_driveSubsystem),
             getFanceCommand(-140, 60, 0, true),
@@ -213,7 +214,7 @@ public class RobotContainer {
 
     if (m_useShooter) {
       m_autonomousChooser.addOption("Just Shoot", m_justShoot);
-      m_autonomousChooser.setDefaultOption("Just Shoot", m_justShoot);
+      m_autonomousChooser.setDefaultOption("Two Ball Auto", m_twoBallAuto);
 
     }
 
