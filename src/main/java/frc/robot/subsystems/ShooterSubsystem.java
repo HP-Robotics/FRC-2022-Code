@@ -114,6 +114,9 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public Boolean upToSpeed() {
+        if(m_wheelSetPoint==0){
+            return false;
+        }
         return Math.abs(m_shooter.getSelectedSensorVelocity() - m_wheelSetPoint) < getSpeedThreshold();
     }
 
