@@ -176,17 +176,17 @@ public class ShooterSubsystem extends SubsystemBase {
 //TODO should speed change turn on wheel
     public void safeSpeed() {
         m_wheelTarget = "Safe Zone";
-    ///    this.enable(true);
+        this.enable(true);
     }
 
     public void lowSpeed() {
         m_wheelTarget = "Low";
-      //  this.enable(true);
+        this.enable(true);
     }
 
     public void highSpeed() {
         m_wheelTarget = "High";
-      //  this.enable(true);
+        this.enable(true);
     }
 
     public void smartSpeed(){
@@ -194,7 +194,7 @@ public class ShooterSubsystem extends SubsystemBase {
             return;
         }
         m_wheelTarget = "Smart";
-       // this.enable(true);
+        this.enable(true);
     }
 
 
