@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShooterSubsystem extends SubsystemBase {
     private Spark m_blinken;
-    private String m_wheelTarget = "High"; //changed in robot.java auto and teleop init
+    public String m_wheelTarget = "High"; // changed in robot.java auto and teleop init
     public double m_wheelSetPoint;
     public double m_wheelSmartSetPoint;
     public ShuffleboardTab m_driverTab = Shuffleboard.getTab("SmartDashboard");
@@ -35,9 +35,9 @@ public class ShooterSubsystem extends SubsystemBase {
             .getEntry();
     private NetworkTableEntry m_smartSpeed = m_tab.add("Smart Speed", Constants.shooterHighSpeed)
             .getEntry();
-            private NetworkTableEntry m_fudge = m_tab.add("Hub Distance fudge", Constants.shooterDistanceFudge)
+    private NetworkTableEntry m_fudge = m_tab.add("Hub Distance fudge", Constants.shooterDistanceFudge)
             .getEntry();
-            private NetworkTableEntry m_distance = m_tab.add("limelight distance", -1)
+    private NetworkTableEntry m_distance = m_tab.add("limelight distance", -1)
             .getEntry();
     private BooleanSupplier m_atSpeed = () -> upToSpeed();;
     private Supplier<String> m_getWheelTarget = () -> {
@@ -57,7 +57,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public double[] visionDefault = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     public boolean m_usePython = true;
     public int m_hubCounter = 0;
-    
+    public boolean m_wheelRunning = false;
 
     public ShooterSubsystem() {
 
@@ -95,16 +95,16 @@ public class ShooterSubsystem extends SubsystemBase {
         return 0;
     }
 
-    public double distanceToSpeed(double distance){
+    public double distanceToSpeed(double distance) {
         if (distance < 80) {
             return m_inputLowSpeed.getDouble(Constants.shooterLowSpeed);
         }
-        double s = 28.2787363*distance+6205.814292;
-        if(s<5000){
-            s=5000;
+        double s = 28.2787363 * distance + 6205.814292;
+        if (s < 5000) {
+            s = 5000;
         }
-        if(s>12000){
-            s=12000;
+        if (s > 12000) {
+            s = 12000;
         }
         return s;
     }
@@ -114,7 +114,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public Boolean upToSpeed() {
-        if(m_wheelSetPoint==0){
+        if (m_wheelSetPoint == 0) {
             return false;
         }
         return Math.abs(m_shooter.getSelectedSensorVelocity() - m_wheelSetPoint) < getSpeedThreshold();
@@ -124,8 +124,10 @@ public class ShooterSubsystem extends SubsystemBase {
         m_wheelSetPoint = setPoint;
         if (setPoint == 0) {
             m_shooter.set(ControlMode.PercentOutput, 0);
+            m_wheelRunning = false;
         } else {
             m_shooter.set(ControlMode.Velocity, setPoint);
+            m_wheelRunning = true;
         }
     }
 
@@ -146,57 +148,58 @@ public class ShooterSubsystem extends SubsystemBase {
 
         m_distance.setDouble(getHubDistance());
 
-
-        if(m_wheelTarget == "Smart"){
-            if(trackingHub()&& m_usePython){
-                m_hubCounter=0;
+        if (m_wheelTarget == "Smart") {
+            if (trackingHub() && m_usePython) {
+                m_hubCounter = 0;
                 m_wheelSmartSetPoint = distanceToSpeed(getHubDistance());
-                
-              }
-              else {
-                m_hubCounter -= 1;
-              }
-              if(m_hubCounter<-10){
-                m_wheelSmartSetPoint = m_inputHighSpeed.getDouble(Constants.shooterHighSpeed);
-             }
-             if(m_wheelSetPoint!=0 && m_wheelSetPoint != m_wheelSmartSetPoint){
-                setSpeed(m_wheelSmartSetPoint); 
-             }
-             m_smartSpeed.setDouble(m_wheelSmartSetPoint);
-        }
-        
 
-        
+            } else {
+                m_hubCounter -= 1;
+            }
+            if (m_hubCounter < -10) {
+                m_wheelSmartSetPoint = m_inputHighSpeed.getDouble(Constants.shooterHighSpeed);
+            }
+            if (m_wheelSetPoint != 0 && m_wheelSetPoint != m_wheelSmartSetPoint) {
+                setSpeed(m_wheelSmartSetPoint);
+            }
+            m_smartSpeed.setDouble(m_wheelSmartSetPoint);
+        }
+
     }
 
     public void shoot(double speed) {
         m_preShooter.set(ControlMode.PercentOutput, speed);
 
     }
-//TODO should speed change turn on wheel
+
+    // TODO should speed change turn on wheel
     public void safeSpeed() {
         m_wheelTarget = "Safe Zone";
-        this.enable(true);
+        if (m_wheelRunning) {
+            this.enable(true);
+        }
     }
 
     public void lowSpeed() {
         m_wheelTarget = "Low";
-        this.enable(true);
+        if (m_wheelRunning) {
+            this.enable(true);
+        }
     }
 
     public void highSpeed() {
         m_wheelTarget = "High";
-        this.enable(true);
+        if (m_wheelRunning) {
+            this.enable(true);
+        }
     }
 
-    public void smartSpeed(){
-        if(!m_usePython){
+    public void smartSpeed() {
+        if (!m_usePython) {
             return;
         }
         m_wheelTarget = "Smart";
-        this.enable(true);
     }
-
 
     public double getNormalizedHubX() {
         if (m_usePython) {
@@ -205,7 +208,7 @@ public class ShooterSubsystem extends SubsystemBase {
                 return 0;
             }
             double pythonHubX = visionResult[1];
-            return (((pythonHubX - 480.0 - Constants.shooterAngleFudge) / 960.0)*56);
+            return (((pythonHubX - 480.0 - Constants.shooterAngleFudge) / 960.0) * 56);
         }
         return ((hubX.getDouble(0)));
     }

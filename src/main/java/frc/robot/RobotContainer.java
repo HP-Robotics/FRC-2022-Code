@@ -196,12 +196,12 @@ public class RobotContainer {
             new ParallelDeadlineGroup(
                 getFanceCommand(140, -60, 0, false),
                 new IntakeRunMotorCommand(m_intakeSubsystem)),
-            new IntakeRunMotorCommand(m_intakeSubsystem).withTimeout(0.5),
+            new IntakeRunMotorCommand(m_intakeSubsystem).withTimeout(1),
             new InstantCommand(m_pneumaticSubsystem::intakeDown, m_pneumaticSubsystem),
             new InstantCommand(m_driveSubsystem::zOdemtry, m_driveSubsystem),
             getFanceCommand(-140, 60, 0, true),
             new DriveTrackHub(m_driveSubsystem, m_joystickSubsystem, m_shooterSubsystem).withTimeout(1),
-            new ShooterShootCommand(m_shooterSubsystem).withTimeout(2), // */
+            new ShooterShootCommand(m_shooterSubsystem).withTimeout(1.5), // */
             new MagazineToggleCommand(m_magazineSubsystem, false),
             new ShooterWheelCommand(m_shooterSubsystem));
 
